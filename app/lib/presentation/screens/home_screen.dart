@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/sos_button.dart';
 
-/// Màn Home rỗng (skeleton). Chưa có nội dung y khoa.
+/// Màn Home (skeleton). SOS chưa triển khai; cẩm nang đọc từ Drift offline.
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -23,6 +24,12 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
+            ),
+            const SizedBox(height: 16),
+            OutlinedButton.icon(
+              onPressed: () => context.push('/protocols'),
+              icon: const Icon(Icons.menu_book),
+              label: const Text('Cẩm nang sơ cứu (offline)'),
             ),
             const SizedBox(height: 16),
             Text(

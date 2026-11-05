@@ -1,0 +1,113 @@
+{
+  "data_version": "1.0.0",
+  "updated_at": "2026-11-06",
+  "note": "Cây quyết định tĩnh (luật xác định, KHÔNG phải AI). Câu hỏi do nhóm soạn để điều hướng tới phác đồ có sẵn; thứ tự ưu tiên dựa trên IFRC-2025 p114 (xử lý nguy hiểm đến tính mạng trước). Chưa được chuyên gia lâm sàng thẩm định.",
+  "root": "n_responsive",
+  "nodes": [
+    {
+      "id": "n_responsive",
+      "question": "Người bị nạn có phản ứng khi bạn gọi to hoặc lay nhẹ vai không?",
+      "yes": "n_choking",
+      "no": "n_breathing",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "114, 159" }]
+    },
+    {
+      "id": "n_breathing",
+      "question": "Người đó có đang thở bình thường không?",
+      "yes": "leaf_call115_unresponsive_breathing",
+      "no": "n_age_cpr",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "159, 188" }]
+    },
+    {
+      "id": "n_age_cpr",
+      "question": "Người bị nạn là em bé hoặc trẻ em (chưa dậy thì)?",
+      "yes": "leaf_cpr_baby_child",
+      "no": "leaf_cpr_adult",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "159" }]
+    },
+    {
+      "id": "n_choking",
+      "question": "Người đó đang không thể ho, nói hoặc thở (nghi bị hóc dị vật)?",
+      "yes": "n_choking_age",
+      "no": "n_bleeding",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "239" }]
+    },
+    {
+      "id": "n_choking_age",
+      "question": "Người bị nạn là em bé dưới 1 tuổi?",
+      "yes": "leaf_choking_baby",
+      "no": "leaf_choking_adult_child",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "238" }]
+    },
+    {
+      "id": "n_bleeding",
+      "question": "Có chảy máu nhiều (máu phun hoặc chảy thành dòng, thấm ướt băng)?",
+      "yes": "leaf_bleeding",
+      "no": "n_burn",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "257" }]
+    },
+    {
+      "id": "n_burn",
+      "question": "Người đó bị bỏng (do nhiệt hoặc hóa chất)?",
+      "yes": "leaf_burns",
+      "no": "leaf_call115_unknown",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "289" }]
+    },
+    {
+      "id": "leaf_cpr_adult",
+      "question": "Gọi 115 ngay và bắt đầu ép ngực.",
+      "protocol_code": "cpr_adult_adolescent",
+      "call_115_now": true,
+      "citations": [{ "source_id": "IFRC-2025", "pages": "162" }]
+    },
+    {
+      "id": "leaf_cpr_baby_child",
+      "question": "Gọi 115 ngay và bắt đầu CPR cho em bé hoặc trẻ em.",
+      "protocol_code": "cpr_baby_child",
+      "call_115_now": true,
+      "citations": [{ "source_id": "IFRC-2025", "pages": "188" }]
+    },
+    {
+      "id": "leaf_choking_adult_child",
+      "question": "Xem hướng dẫn hóc dị vật cho người lớn và trẻ em.",
+      "protocol_code": "choking_adult_child",
+      "call_115_now": false,
+      "citations": [{ "source_id": "IFRC-2025", "pages": "240" }]
+    },
+    {
+      "id": "leaf_choking_baby",
+      "question": "Xem hướng dẫn hóc dị vật cho em bé.",
+      "protocol_code": "choking_baby",
+      "call_115_now": false,
+      "citations": [{ "source_id": "IFRC-2025", "pages": "240" }]
+    },
+    {
+      "id": "leaf_bleeding",
+      "question": "Gọi 115 và xem hướng dẫn cầm máu.",
+      "protocol_code": "bleeding_wounds_severe",
+      "call_115_now": true,
+      "citations": [{ "source_id": "IFRC-2025", "pages": "256-257" }]
+    },
+    {
+      "id": "leaf_burns",
+      "question": "Xem hướng dẫn xử lý bỏng.",
+      "protocol_code": "burns_thermal_chemical",
+      "call_115_now": false,
+      "citations": [{ "source_id": "IFRC-2025", "pages": "288-290" }]
+    },
+    {
+      "id": "leaf_call115_unresponsive_breathing",
+      "question": "Gọi 115 ngay.",
+      "call_115_now": true,
+      "note": "UNVERIFIED_PLACEHOLDER: hướng dẫn tư thế/theo dõi cho người bất tỉnh nhưng thở bình thường chưa được tóm lược từ nguồn người lớn; IFRC-2025 p188 chỉ ghi giữ đường thở thông thoáng cho em bé/trẻ em.",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "114, 188" }]
+    },
+    {
+      "id": "leaf_call115_unknown",
+      "question": "Gọi 115 ngay.",
+      "call_115_now": true,
+      "note": "Không xác định được tình huống trong 4 chủ đề: gọi 115 thay vì tự suy đoán.",
+      "citations": [{ "source_id": "IFRC-2025", "pages": "114" }]
+    }
+  ]
+}

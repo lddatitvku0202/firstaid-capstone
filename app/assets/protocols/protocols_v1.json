@@ -1,0 +1,204 @@
+{
+  "data_version": "1.0.0",
+  "updated_at": "2026-11-06",
+  "language": "vi",
+  "note": "Bản tóm lược và dịch sang tiếng Việt do nhóm thực hiện từ IFRC-2025 (International first aid, resuscitation and education guidelines 2025). Chưa được chuyên gia lâm sàng thẩm định. Chưa đối chiếu với nguồn tiếng Việt (VN-MOH-636-2025, VN-BYT-MOET-TNTT-2022).",
+  "protocols": [
+    {
+      "code": "bleeding_wounds_severe",
+      "title": "Chảy máu nặng bên ngoài",
+      "topic_id": "bleeding_wounds",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "all",
+      "steps": [
+        { "order": 1, "text": "Bảo người bị thương dùng tay ấn trực tiếp lên vết thương.", "citation": "IFRC-2025 p257" },
+        { "order": 2, "text": "Giúp người đó nằm xuống.", "citation": "IFRC-2025 p257" },
+        { "order": 3, "text": "Gọi cấp cứu 115.", "citation": "IFRC-2025 p257" },
+        { "order": 4, "text": "Ấn trực tiếp lên chỗ chảy máu. Nếu máu thấm qua gạc, đặt thêm một lớp gạc lên trên và ấn mạnh hơn.", "citation": "IFRC-2025 p257" },
+        { "order": 5, "text": "Nếu ấn không hiệu quả và chảy máu ở tay hoặc chân, cân nhắc dùng garô hoặc gạc cầm máu nếu có; vẫn tiếp tục ấn trực tiếp.", "citation": "IFRC-2025 p257" },
+        { "order": 6, "text": "Có thể bị sốc do mất máu: cho người đó ở tư thế thoải mái và giữ ấm bằng quần áo hoặc chăn.", "citation": "IFRC-2025 p257" }
+      ],
+      "do_not": [
+        { "text": "Không dùng điểm ép gián tiếp hoặc chườm đá để cầm máu.", "citation": "IFRC-2025 p256" },
+        { "text": "Không rút vật đang cắm vào vết thương; ấn xung quanh để giữ vật cố định.", "citation": "IFRC-2025 p257" },
+        { "text": "Không quấn băng vòng quanh chi thay cho việc ấn trực tiếp khi chảy máu nặng.", "citation": "IFRC-2025 p256-257" },
+        { "text": "Garô chỉ dùng cho chảy máu đe dọa tính mạng ở chi; đã đặt thì giữ nguyên cho đến khi cấp cứu đến.", "citation": "IFRC-2025 p257" }
+      ],
+      "call_115_conditions": [
+        { "text": "Mọi trường hợp chảy máu nặng.", "citation": "IFRC-2025 p256" }
+      ],
+      "citations": [
+        { "source_id": "IFRC-2025", "pages": "256-258" }
+      ],
+      "version": "1.0.0",
+      "updated_at": "2026-11-06",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted"
+    },
+    {
+      "code": "burns_thermal_chemical",
+      "title": "Bỏng nhiệt và bỏng hóa chất",
+      "topic_id": "burns",
+      "severity": "urgent",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "all",
+      "steps": [
+        { "order": 1, "text": "Làm mát vết bỏng bằng nước sạch chảy trong ít nhất 10 phút, tốt nhất 20 phút.", "citation": "IFRC-2025 p290" },
+        { "order": 2, "text": "Gọi 115 nếu vết bỏng lớn, sâu, gần mặt, miệng, họng hoặc vùng sinh dục, hoặc do hóa chất, điện, lửa.", "citation": "IFRC-2025 p290" },
+        { "order": 3, "text": "Tháo quần áo và trang sức gần vùng bỏng nếu chúng không dính vào da.", "citation": "IFRC-2025 p290" },
+        { "order": 4, "text": "Sau khi làm mát, che vết bỏng bằng băng ẩm, không dính (ví dụ hydrogel).", "citation": "IFRC-2025 p290" },
+        { "order": 5, "text": "Khi vận chuyển đi khám, có thể che vết bỏng bằng khăn ướt sạch hoặc màng bọc thực phẩm.", "citation": "IFRC-2025 p290" },
+        { "order": 6, "text": "Trấn an người bị bỏng; theo dõi tỉnh táo, nhịp thở và nhiệt độ, đặc biệt ở trẻ em và người dễ tổn thương.", "citation": "IFRC-2025 p290" },
+        { "order": 7, "text": "Bỏng hóa chất trên da hoặc mắt: rửa bằng nước sạch chảy cho đến khi bớt đau.", "citation": "IFRC-2025 p288" }
+      ],
+      "do_not": [
+        { "text": "Không dùng nước đá lạnh hoặc chườm đá lên vết bỏng.", "citation": "IFRC-2025 p290" },
+        { "text": "Không chọc hoặc bóc vỡ bóng nước.", "citation": "IFRC-2025 p288" },
+        { "text": "Không cố pha loãng hóa chất nếu đã nuốt phải; gọi trung tâm chống độc hoặc 115.", "citation": "IFRC-2025 p289" }
+      ],
+      "call_115_conditions": [
+        { "text": "Vết bỏng lớn, sâu, hoặc gần mặt, miệng, họng, vùng sinh dục.", "citation": "IFRC-2025 p290" },
+        { "text": "Bỏng do hóa chất, điện hoặc lửa.", "citation": "IFRC-2025 p290" }
+      ],
+      "citations": [
+        { "source_id": "IFRC-2025", "pages": "288-290" }
+      ],
+      "version": "1.0.0",
+      "updated_at": "2026-11-06",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted"
+    },
+    {
+      "code": "choking_adult_child",
+      "title": "Hóc dị vật đường thở: người lớn và trẻ em (từ 1 tuổi)",
+      "topic_id": "choking",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "adult_child",
+      "steps": [
+        { "order": 1, "text": "Nếu còn ho được (tắc một phần): khuyến khích người đó tiếp tục ho và theo dõi đến khi đỡ.", "citation": "IFRC-2025 p240" },
+        { "order": 2, "text": "Nếu không ho, không nói, không thở được (tắc hoàn toàn): vỗ mạnh tối đa 5 lần vào giữa hai bả vai.", "citation": "IFRC-2025 p240" },
+        { "order": 3, "text": "Nếu chưa hiệu quả: ấn bụng tối đa 5 lần (nắm tay đặt giữa rốn và xương ức, tay kia giữ, kéo giật mạnh vào trong và lên trên).", "citation": "IFRC-2025 p240" },
+        { "order": 4, "text": "Nếu vẫn chưa hiệu quả, gọi 115 ngay.", "citation": "IFRC-2025 p240" },
+        { "order": 5, "text": "Tiếp tục xen kẽ 5 lần vỗ lưng và 5 lần ấn bụng cho đến khi hết tắc hoặc người đó mất ý thức.", "citation": "IFRC-2025 p240" },
+        { "order": 6, "text": "Nếu người đó mất ý thức: bắt đầu hồi sinh tim phổi (CPR) tiêu chuẩn.", "citation": "IFRC-2025 p240" }
+      ],
+      "do_not": [
+        { "text": "Không móc mù trong miệng; chỉ lấy dị vật bằng ngón tay khi nhìn thấy rõ.", "citation": "IFRC-2025 p240" },
+        { "text": "Khi tắc một phần, tránh can thiệp mạnh vì người đó có thể tự ho ra hiệu quả hơn.", "citation": "IFRC-2025 p240" }
+      ],
+      "call_115_conditions": [
+        { "text": "Tắc hoàn toàn: luôn gọi 115, kể cả khi dị vật đã ra.", "citation": "IFRC-2025 p241" },
+        { "text": "Tắc một phần nhưng ho liên tục, khó nuốt hoặc có cảm giác còn vướng: đi khám.", "citation": "IFRC-2025 p241" }
+      ],
+      "citations": [
+        { "source_id": "IFRC-2025", "pages": "238-241" }
+      ],
+      "version": "1.0.0",
+      "updated_at": "2026-11-06",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "notes": "Chưa đối chiếu với VN-BYT-MOET-TNTT-2022 Bài 5 (p58-66, chỉ trẻ em): file không trích được text và chưa có ảnh trang. Có thể khác chi tiết kỹ thuật; cần người rà soát."
+    },
+    {
+      "code": "choking_baby",
+      "title": "Hóc dị vật đường thở: em bé dưới 1 tuổi",
+      "topic_id": "choking",
+      "severity": "life_threatening",
+      "target_audience": "Người chăm sóc trẻ, người sơ cứu",
+      "age_group": "infant",
+      "steps": [
+        { "order": 1, "text": "Nếu bé còn ho hoặc khóc (tắc một phần): chờ xem bé tự ho ra, và theo dõi đến khi đỡ.", "citation": "IFRC-2025 p240" },
+        { "order": 2, "text": "Nếu bé không ho, không khóc, không thở được: vỗ mạnh tối đa 5 lần vào giữa hai bả vai.", "citation": "IFRC-2025 p240" },
+        { "order": 3, "text": "Nếu chưa hiệu quả: lật bé nằm ngửa trên đùi bạn, dùng hai ngón cái ôm vòng ngực ấn ngực tối đa 5 lần, ấn dứt khoát hơn so với ép ngực.", "citation": "IFRC-2025 p240" },
+        { "order": 4, "text": "Nếu vẫn chưa hiệu quả, gọi 115 ngay.", "citation": "IFRC-2025 p240" },
+        { "order": 5, "text": "Tiếp tục xen kẽ 5 lần vỗ lưng và 5 lần ấn ngực cho đến khi hết tắc hoặc bé mất ý thức.", "citation": "IFRC-2025 p240" },
+        { "order": 6, "text": "Nếu bé mất ý thức: bắt đầu CPR tiêu chuẩn.", "citation": "IFRC-2025 p241" }
+      ],
+      "do_not": [
+        { "text": "Không móc mù trong miệng; chỉ lấy dị vật khi nhìn thấy rõ.", "citation": "IFRC-2025 p241" },
+        { "text": "Không ấn bụng ở em bé vì các cơ quan còn đang phát triển, có thể bị tổn thương.", "citation": "IFRC-2025 p242" },
+        { "text": "Không cho uống nước hay treo ngược em bé: IFRC nêu đây là quan niệm sai cần sửa.", "citation": "IFRC-2025 p242" }
+      ],
+      "call_115_conditions": [
+        { "text": "Tắc hoàn toàn: luôn gọi 115, kể cả khi bé đã hết nghẹn.", "citation": "IFRC-2025 p241" }
+      ],
+      "citations": [
+        { "source_id": "IFRC-2025", "pages": "238-242" }
+      ],
+      "version": "1.0.0",
+      "updated_at": "2026-11-06",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "notes": "IFRC 2025 p241 ghi khuyến nghị có thể khác giữa các vùng (ấn ngực bằng hai ngón cái hoặc gót bàn tay; khi mất ý thức có hướng dẫn bắt đầu bằng 5 lần thổi ngạt). Chưa đối chiếu với nguồn Việt Nam; cần người rà soát."
+    },
+    {
+      "code": "cpr_adult_adolescent",
+      "title": "Ngừng tuần hoàn: CPR người lớn và thanh thiếu niên",
+      "topic_id": "cardiac_arrest_cpr",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "adult",
+      "steps": [
+        { "order": 1, "text": "Nếu người đó không phản ứng và thở bất thường hoặc không thở: hô to gọi giúp và nhờ người gọi 115. Nếu chỉ có một mình, gọi 115 bằng loa ngoài rồi bắt đầu ngay.", "citation": "IFRC-2025 p162" },
+        { "order": 2, "text": "Ép ngực ngay: ấn vào giữa ngực với nhịp nhanh, đều, 100-120 lần mỗi phút.", "citation": "IFRC-2025 p162" },
+        { "order": 3, "text": "Ép sâu khoảng 5 cm, tránh sâu quá 6 cm; để ngực nảy lên hoàn toàn, không tì vào ngực giữa các lần ép.", "citation": "IFRC-2025 p160" },
+        { "order": 4, "text": "Nếu biết cách và sẵn sàng: kết hợp 30 lần ép ngực với 2 lần thổi ngạt; mỗi lần thổi khoảng 1 giây cho đến khi thấy ngực nâng lên; ngắt ép ngực không quá 10 giây. Không thể hoặc không muốn thổi ngạt thì chỉ ép ngực liên tục.", "citation": "IFRC-2025 p162" },
+        { "order": 5, "text": "Nếu có máy khử rung tim tự động (AED), nhờ người mang đến, làm theo hướng dẫn giọng nói và hạn chế ngắt ép ngực.", "citation": "IFRC-2025 p162" },
+        { "order": 6, "text": "Tiếp tục cho đến khi AED hoặc nhân viên cấp cứu yêu cầu dừng. Dừng ép nếu người đó có dấu hiệu hồi phục (ho, mở mắt, nói, cử động có chủ đích và thở bình thường).", "citation": "IFRC-2025 p162" },
+        { "order": 7, "text": "Nếu có từ hai người sơ cứu trở lên, thay phiên ép ngực mỗi 2 phút và không để gián đoạn khi đổi người.", "citation": "IFRC-2025 p162" }
+      ],
+      "do_not": [
+        { "text": "Không chỉ dựa vào việc bắt mạch để quyết định có ngừng tuần hoàn hay không.", "citation": "IFRC-2025 p159" },
+        { "text": "Không trì hoãn ép ngực đáng kể để chuyển người sang bề mặt cứng.", "citation": "IFRC-2025 p160" }
+      ],
+      "call_115_conditions": [
+        { "text": "Người không phản ứng và thở bất thường: gọi 115 ngay lập tức.", "citation": "IFRC-2025 p159, p162" }
+      ],
+      "citations": [
+        { "source_id": "IFRC-2025", "pages": "159-162" }
+      ],
+      "version": "1.0.0",
+      "updated_at": "2026-11-06",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "notes": "Nhịp 100-120 theo IFRC-2025 p162; SOURCE_MAP ghi VN-MOH-636-2025 p25-26 cũng 100-120 nhưng chưa tự đối chiếu được vì file không trích được text."
+    },
+    {
+      "code": "cpr_baby_child",
+      "title": "Ngừng tuần hoàn: CPR em bé và trẻ em",
+      "topic_id": "cardiac_arrest_cpr",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người chăm sóc trẻ",
+      "age_group": "infant_child",
+      "steps": [
+        { "order": 1, "text": "Nếu bé hoặc trẻ không thở hoặc thở bất thường: hô to gọi giúp và nhờ người gọi 115. Nếu chỉ có một mình, gọi 115 bằng loa ngoài.", "citation": "IFRC-2025 p188" },
+        { "order": 2, "text": "Ép ngực 30 lần vào giữa ngực với nhịp nhanh, đều, 100-120 lần mỗi phút.", "citation": "IFRC-2025 p188" },
+        { "order": 3, "text": "Độ sâu: em bé ít nhất một phần ba độ sâu ngực (khoảng 4 cm); trẻ em một phần ba độ sâu ngực (khoảng 5 cm).", "citation": "IFRC-2025 p187" },
+        { "order": 4, "text": "Thổi ngạt 2 lần: em bé thổi vào miệng và mũi, trẻ em thổi vào miệng; mỗi lần khoảng 1 giây cho đến khi thấy ngực hoặc bụng nâng lên.", "citation": "IFRC-2025 p188" },
+        { "order": 5, "text": "Tiếp tục các chu kỳ 30 lần ép ngực và 2 lần thổi cho đến khi có cấp cứu đến hoặc trẻ có dấu hiệu sống và thở bình thường.", "citation": "IFRC-2025 p188" },
+        { "order": 6, "text": "Không thể hoặc không muốn thổi ngạt thì chỉ ép ngực liên tục với nhịp 100-120 lần mỗi phút.", "citation": "IFRC-2025 p188" },
+        { "order": 7, "text": "Nếu có AED, nhờ người mang đến và làm theo hướng dẫn giọng nói.", "citation": "IFRC-2025 p188" }
+      ],
+      "do_not": [],
+      "call_115_conditions": [
+        { "text": "Bé hoặc trẻ không thở hoặc thở bất thường: gọi 115 ngay.", "citation": "IFRC-2025 p188" }
+      ],
+      "citations": [
+        { "source_id": "IFRC-2025", "pages": "187-188" }
+      ],
+      "version": "1.0.0",
+      "updated_at": "2026-11-06",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "notes": "IFRC 2025 nêu tỷ lệ 15:2 chỉ cho người được đào tạo, hai người cứu; chưa đưa vào bước. Chưa đối chiếu với VN-BYT-MOET-TNTT-2022 p25."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+== flutter pub get
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.5 available)
+  objective_c 9.5.0 (9.6.3 available)
+  record_use 0.6.0 (1.1.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+Got dependencies!
+12 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+exit=0
+== dart format --set-exit-if-changed .
+Formatted 35 files (0 changed) in 0.24 seconds.
+exit=0
+== flutter analyze
+Analyzing app...                                                
+No issues found! (ran in 15.2s)
+exit=0
+== flutter test
+00:00 +0: loading D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart
+00:00 +0: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: detector flags forbidden imports
+00:00 +1: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: lib/domain has no forbidden imports
+00:00 +2: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lần đầu ghi dữ liệu và data_version
+00:00 +3: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed idempotent: lần hai không seed lại
+00:01 +4: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed idempotent: lần hai không seed lại
+00:01 +5: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:01 +6: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:01 +7: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:01 +8: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:01 +9: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:01 +10: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:01 +11: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetProtocolByCode: có và không có
+00:01 +12: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: StartEmergencyFlow bắt đầu từ nút gốc triage
+00:01 +13: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lại khi data_version đổi (xoá meta rồi seed)
+00:02 +14: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home shows SOS button with icon and text
+00:04 +15: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: List screen shows clinical warning and protocols
+00:04 +16: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Detail screen shows source, version and warning
+00:05 +17: All tests passed!
+exit=0

@@ -1,3 +1,5 @@
+import 'source_citation.dart';
+
 class TriageNode {
   const TriageNode({
     required this.id,
@@ -6,6 +8,8 @@ class TriageNode {
     this.noNodeId,
     this.protocolCode,
     this.callEmergencyNow = false,
+    this.citations = const [],
+    this.note,
   });
 
   final String id;
@@ -16,6 +20,8 @@ class TriageNode {
   /// Mã phác đồ đích nếu đây là nút lá.
   final String? protocolCode;
   final bool callEmergencyNow;
+  final List<SourceCitation> citations;
+  final String? note;
 
-  bool get isLeaf => protocolCode != null || callEmergencyNow;
+  bool get isLeaf => yesNodeId == null && noNodeId == null;
 }

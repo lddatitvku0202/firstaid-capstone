@@ -10,7 +10,7 @@
 ## 1. CLEAN ARCHITECTURE IMPLEMENTATION
 * **Presentation Layer:** `app/lib/presentation/{screens,widgets,providers,theme,router}` — Material 3, go_router, màn Home rỗng với nút SOS (icon + chữ). Riverpod wiring ở `app/lib/core/di/providers.dart`.
 * **Domain Layer:** `app/lib/domain/{entities,repositories,usecases}` — Dart thuần. Entity: FirstAidProtocol, ProtocolStep, TriageNode, EmergencyCase, SosMessage (+ 3 enum trạng thái nguồn). Use case: GetOfflineProtocols, GetProtocolByCode, StartEmergencyFlow, PrepareSosMessage.
-* **Data Layer:** `app/lib/data/repositories` hiện chỉ có stub in-memory (không chứa nội dung y khoa). [CHƯA CÓ BẰNG CHỨNG: Drift/SQLite, Supabase datasource chưa triển khai.]
+* **Data Layer:** Drift/SQLite local datasource (`app/lib/data/datasources/local/`), seed loader từ asset JSON, parser `data/models/seed_parser.dart`, `DriftProtocolRepository`, `DriftEmergencyRepository`. [CHƯA CÓ BẰNG CHỨNG: Supabase datasource chưa triển khai.]
 
 ### Sơ đồ phụ thuộc
 ```mermaid
@@ -39,6 +39,13 @@ test/architecture/domain_isolation_test.dart
 test/widget_test.dart
 ```
 Log kiểm tra: `docs/evidence/tests/skeleton-checks-20261105-224643.log` (pub get, format, analyze, test đều exit=0; 3 test pass).
+
+### Dữ liệu phác đồ và lưu trữ cục bộ (Prompt 02)
+- Nguồn nội dung: IFRC-2025 (`verified` trong `docs/source/medical/source_register.csv`); bản tóm lược/dịch tiếng Việt do nhóm thực hiện, `clinical_review = not_clinically_reviewed`. Nguồn Việt Nam (VN-MOH-636-2025, VN-BYT-MOET-TNTT-2022) CHƯA đối chiếu vì PDF không trích được text.
+- Asset: `app/assets/protocols/protocols_v1.json` (6 phác đồ: bleeding_wounds_severe, burns_thermal_chemical, choking_adult_child, choking_baby, cpr_adult_adolescent, cpr_baby_child) và `app/assets/triage/triage_v1.json` (cây quyết định tĩnh, không phải AI).
+- Drift schema v1: bảng `protocols`, `protocol_steps`, `triage_nodes`, `meta`. Seed ở lần chạy đầu và khi `data_version` đổi (hiện `1.0.0+1.0.0`). Dữ liệu y tế chỉ đọc với UI.
+- UI hiển thị nguồn (source_id + trang), phiên bản và cảnh báo khi `clinical_review != reviewed`.
+- Log kiểm tra: `docs/evidence/tests/drift-seed-checks-20261106-010345.log` (format, analyze "No issues found", 17 test pass; mọi lệnh exit=0).
 
 ---
 

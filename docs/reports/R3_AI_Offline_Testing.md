@@ -14,7 +14,16 @@
 ---
 
 ## 2. OFFLINE-FIRST SYNCHRONIZATION ENGINE
-* [CHƯA CÓ BẰNG CHỨNG: local persistence Drift/SQLite chưa triển khai.]
+* Local persistence Drift/SQLite đã triển khai, có test tự động trên SQLite in-memory (log `docs/evidence/tests/drift-seed-checks-20261106-010345.log`). [CHƯA CÓ BẰNG CHỨNG: chưa chạy trên thiết bị thật/chế độ máy bay; xem docs/evidence/offline-manual-test.md.]
+
+| Chức năng | Offline? | Ghi chú |
+|---|---|---|
+| Cẩm nang 6 phác đồ (bước, không nên làm, khi nào gọi 115, nguồn, phiên bản) | Thiết kế: có (đọc từ SQLite) | Chưa kiểm chứng trên máy thật |
+| Cây quyết định triage tĩnh (dữ liệu có trong DB, chưa có màn UI) | Thiết kế: có | Luật xác định, không phải AI |
+| Cảnh báo chưa thẩm định lâm sàng | Có | Hiển thị ở danh sách và chi tiết |
+| AI Streaming LLM / RAG | Không | Cần mạng; chưa triển khai |
+| SOS: gọi 115, vị trí, SMS | Chưa triển khai | Prompt 04 |
+| Đồng bộ Supabase | Không | Chưa triển khai |
 * [CHƯA CÓ BẰNG CHỨNG: chiến lược xử lý xung đột chưa chốt/triển khai.]
 
 ---
