@@ -1,0 +1,28 @@
+﻿# Secrets - KHÔNG BAO GIỜ commit
+.env
+.env.local
+*.jks
+*.keystore
+key.properties
+**/android/key.properties
+**/android/app/*.jks
+
+# Tài liệu y khoa có bản quyền chưa rõ quyền phân phối (giữ ở máy, không đưa lên repo public)
+docs/source/medical/official/**/*.pdf
+docs/source/medical/international/**/*.pdf
+docs/source/medical/**/*.docx
+
+# Build / cache
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/.gradle/
+**/local.properties
+__pycache__/
+.venv/
+venv/
+.pytest_cache/
+node_modules/
+dist/
+.DS_Store
