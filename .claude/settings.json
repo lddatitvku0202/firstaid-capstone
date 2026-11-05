@@ -7,9 +7,16 @@
       "Bash(flutter analyze:*)",
       "Bash(flutter test:*)",
       "Bash(dart format:*)",
-      "Bash(pytest:*)"
+      "Bash(pytest:*)",
+      "Bash(flutter pub*:*)",
+      "Bash(dart run*:*)"
     ],
     "deny": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git reset:*)",
+      "Bash(git checkout:*)",
+      "Bash(git clean:*)",
       "Read(./.env)",
       "Read(./**/*.jks)",
       "Read(./**/*.keystore)",
