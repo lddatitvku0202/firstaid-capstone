@@ -1,22 +1,11 @@
 ﻿{
   "permissions": {
-    "allow": [
-      "Bash(git status:*)",
-      "Bash(git diff:*)",
-      "Bash(git log:*)",
-      "Bash(flutter analyze:*)",
-      "Bash(flutter test:*)",
-      "Bash(dart format:*)",
-      "Bash(pytest:*)",
-      "Bash(flutter pub*:*)",
-      "Bash(dart run*:*)"
-    ],
+    "allow": ["Bash(*)", "Edit(*)", "Write(*)", "Read(*)"],
     "deny": [
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(git reset:*)",
-      "Bash(git checkout:*)",
-      "Bash(git clean:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean -fd:*)",
       "Read(./.env)",
       "Read(./**/*.jks)",
       "Read(./**/*.keystore)",
