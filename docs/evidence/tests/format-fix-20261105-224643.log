@@ -1,0 +1,9 @@
+Formatted lib\data\repositories\in_memory_emergency_repository.dart
+Formatted lib\domain\entities\protocol_step.dart
+Formatted lib\domain\entities\sos_message.dart
+Formatted lib\domain\usecases\prepare_sos_message.dart
+Formatted lib\domain\usecases\start_emergency_flow.dart
+Formatted lib\presentation\router\app_router.dart
+Formatted lib\presentation\theme\app_theme.dart
+Formatted lib\presentation\widgets\sos_button.dart
+Formatted 22 files (8 changed) in 0.09 seconds.

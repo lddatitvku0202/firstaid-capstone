@@ -5,10 +5,10 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 ## 5 tiêu chuẩn bắt buộc
 | # | Tiêu chuẩn | Trạng thái | Bằng chứng |
 |---|---|---|---|
-| 1 | Clean Architecture 3 lớp | Missing | — |
+| 1 | Clean Architecture 3 lớp | Partial | Skeleton + domain isolation test pass (E-004, E-005); chưa có Data thật |
 | 2 | Tính năng AI thực sự (Streaming LLM) | Missing | — |
 | 3 | Offline-First (Drift + Supabase) | Missing | — |
-| 4 | Material 3, Dark Mode, 60fps | Missing | — |
+| 4 | Material 3, Dark Mode, 60fps | Partial | Theme M3 sáng/tối đã code; Dark Mode chưa xem trên máy; FPS chưa đo |
 | 5 | Ký số release tự động qua Fastlane | Missing | — |
 
 ## Báo cáo

@@ -1,0 +1,26 @@
+== flutter pub get
+Resolving dependencies...
+Downloading packages...
+  cupertino_icons 1.0.9 (2.0.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+Got dependencies!
+5 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+exit=0
+== dart format --set-exit-if-changed .
+Formatted 22 files (0 changed) in 0.06 seconds.
+exit=0
+== flutter analyze
+Analyzing app...                                                
+No issues found! (ran in 59.1s)
+exit=0
+== flutter test
+00:00 +0: loading D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart
+00:00 +0: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: detector flags forbidden imports
+00:00 +1: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: lib/domain has no forbidden imports
+00:11 +2: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home shows SOS button with icon and text
+00:13 +3: All tests passed!
+exit=0
