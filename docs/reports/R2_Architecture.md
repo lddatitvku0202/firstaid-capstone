@@ -47,6 +47,12 @@ Log kiểm tra: `docs/evidence/tests/skeleton-checks-20261105-224643.log` (pub g
 - UI hiển thị nguồn (source_id + trang), phiên bản và cảnh báo khi `clinical_review != reviewed`.
 - Log kiểm tra: `docs/evidence/tests/drift-seed-checks-20261106-010345.log` (format, analyze "No issues found", 17 test pass; mọi lệnh exit=0).
 
+### Dịch vụ nền tảng và cài đặt (Prompt 03)
+- Domain khai báo interface `TtsService`, `ConnectivityService`, `DialerService`, `SettingsRepository` (`app/lib/domain/services`, `domain/repositories`); Data hiện thực bằng flutter_tts, connectivity_plus, url_launcher, shared_preferences (`app/lib/data/services`, `data/repositories/shared_prefs_settings_repository.dart`). Nhờ đó UI test thay bằng fake.
+- Use case mới: `AdvanceTriage`, `SearchProtocols` (tìm kiếm local, bỏ dấu tiếng Việt).
+- Không màn hình nào gọi API để mở phác đồ: dữ liệu đọc từ Drift.
+- Log kiểm tra: `docs/evidence/tests/emergency-ui-checks-20261106-013932.log` (format, analyze "No issues found", 28 test pass; mọi lệnh exit=0).
+
 ---
 
 ## 2. DATABASE SCHEMA & SECURITY POLICIES

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// Nút SOS lớn: có icon + chữ, không chỉ dựa vào màu.
+/// Nút KHẨN CẤP lớn: có icon + chữ, không chỉ dựa vào màu.
 class SosButton extends StatelessWidget {
   const SosButton({required this.onPressed, super.key});
+
+  static const label = 'KHẨN CẤP';
 
   final VoidCallback onPressed;
 
@@ -11,7 +13,7 @@ class SosButton extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Semantics(
       button: true,
-      label: 'SOS khẩn cấp',
+      label: 'Khẩn cấp, bắt đầu sàng lọc',
       child: SizedBox(
         width: double.infinity,
         height: 120,
@@ -24,7 +26,7 @@ class SosButton extends StatelessWidget {
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
           icon: const Icon(Icons.emergency, size: 40),
-          label: const Text('SOS'),
+          label: const Text(label),
         ),
       ),
     );

@@ -28,6 +28,32 @@ Trong tình huống sơ cứu khẩn cấp, người chứng kiến có thể ho
 | 5 | Core | Bộ đếm nhịp CPR | Should-Have | Metronome 100-120 nhịp/phút; không tuyên bố đo độ sâu ép tim. |
 | 6 | Extension | Bản đồ điểm hỗ trợ; cộng đồng tình nguyện viên | Could-Have | Mở rộng, chưa cam kết ở MVP. |
 
+### Luồng người dùng và màn hình đã triển khai (UI, chưa chạy trên máy thật)
+Cài đặt trong `app/lib/presentation/`; Figma chỉ là tham chiếu luồng, giao diện thực tế có thể khác prototype.
+
+```mermaid
+flowchart TD
+  Home["Home: nút KHẨN CẤP, chip mạng"] --> Triage["Sàng lọc (cây quyết định tĩnh)"]
+  Home --> Handbook["Cẩm nang + tìm kiếm local"]
+  Home --> CPR["CPR (mở thẳng phác đồ)"]
+  Home --> Settings["Cài đặt: sáng/tối/hệ thống, cỡ chữ"]
+  Triage --> Guide["Hướng dẫn từng bước + Đọc to"]
+  Triage --> Call115["Gọi 115 ngay (mở trình quay số)"]
+  Handbook --> Guide
+  CPR --> Guide
+  Guide --> Call115
+```
+
+| Màn hình | Nội dung chính | Trạng thái |
+|---|---|---|
+| Home | Nút KHẨN CẤP lớn (icon + chữ), chip mạng (icon + chữ), lối vào cẩm nang/CPR/cài đặt; "Mô tả tình huống" bị tắt vì AI chưa triển khai | Có test widget |
+| Sàng lọc | Câu hỏi Có/Không lần lượt; nút "Gọi 115 ngay" ở mọi bước | Có test widget |
+| Hướng dẫn từng bước | Một hành động mỗi bước, Đọc to (vi-VN), KHÔNG ĐƯỢC LÀM, nguồn + phiên bản + cảnh báo chưa thẩm định | Có test widget; TTS thật chưa kiểm chứng trên máy |
+| Cẩm nang | Danh sách + tìm kiếm local không dấu | Có test widget |
+| Cài đặt | Sáng/Tối/Hệ thống, cỡ chữ, lưu qua SharedPreferences | Có test widget; chưa kiểm chứng lưu qua khởi động lại trên máy |
+
+Nhóm chưa triển khai ở bước này: SOS (vị trí, SMS), AI mô tả tình huống, bộ đếm nhịp CPR, màn bản đồ. [CHƯA CÓ BẰNG CHỨNG: ảnh chụp sáng/tối trên máy thật, xem docs/evidence/screenshots/emergency_ui.md.]
+
 ---
 
 ## 3. TECH STACK & INITIAL ARCHITECTURE

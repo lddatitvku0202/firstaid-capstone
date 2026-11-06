@@ -12,3 +12,6 @@
 | R-08 | Bản dịch/tóm lược tiếng Việt từ IFRC-2025 có thể sai sót hoặc khác hướng dẫn Việt Nam; chưa ai rà soát lâm sàng | Cao | Giữ cảnh báo; nhờ người có chuyên môn rà; đối chiếu VN-MOH-636/BV Nhi TW khi đọc được | Mở |
 | R-09 | `sqlite3_flutter_libs` EOL; build Android với Drift chưa kiểm chứng | Trung bình | Chạy `flutter build apk --debug` hoặc chạy trên máy thật; đổi cấu hình nếu lỗi | Mở |
 | R-10 | PDF nguồn VN không trích được text (lỗi font), thiếu poppler | Trung bình | Cài poppler hoặc cung cấp ảnh trang | Mở |
+| R-11 | Máy không có giọng vi-VN hoặc TTS chỉ chạy khi có mạng (chưa kiểm chứng) | Trung bình | App báo rõ, vẫn hiện chữ; thử trên máy thật ở chế độ máy bay | Mở |
+| R-12 | `connectivity_plus` chỉ báo có kết nối, không đảm bảo có Internet; có thể gây hiểu lầm | Thấp | Nhãn chip nêu rõ "kết nối mạng"; AI cần xử lý lỗi/timeout riêng ở prompt sau | Mở |
+| R-13 | Câu hỏi sàng lọc và thứ tự ưu tiên do nhóm soạn, chưa thẩm định lâm sàng | Cao | Giữ cảnh báo; luôn có nút Gọi 115; nhờ người có chuyên môn rà | Mở |

@@ -8,13 +8,13 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | 1 | Clean Architecture 3 lớp | Partial | Skeleton + domain isolation test pass (E-004, E-005); chưa có Data thật |
 | 2 | Tính năng AI thực sự (Streaming LLM) | Missing | — |
 | 3 | Offline-First (Drift + Supabase) | Partial | Drift + seed + test in-memory (E-006); chưa có Supabase/sync; chưa kiểm chứng trên máy thật |
-| 4 | Material 3, Dark Mode, 60fps | Partial | Theme M3 sáng/tối đã code; Dark Mode chưa xem trên máy; FPS chưa đo |
+| 4 | Material 3, Dark Mode, 60fps | Partial | Theme M3 sáng/tối + màn UI khẩn cấp + cài đặt đã code và có test widget (E-009); Dark Mode chưa xem trên máy; FPS chưa đo |
 | 5 | Ký số release tự động qua Fastlane | Missing | — |
 
 ## Báo cáo
 | Report | Trạng thái | Ghi chú |
 |---|---|---|
-| R1 | Partial | Khung + phần mô tả từ đề tài; thiếu persona, tên nhóm |
+| R1 | Partial | Khung + mô tả đề tài + luồng/màn hình đã triển khai; thiếu persona, tên nhóm, ảnh máy thật |
 | R2 | Partial | Clean Architecture + dữ liệu/Drift đã ghi; thiếu ERD, RLS, video, tag M2 |
 | R3 | Partial | Bảng offline/online; thiếu AI, benchmark, FPS, APK |
 | R4 | Missing | Khung rỗng |

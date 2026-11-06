@@ -1,0 +1,61 @@
+== flutter pub get
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.5 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+15 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+exit=0
+== dart format --set-exit-if-changed .
+Formatted 53 files (0 changed) in 0.39 seconds.
+exit=0
+== flutter analyze
+Analyzing app...                                                
+No issues found! (ran in 19.0s)
+exit=0
+== flutter test
+00:00 +0: loading D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart
+00:00 +0: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lần đầu ghi dữ liệu và data_version
+00:00 +1: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lần đầu ghi dữ liệu và data_version
+00:00 +2: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lần đầu ghi dữ liệu và data_version
+00:00 +3: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed idempotent: lần hai không seed lại
+00:00 +4: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:00 +5: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetProtocolByCode: có và không có
+00:00 +6: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: StartEmergencyFlow bắt đầu từ nút gốc triage
+00:00 +7: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lại khi data_version đổi (xoá meta rồi seed)
+00:01 +8: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: seed parse: 4 chủ đề MVP đều có phác đồ
+00:01 +9: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: mọi phác đồ có >=1 citation với source_id verified trong register
+00:01 +10: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: mọi bước có citation và có >=1 bước
+00:01 +11: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: trạng thái nguồn hợp lệ và chưa ai rà soát lâm sàng
+00:01 +12: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: giá trị enum lạ bị từ chối
+00:01 +13: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: triage: liên kết nút hợp lệ và mã phác đồ tồn tại
+00:02 +14: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: normalizeForSearch bỏ dấu tiếng Việt (bảng ánh xạ cùng độ dài)
+00:02 +15: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: SearchProtocols lọc theo tiêu đề/bước, rỗng trả tất cả
+00:02 +16: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: AdvanceTriage đi theo yes/no, null ở nhánh không có
+00:02 +17: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: AppSettings.copyWith kẹp cỡ chữ trong khoảng cho phép
+00:03 +18: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home có nút KHẨN CẤP (icon + chữ), lối vào và chip mạng
+00:05 +19: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home chip mạng chuyển sang chữ + icon offline
+00:05 +20: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage KHẨN CẤP -> không phản ứng, không thở -> CPR + gọi 115
+00:06 +21: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage mọi bước sàng lọc đều có nút Gọi 115 ngay
+00:06 +22: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage không xác định tình huống -> Gọi 115
+00:08 +23: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước hiện bước, nguồn, version, cảnh báo, KHÔNG ĐƯỢC LÀM
+00:08 +24: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước Tiếp/Trước đổi bước; Đọc to gọi TTS với đúng text
+00:09 +25: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước thiếu giọng vi-VN: thông báo rõ, vẫn hiện text, nút đọc tắt
+00:09 +26: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Cẩm nang danh sách, cảnh báo và tìm kiếm local không dấu
+00:10 +27: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Cài đặt đổi chế độ tối và cỡ chữ, được lưu qua repository
+00:11 +28: All tests passed!
+exit=0
