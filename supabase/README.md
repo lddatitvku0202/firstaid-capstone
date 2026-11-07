@@ -1,6 +1,6 @@
 # Supabase cho FirstAid
 
-Trạng thái: file migration và test RLS đã viết, **CHƯA chạy lên Supabase thật** (chưa có bằng chứng). Xem `docs/evidence/rls/README.md`.
+Trạng thái: test RLS đã chạy trên Supabase, **13/13 PASS** (ghi nhận 2026-11-08, file `docs/evidence/rls/rls-test-20261107-001222.csv`, mã bằng chứng E-015). Giới hạn: chưa có ảnh SQL Editor, chưa có ca `sync_events`, app Flutter chưa thử với Supabase thật. Xem `docs/evidence/rls/README.md`.
 
 ## Áp migration (do người dùng tự chạy, nên dùng project thử trước)
 1. Supabase Dashboard → SQL Editor → dán `supabase/migrations/0001_init.sql` → Run.
