@@ -24,3 +24,12 @@
 | D-020 | 2026-11-07 | Manifest chỉ khai báo ACCESS_FINE_LOCATION và ACCESS_COARSE_LOCATION; không background location, không SEND_SMS | Vị trí chỉ khi bấm trong lúc dùng app; SMS chỉ mở bản nháp để người dùng tự gửi nên không cần SEND_SMS. Merged manifest còn có ACCESS_NETWORK_STATE (connectivity_plus) và INTERNET ở bản debug; release cần khai INTERNET khi làm AI (prompt 07) | AndroidManifest.xml, E-012 |
 | D-021 | 2026-11-07 | SMS để trống người nhận, người dùng tự chọn; không lưu số liên hệ | Chưa có nguồn xác nhận 115 nhận SMS; tránh lưu dữ liệu cá nhân | sos_screen.dart |
 | D-022 | 2026-11-07 | Nội dung SMS kèm tọa độ số và liên kết maps.google.com | Tọa độ đọc được khi không có Internet; liên kết chỉ tiện khi người nhận có Internet | prepare_sos_message.dart |
+| D-023 | 2026-11-07 | Thêm supabase_flutter 2.18.3 (từ pub add); khởi tạo bằng `publishableKey` (anonKey bị đánh dấu deprecated) | Supabase BaaS cho tiêu chuẩn Offline-First | app/pubspec.lock |
+| D-024 | 2026-11-07 | Cấu hình Supabase qua `--dart-define-from-file=.env`; thiếu cấu hình thì sync tắt | Không hardcode secret; app vẫn chạy offline | app_config.dart, supabase/README.md |
+| D-025 | 2026-11-07 | Phác đồ: server thắng nhưng chỉ nhận bản reviewed + verified và version mới hơn; ghi trong một transaction | Bản chưa review không được ghi đè bản ổn định (CLAUDE.md §6) | sync_protocols.dart |
+| D-026 | 2026-11-07 | SeedLoader không ghi đè phác đồ nhận từ server có version >= asset (Meta `remote_version:<code>`) | Nếu không, đổi version asset sẽ xóa bản đồng bộ | seed_loader.dart |
+| D-027 | 2026-11-07 | sos_logs append-only, consent=true bắt buộc, owner_id = auth.uid(); không lưu ghi chú/số liên hệ; vị trí làm tròn 3 chữ số | Tối thiểu dữ liệu nhạy cảm | 0001_init.sql, enqueue_sos_log.dart |
+| D-028 | 2026-11-07 | Retry tối đa 5 lần, backoff mũ 30 s đến 1 giờ; lỗi vĩnh viễn không retry | Giới hạn theo yêu cầu prompt 05; giá trị do nhóm chọn, chưa tinh chỉnh bằng đo đạc | process_sync_queue.dart |
+| D-029 | 2026-11-07 | Drift schemaVersion 1 -> 2 (thêm `sync_jobs`) với `onUpgrade` | Giữ dữ liệu máy đã cài bản cũ | app_database.dart |
+| D-030 | 2026-11-07 | Thêm INTERNET vào manifest chính | Cần cho Supabase (và AI prompt 07); xử lý mục D-020 | AndroidManifest.xml, E-016 |
+| D-031 | 2026-11-07 | `EnqueueSosLog` chưa nối UI; chưa có màn đăng nhập/consent | Prompt 05 yêu cầu tầng sync + schema; UI consent cần thiết kế riêng | R2 |

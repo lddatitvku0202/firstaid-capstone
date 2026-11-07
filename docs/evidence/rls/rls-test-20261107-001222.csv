@@ -1,0 +1,14 @@
+test_name,result,detail
+anon đọc protocols_remote thấy dữ liệu,PASS,số dòng thấy = 1 (kỳ vọng 1)
+anon KHÔNG ghi được protocols_remote,PASS,bị từ chối: permission denied for table protocols_remote
+anon KHÔNG đọc được sos_logs,PASS,bị từ chối: permission denied for table sos_logs
+anon KHÔNG insert được sos_logs,PASS,bị từ chối: permission denied for table sos_logs
+A insert sos_logs của chính mình (owner mặc định = auth.uid()),PASS,insert thành công
+A KHÔNG insert thay B,PASS,"bị từ chối: new row violates row-level security policy for table ""sos_logs"""
+A KHÔNG insert khi consent = false,PASS,"bị từ chối: new row violates row-level security policy for table ""sos_logs"""
+A đọc được log của mình (1 dòng),PASS,số dòng thấy = 1 (kỳ vọng 1)
+A KHÔNG update được log,PASS,bị từ chối: permission denied for table sos_logs
+A KHÔNG xóa được log,PASS,bị từ chối: permission denied for table sos_logs
+A KHÔNG sửa được protocols_remote,PASS,bị từ chối: permission denied for table protocols_remote
+B KHÔNG thấy log của A (0 dòng),PASS,số dòng thấy = 0 (kỳ vọng 0)
+B đọc được protocols_remote,PASS,số dòng thấy = 1 (kỳ vọng 1)

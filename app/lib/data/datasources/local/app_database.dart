@@ -66,7 +66,24 @@ class Meta extends Table {
   Set<Column<Object>> get primaryKey => {key};
 }
 
-@DriftDatabase(tables: [Protocols, ProtocolSteps, TriageNodes, Meta])
+@DataClassName('SyncJobRow')
+class SyncJobs extends Table {
+  TextColumn get id => text()();
+  TextColumn get kind => text()();
+  TextColumn get payloadJson => text()();
+  IntColumn get attempts => integer().withDefault(const Constant(0))();
+
+  /// pending | failed | done
+  TextColumn get status => text().withDefault(const Constant('pending'))();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get nextAttemptAt => dateTime()();
+  TextColumn get lastError => text().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DriftDatabase(tables: [Protocols, ProtocolSteps, TriageNodes, Meta, SyncJobs])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openOnDevice());
 
@@ -74,7 +91,17 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) => m.createAll(),
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.createTable(syncJobs);
+      }
+    },
+  );
 }
 
 LazyDatabase _openOnDevice() {

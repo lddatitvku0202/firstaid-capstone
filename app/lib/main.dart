@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'core/config/app_config.dart';
 import 'core/di/providers.dart';
 import 'data/datasources/local/app_database.dart';
 import 'data/datasources/local/seed_loader.dart';
+import 'data/datasources/remote/supabase_remote_sync_source.dart';
 import 'data/repositories/shared_prefs_settings_repository.dart';
 import 'presentation/providers/settings_provider.dart';
 import 'presentation/router/app_router.dart';
@@ -20,12 +23,22 @@ Future<void> main() async {
     await SharedPreferences.getInstance(),
   );
   final initial = await settingsRepo.load();
+  // Thiếu cấu hình Supabase => không khởi tạo, sync tắt, app vẫn chạy offline.
+  SupabaseRemoteSyncSource? remote;
+  if (AppConfig.supabaseConfigured) {
+    await Supabase.initialize(
+      url: AppConfig.supabaseUrl,
+      publishableKey: AppConfig.supabaseAnonKey,
+    );
+    remote = SupabaseRemoteSyncSource(Supabase.instance.client);
+  }
   runApp(
     ProviderScope(
       overrides: [
         appDatabaseProvider.overrideWithValue(db),
         settingsRepositoryProvider.overrideWithValue(settingsRepo),
         initialSettingsProvider.overrideWithValue(initial),
+        remoteSyncSourceProvider.overrideWithValue(remote),
       ],
       child: const FirstAidApp(),
     ),
@@ -41,6 +54,13 @@ class FirstAidApp extends ConsumerStatefulWidget {
 
 class _FirstAidAppState extends ConsumerState<FirstAidApp> {
   late final GoRouter _router = buildRouter();
+
+  @override
+  void initState() {
+    super.initState();
+    // Đồng bộ nền, không chặn UI; lỗi được nuốt trong RunSync.
+    ref.read(runSyncProvider)?.start();
+  }
 
   @override
   Widget build(BuildContext context) {

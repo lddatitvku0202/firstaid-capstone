@@ -1,0 +1,104 @@
+# sync checks 20261107-234308 (cwd app/)
+
+$ flutter pub get
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  geolocator 14.0.1 (14.1.2 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.6 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+18 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+exit=0
+
+$ dart format --set-exit-if-changed lib test
+Formatted 76 files (0 changed) in 0.64 seconds.
+exit=0
+
+$ flutter analyze
+Analyzing app...                                                
+No issues found! (ran in 12.3s)
+exit=0
+
+$ flutter test
+00:00 +0: loading D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart
+00:00 +0: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: detector flags forbidden imports
+00:00 +1: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: lib/domain has no forbidden imports
+00:00 +2: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lần đầu ghi dữ liệu và data_version
+00:00 +3: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed idempotent: lần hai không seed lại
+00:01 +4: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetOfflineProtocols trả đủ phác đồ, bước theo thứ tự
+00:01 +5: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: GetProtocolByCode: có và không có
+00:01 +6: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: StartEmergencyFlow bắt đầu từ nút gốc triage
+00:01 +7: D:/Start Github/firstaid-capstone/app/test/data/drift_repository_test.dart: seed lại khi data_version đổi (xoá meta rồi seed)
+00:01 +8: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: seed parse: 4 chủ đề MVP đều có phác đồ
+00:01 +9: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: mọi phác đồ có >=1 citation với source_id verified trong register
+00:01 +10: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: mọi bước có citation và có >=1 bước
+00:01 +11: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: trạng thái nguồn hợp lệ và chưa ai rà soát lâm sàng
+00:01 +12: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: giá trị enum lạ bị từ chối
+00:01 +13: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: triage: liên kết nút hợp lệ và mã phác đồ tồn tại
+00:02 +14: D:/Start Github/firstaid-capstone/app/test/domain/prepare_sos_message_test.dart: có tọa độ: nội dung có thời gian, tọa độ 6 chữ số, không tự gửi
+00:02 +15: D:/Start Github/firstaid-capstone/app/test/domain/prepare_sos_message_test.dart: không có tọa độ: ghi rõ chưa có vị trí
+00:02 +16: D:/Start Github/firstaid-capstone/app/test/domain/prepare_sos_message_test.dart: chỉ có một nửa tọa độ được coi là không có vị trí
+00:02 +17: D:/Start Github/firstaid-capstone/app/test/domain/prepare_sos_message_test.dart: ghi chú ngắn được thêm, khoảng trắng thừa được gọn
+00:02 +18: D:/Start Github/firstaid-capstone/app/test/domain/prepare_sos_message_test.dart: ghi chú dài bị cắt và đánh dấu
+00:02 +19: D:/Start Github/firstaid-capstone/app/test/domain/prepare_sos_message_test.dart: ghi chú rỗng/chỉ khoảng trắng bị bỏ qua
+00:02 +20: D:/Start Github/firstaid-capstone/app/test/domain/prepare_sos_message_test.dart: URI sms: để trống người nhận, mã hóa %20 và ký tự đặc biệt
+00:03 +21: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: normalizeForSearch bỏ dấu tiếng Việt (bảng ánh xạ cùng độ dài)
+00:03 +22: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: SearchProtocols lọc theo tiêu đề/bước, rỗng trả tất cả
+00:03 +23: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: AdvanceTriage đi theo yes/no, null ở nhánh không có
+00:03 +24: D:/Start Github/firstaid-capstone/app/test/domain/usecases_test.dart: AppSettings.copyWith kẹp cỡ chữ trong khoảng cho phép
+00:14 +25: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +26: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +27: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +28: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +29: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +30: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +31: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +32: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +33: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +34: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +35: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:15 +36: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:16 +37: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:16 +38: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:16 +39: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:16 +40: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:16 +41: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:16 +42: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:16 +43: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:17 +44: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: luồng xác nhận: vị trí -> xem trước -> xác nhận mới mở SMS
+00:18 +45: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: bỏ qua vị trí: soạn tin không tọa độ
+00:19 +46: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi permissionDenied: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:20 +47: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi permissionDeniedForever: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:21 +48: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi serviceDisabled: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:22 +49: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi timeout: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:23 +50: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home có nút KHẨN CẤP (icon + chữ), lối vào và chip mạng
+00:24 +51: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home có nút KHẨN CẤP (icon + chữ), lối vào và chip mạng
+00:24 +52: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: bị chặn vĩnh viễn / GPS tắt: mở đúng màn cài đặt
+00:25 +53: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: bị chặn vĩnh viễn / GPS tắt: mở đúng màn cài đặt
+00:25 +54: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage KHẨN CẤP -> không phản ứng, không thở -> CPR + gọi 115
+00:26 +55: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage KHẨN CẤP -> không phản ứng, không thở -> CPR + gọi 115
+00:26 +56: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage mọi bước sàng lọc đều có nút Gọi 115 ngay
+00:27 +57: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage không xác định tình huống -> Gọi 115
+00:28 +58: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước hiện bước, nguồn, version, cảnh báo, KHÔNG ĐƯỢC LÀM
+00:29 +59: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước Tiếp/Trước đổi bước; Đọc to gọi TTS với đúng text
+00:29 +60: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước thiếu giọng vi-VN: thông báo rõ, vẫn hiện text, nút đọc tắt
+00:29 +61: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Cẩm nang danh sách, cảnh báo và tìm kiếm local không dấu
+00:30 +62: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Cài đặt đổi chế độ tối và cỡ chữ, được lưu qua repository
+00:31 +63: All tests passed!
+exit=0

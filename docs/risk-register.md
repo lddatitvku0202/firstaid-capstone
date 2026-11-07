@@ -18,3 +18,7 @@
 | R-14 | Định vị GPS chậm/timeout trong nhà; người dùng từ chối quyền | Trung bình | Giới hạn 15 giây, thử lại, bỏ qua để soạn tin không vị trí, luôn có Gọi 115 | Mở |
 | R-15 | Người dùng hiểu nhầm app tự gửi tin hoặc 115 nhận SMS | Trung bình | Nêu rõ "app không tự gửi"; không mặc định người nhận; nút gọi 115 mở trình quay số | Mở |
 | R-16 | Phụ thuộc ứng dụng SMS và sóng di động trên máy thật; chưa kiểm chứng | Trung bình | Kiểm thử thủ công theo docs/evidence/android-device-run.md | Mở |
+| R-17 | Migration/RLS chưa chạy trên Supabase thật; script rls_test.sql chưa được thử (có thể cần chỉnh cho auth.users) | Cao | Người dùng chạy trên project thử, lưu output vào docs/evidence/rls/ | Mở |
+| R-18 | Key Supabase bị lộ nếu đặt nhầm vào repo (repo PUBLIC) | Cao | Chỉ dùng anon/publishable key trong app/.env (gitignore); không dùng service_role trong app | Mở |
+| R-19 | Log SOS chưa nối UI/consent/đăng nhập: tính năng chưa dùng được end-to-end | Trung bình | Thiết kế UI consent ở bước sau; ghi rõ trong báo cáo | Mở |
+| R-20 | Connectivity chỉ báo có kết nối, không phải có Internet: sync có thể lỗi dù "có mạng" | Thấp | Lỗi được bắt và hẹn thử lại; không ảnh hưởng luồng sơ cứu | Chấp nhận |

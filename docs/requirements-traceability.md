@@ -7,7 +7,7 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 |---|---|---|---|
 | 1 | Clean Architecture 3 lớp | Partial | Skeleton + domain isolation test pass (E-004, E-005); chưa có Data thật |
 | 2 | Tính năng AI thực sự (Streaming LLM) | Missing | — |
-| 3 | Offline-First (Drift + Supabase) | Partial | Drift + seed + test in-memory (E-006); chưa có Supabase/sync; chưa kiểm chứng trên máy thật |
+| 3 | Offline-First (Drift + Supabase) | Partial | Drift + seed (E-006); schema/RLS + sync queue + test fake remote (E-014); RLS chưa chạy trên Supabase thật (E-015); chưa thử trên máy |
 | 4 | Material 3, Dark Mode, 60fps | Partial | Theme M3 sáng/tối + màn UI khẩn cấp + cài đặt đã code và có test widget (E-009); Dark Mode chưa xem trên máy; FPS chưa đo |
 | 5 | Ký số release tự động qua Fastlane | Missing | — |
 
@@ -15,8 +15,8 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | Report | Trạng thái | Ghi chú |
 |---|---|---|
 | R1 | Partial | Khung + mô tả đề tài + luồng/màn hình đã triển khai; thiếu persona, tên nhóm, ảnh máy thật |
-| R2 | Partial | Clean Architecture + dữ liệu/Drift + SOS đã ghi; thiếu ERD, RLS, video, tag M2 |
-| R3 | Partial | Bảng offline/online; thiếu AI, benchmark, FPS, APK |
+| R2 | Partial | Clean Architecture + Drift + SOS + ERD + bảng RLS đã ghi; RLS chưa kiểm chứng; thiếu video, tag M2 |
+| R3 | Partial | Bảng offline/online + chính sách xung đột; thiếu AI, benchmark, FPS, APK |
 | R4 | Missing | Khung rỗng |
 
 ## Form Q1-Q19
@@ -40,3 +40,4 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | Chức năng | Trạng thái | Bằng chứng |
 |---|---|---|
 | SOS và vị trí (gọi 115, tọa độ, SMS soạn sẵn có xác nhận) | Partial | Code + 45 test (E-011); chưa chạy trên máy thật; video [CHỜ NGƯỜI DÙNG QUAY MÀN HÌNH] |
+| Đồng bộ Supabase (phác đồ + hàng đợi log SOS) | Partial | Code + 63 test (E-014); RLS chưa chạy thật (E-015); UI consent/đăng nhập chưa có |
