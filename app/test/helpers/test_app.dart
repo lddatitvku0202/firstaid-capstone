@@ -8,6 +8,8 @@ import 'package:app/domain/entities/app_settings.dart';
 import 'package:app/domain/repositories/settings_repository.dart';
 import 'package:app/domain/services/connectivity_service.dart';
 import 'package:app/domain/services/dialer_service.dart';
+import 'package:app/domain/services/location_service.dart';
+import 'package:app/domain/services/sms_composer.dart';
 import 'package:app/domain/services/tts_service.dart';
 import 'package:app/main.dart';
 import 'package:drift/native.dart';
@@ -61,6 +63,47 @@ class FakeDialer implements DialerService {
   }
 }
 
+class FakeLocation implements LocationService {
+  FakeLocation([
+    this.result = const LocationResult.ok(
+      latitude: 16.0544,
+      longitude: 108.2022,
+      accuracyMeters: 12,
+    ),
+  ]);
+
+  LocationResult result;
+  int calls = 0;
+  int openAppSettingsCalls = 0;
+  int openLocationSettingsCalls = 0;
+
+  @override
+  Future<LocationResult> getCurrentLocation({
+    Duration timeout = const Duration(seconds: 15),
+  }) async {
+    calls++;
+    return result;
+  }
+
+  @override
+  Future<void> openAppSettings() async => openAppSettingsCalls++;
+
+  @override
+  Future<void> openLocationSettings() async => openLocationSettingsCalls++;
+}
+
+class FakeSms implements SmsComposer {
+  final List<String> drafts = [];
+  final List<String?> recipients = [];
+
+  @override
+  Future<bool> openSmsDraft(String body, {String? recipient}) async {
+    drafts.add(body);
+    recipients.add(recipient);
+    return true;
+  }
+}
+
 class FakeSettingsRepository implements SettingsRepository {
   FakeSettingsRepository([this.stored = const AppSettings()]);
 
@@ -84,6 +127,8 @@ class TestEnv {
     required this.connectivity,
     required this.dialer,
     required this.settings,
+    required this.location,
+    required this.sms,
   });
 
   final AppDatabase db;
@@ -91,6 +136,8 @@ class TestEnv {
   final FakeConnectivity connectivity;
   final FakeDialer dialer;
   final FakeSettingsRepository settings;
+  final FakeLocation location;
+  final FakeSms sms;
 
   List<Override> get overrides => [
     appDatabaseProvider.overrideWithValue(db),
@@ -98,6 +145,9 @@ class TestEnv {
     connectivityServiceProvider.overrideWithValue(connectivity),
     dialerServiceProvider.overrideWithValue(dialer),
     settingsRepositoryProvider.overrideWithValue(settings),
+    locationServiceProvider.overrideWithValue(location),
+    smsComposerProvider.overrideWithValue(sms),
+    clockProvider.overrideWithValue(() => DateTime(2026, 11, 7, 9, 30)),
   ];
 }
 
@@ -105,6 +155,11 @@ Future<TestEnv> createEnv(
   WidgetTester tester, {
   TtsAvailability tts = TtsAvailability.available,
   bool connected = true,
+  LocationResult location = const LocationResult.ok(
+    latitude: 16.0544,
+    longitude: 108.2022,
+    accuracyMeters: 12,
+  ),
 }) async {
   final db = AppDatabase.forTesting(NativeDatabase.memory());
   await tester.runAsync(
@@ -117,6 +172,8 @@ Future<TestEnv> createEnv(
     connectivity: FakeConnectivity(connected: connected),
     dialer: FakeDialer(),
     settings: FakeSettingsRepository(),
+    location: FakeLocation(location),
+    sms: FakeSms(),
   );
 }
 

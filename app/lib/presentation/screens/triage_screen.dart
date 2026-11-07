@@ -121,6 +121,15 @@ class _NodeView extends StatelessWidget {
         ...children,
         const SizedBox(height: 24),
         const Call115Button(),
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 56,
+          child: OutlinedButton.icon(
+            onPressed: () => context.push('/sos'),
+            icon: const Icon(Icons.sms),
+            label: const Text('SOS: gửi vị trí'),
+          ),
+        ),
       ],
     );
   }

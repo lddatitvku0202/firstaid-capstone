@@ -27,3 +27,11 @@ flutter run -d <ID_THIET_BI>
    - Cài đặt Sáng/Tối/Hệ thống và cỡ chữ; thoát hẳn app rồi mở lại để xem cài đặt có được nhớ.
    - Chụp ảnh sáng/tối theo docs/evidence/screenshots/emergency_ui.md.
 5. Nếu build lỗi, giữ nguyên log (`flutter run -v > "docs\\evidence\\tests\\device-run.log"`) và báo lại.
+
+## Kiểm thử SOS trên máy thật (Prompt 04)
+Chưa chạy. Video: [CHỜ NGƯỜI DÙNG QUAY MÀN HÌNH] (lưu ngoài repo hoặc docs/evidence/ nếu nhỏ).
+1. Home hoặc Sàng lọc → "SOS: gửi vị trí": xem màn giải thích; bấm "Lấy vị trí của tôi" → hộp thoại quyền vị trí của Android.
+2. Thử các trường hợp: Cho phép → màn xem trước có tọa độ và nội dung tin nhắn; Từ chối → thông báo + Thử lại/Bỏ qua; Từ chối và không hỏi lại → "Mở cài đặt ứng dụng"; tắt GPS → "Mở cài đặt vị trí"; ở trong nhà để thử hết thời gian chờ.
+3. Xem trước → "Xác nhận và mở tin nhắn": ứng dụng SMS mở với nội dung soạn sẵn, người nhận trống. Xác nhận app KHÔNG tự gửi: chỉ gửi khi bạn bấm Gửi trong ứng dụng SMS.
+4. "Gọi 115 ngay" chỉ mở trình quay số (nhớ KHÔNG bấm gọi khi thử).
+5. Phân biệt mất Internet và mất sóng: (a) bật chế độ máy bay rồi bật lại GPS (tọa độ vẫn lấy được?; gọi/SMS sẽ không dùng được); (b) tắt dữ liệu di động và Wi-Fi nhưng giữ SIM còn sóng (tọa độ, SMS, trình quay số vẫn dùng được). Ghi lại kết quả thật.

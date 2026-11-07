@@ -52,7 +52,17 @@ flowchart TD
 | Cẩm nang | Danh sách + tìm kiếm local không dấu | Có test widget |
 | Cài đặt | Sáng/Tối/Hệ thống, cỡ chữ, lưu qua SharedPreferences | Có test widget; chưa kiểm chứng lưu qua khởi động lại trên máy |
 
-Nhóm chưa triển khai ở bước này: SOS (vị trí, SMS), AI mô tả tình huống, bộ đếm nhịp CPR, màn bản đồ. [CHƯA CÓ BẰNG CHỨNG: ảnh chụp sáng/tối trên máy thật, xem docs/evidence/screenshots/emergency_ui.md.]
+Luồng SOS (Prompt 04): Home hoặc màn sàng lọc → "SOS: gửi vị trí" → màn giải thích quyền vị trí → lấy vị trí (hoặc bỏ qua) → xem trước vị trí và nội dung tin nhắn, ghi chú tùy chọn → "Xác nhận và mở tin nhắn" (mở ứng dụng SMS với nội dung soạn sẵn, người dùng tự bấm Gửi). Xử lý: từ chối quyền, từ chối vĩnh viễn (mở cài đặt ứng dụng), GPS tắt (mở cài đặt vị trí), hết thời gian chờ; luôn có "Gọi 115 ngay". Không bắt đăng nhập.
+
+### Giới hạn của SOS (cần nêu khi trình bày)
+- Tọa độ GPS lấy được khi không có Internet (cần máy thu nhìn thấy tín hiệu GPS; trong nhà hoặc lần định vị đầu có thể chậm hoặc hết thời gian chờ).
+- Tile bản đồ và địa chỉ chữ cần Internet: app KHÔNG hiển thị bản đồ hay địa chỉ chữ. Liên kết bản đồ trong nội dung tin nhắn chỉ mở được khi người nhận có Internet; tọa độ số vẫn đọc được.
+- Gọi 115 và nhắn tin cần sóng di động (SIM còn sóng). "Mất Internet" không đồng nghĩa "mất sóng": có thể gọi/nhắn được dù không có Internet, và ngược lại.
+- App không tự gửi tin nhắn (không xin quyền SEND_SMS): chỉ mở ứng dụng tin nhắn với nội dung soạn sẵn, người nhận để trống, người dùng tự chọn và tự bấm Gửi.
+- Chưa có nguồn xác nhận 115 nhận SMS nên không mặc định gửi tin tới 115; nút "Gọi 115 ngay" chỉ mở trình quay số.
+- Chưa kiểm chứng trên điện thoại thật.
+
+Nhóm chưa triển khai ở bước này: AI mô tả tình huống, bộ đếm nhịp CPR, màn bản đồ. [CHƯA CÓ BẰNG CHỨNG: video SOS trên máy thật: [CHỜ NGƯỜI DÙNG QUAY MÀN HÌNH].] [CHƯA CÓ BẰNG CHỨNG: ảnh chụp sáng/tối trên máy thật, xem docs/evidence/screenshots/emergency_ui.md.]
 
 ---
 

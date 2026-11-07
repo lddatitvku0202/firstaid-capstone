@@ -6,14 +6,19 @@ import '../../data/repositories/drift_emergency_repository.dart';
 import '../../data/repositories/drift_protocol_repository.dart';
 import '../../data/services/connectivity_plus_service.dart';
 import '../../data/services/flutter_tts_service.dart';
+import '../../data/services/geolocator_location_service.dart';
 import '../../data/services/url_launcher_dialer_service.dart';
+import '../../data/services/url_launcher_sms_composer.dart';
 import '../../domain/repositories/emergency_repository.dart';
 import '../../domain/repositories/protocol_repository.dart';
 import '../../domain/repositories/settings_repository.dart';
 import '../../domain/services/connectivity_service.dart';
 import '../../domain/services/dialer_service.dart';
+import '../../domain/services/location_service.dart';
+import '../../domain/services/sms_composer.dart';
 import '../../domain/services/tts_service.dart';
 import '../../domain/usecases/advance_triage.dart';
+import '../../domain/usecases/get_current_location_for_sos.dart';
 import '../../domain/usecases/get_offline_protocols.dart';
 import '../../domain/usecases/get_protocol_by_code.dart';
 import '../../domain/usecases/prepare_sos_message.dart';
@@ -48,6 +53,19 @@ final connectivityServiceProvider = Provider<ConnectivityService>(
 );
 final dialerServiceProvider = Provider<DialerService>(
   (ref) => const UrlLauncherDialerService(),
+);
+
+/// Đồng hồ (override trong test để nội dung SMS xác định).
+final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
+
+final locationServiceProvider = Provider<LocationService>(
+  (ref) => const GeolocatorLocationService(),
+);
+final smsComposerProvider = Provider<SmsComposer>(
+  (ref) => const UrlLauncherSmsComposer(),
+);
+final getCurrentLocationForSosProvider = Provider(
+  (ref) => GetCurrentLocationForSos(ref.watch(locationServiceProvider)),
 );
 
 final getOfflineProtocolsProvider = Provider(

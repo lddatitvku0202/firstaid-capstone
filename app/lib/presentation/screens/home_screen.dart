@@ -36,6 +36,12 @@ class HomeScreen extends StatelessWidget {
                 child: ListView(
                   children: [
                     _EntryTile(
+                      icon: Icons.sms,
+                      title: 'SOS: gửi vị trí',
+                      subtitle: 'Soạn tin nhắn kèm vị trí, bạn tự bấm gửi',
+                      onTap: () => context.push('/sos'),
+                    ),
+                    _EntryTile(
                       icon: Icons.menu_book,
                       title: 'Cẩm nang sơ cứu',
                       subtitle: 'Dùng được khi không có mạng',

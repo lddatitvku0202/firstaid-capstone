@@ -53,6 +53,20 @@ Log kiểm tra: `docs/evidence/tests/skeleton-checks-20261105-224643.log` (pub g
 - Không màn hình nào gọi API để mở phác đồ: dữ liệu đọc từ Drift.
 - Log kiểm tra: `docs/evidence/tests/emergency-ui-checks-20261106-013932.log` (format, analyze "No issues found", 28 test pass; mọi lệnh exit=0).
 
+### SOS: vị trí và SMS có xác nhận (Prompt 04)
+- Domain: `PrepareSosMessage` (tọa độ tùy chọn + ghi chú + thời gian truyền vào; ghi chú cắt ở 160 ký tự), interface `LocationService`, `SmsComposer`, use case `GetCurrentLocationForSos`.
+- Data: `GeolocatorLocationService` (geolocator, giới hạn thời gian 15 giây), `UrlLauncherSmsComposer` (URI `sms:` dùng %20, người nhận để trống). Presentation: `SosScreen` (giải thích → lấy vị trí → xem trước → xác nhận).
+- AndroidManifest: chỉ `ACCESS_FINE_LOCATION` + `ACCESS_COARSE_LOCATION` (không background location, không SEND_SMS); `<queries>` cho `SENDTO sms`.
+- Log kiểm tra: `docs/evidence/tests/sos-checks-20261107-214838.log` (format, analyze "No issues found", 45 test pass; mọi lệnh exit=0); build APK debug thành công: `docs/evidence/tests/build-apk-debug-20261107-215148.log` (chưa chạy trên máy).
+
+### Giới hạn của SOS (cần nêu khi trình bày)
+- Tọa độ GPS lấy được khi không có Internet (cần máy thu nhìn thấy tín hiệu GPS; trong nhà hoặc lần định vị đầu có thể chậm hoặc hết thời gian chờ).
+- Tile bản đồ và địa chỉ chữ cần Internet: app KHÔNG hiển thị bản đồ hay địa chỉ chữ. Liên kết bản đồ trong nội dung tin nhắn chỉ mở được khi người nhận có Internet; tọa độ số vẫn đọc được.
+- Gọi 115 và nhắn tin cần sóng di động (SIM còn sóng). "Mất Internet" không đồng nghĩa "mất sóng": có thể gọi/nhắn được dù không có Internet, và ngược lại.
+- App không tự gửi tin nhắn (không xin quyền SEND_SMS): chỉ mở ứng dụng tin nhắn với nội dung soạn sẵn, người nhận để trống, người dùng tự chọn và tự bấm Gửi.
+- Chưa có nguồn xác nhận 115 nhận SMS nên không mặc định gửi tin tới 115; nút "Gọi 115 ngay" chỉ mở trình quay số.
+- Chưa kiểm chứng trên điện thoại thật.
+
 ---
 
 ## 2. DATABASE SCHEMA & SECURITY POLICIES

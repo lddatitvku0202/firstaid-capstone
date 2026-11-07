@@ -15,7 +15,7 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | Report | Trạng thái | Ghi chú |
 |---|---|---|
 | R1 | Partial | Khung + mô tả đề tài + luồng/màn hình đã triển khai; thiếu persona, tên nhóm, ảnh máy thật |
-| R2 | Partial | Clean Architecture + dữ liệu/Drift đã ghi; thiếu ERD, RLS, video, tag M2 |
+| R2 | Partial | Clean Architecture + dữ liệu/Drift + SOS đã ghi; thiếu ERD, RLS, video, tag M2 |
 | R3 | Partial | Bảng offline/online; thiếu AI, benchmark, FPS, APK |
 | R4 | Missing | Khung rỗng |
 
@@ -35,3 +35,8 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | Q17 | Tự đánh giá tiến độ 1-5 | Người dùng tự điền — Not verified |
 | Q18 | Tóm tắt kết quả/khó khăn | Missing |
 | Q19 | Cam kết liêm chính | Người dùng xác nhận — Not verified |
+
+## Chức năng MVP theo mô tả đề tài (cập nhật 2026-11-07)
+| Chức năng | Trạng thái | Bằng chứng |
+|---|---|---|
+| SOS và vị trí (gọi 115, tọa độ, SMS soạn sẵn có xác nhận) | Partial | Code + 45 test (E-011); chưa chạy trên máy thật; video [CHỜ NGƯỜI DÙNG QUAY MÀN HÌNH] |

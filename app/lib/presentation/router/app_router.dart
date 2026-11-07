@@ -5,6 +5,7 @@ import '../screens/home_screen.dart';
 import '../screens/protocol_detail_screen.dart';
 import '../screens/protocol_list_screen.dart';
 import '../screens/settings_screen.dart';
+import '../screens/sos_screen.dart';
 import '../screens/triage_screen.dart';
 
 /// Màn khẩn cấp không dùng animation chuyển cảnh.
@@ -18,6 +19,10 @@ GoRouter buildRouter() => GoRouter(
       path: '/triage',
       pageBuilder: (context, state) =>
           _noAnimation(state, const TriageScreen()),
+    ),
+    GoRoute(
+      path: '/sos',
+      pageBuilder: (context, state) => _noAnimation(state, const SosScreen()),
     ),
     GoRoute(
       path: '/protocols',

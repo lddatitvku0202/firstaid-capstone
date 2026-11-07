@@ -20,3 +20,7 @@
 | D-016 | 2026-11-06 | Chip mạng chỉ phản ánh có kết nối, không đảm bảo có Internet; nút Đọc to bị tắt khi không có giọng vi-VN và có thông báo | Không khẳng định TTS offline khi chưa kiểm tra trên thiết bị | network_chip.dart, protocol_detail_screen.dart |
 | D-017 | 2026-11-06 | Màn sàng lọc và hướng dẫn dùng NoTransitionPage; nút Đọc to/Trước/Tiếp đặt ở thanh cố định phía dưới | Hạn chế animation ở màn khẩn cấp; thao tác một tay | app_router.dart |
 | D-018 | 2026-11-06 | Thêm `<queries>` cho tel và TTS_SERVICE vào AndroidManifest | Android 11+ package visibility; chưa kiểm chứng trên máy | android/app/src/main/AndroidManifest.xml |
+| D-019 | 2026-11-07 | Thêm geolocator 14.0.1 (từ pub add) | Lấy tọa độ GPS cho SOS | app/pubspec.lock |
+| D-020 | 2026-11-07 | Manifest chỉ khai báo ACCESS_FINE_LOCATION và ACCESS_COARSE_LOCATION; không background location, không SEND_SMS | Vị trí chỉ khi bấm trong lúc dùng app; SMS chỉ mở bản nháp để người dùng tự gửi nên không cần SEND_SMS. Merged manifest còn có ACCESS_NETWORK_STATE (connectivity_plus) và INTERNET ở bản debug; release cần khai INTERNET khi làm AI (prompt 07) | AndroidManifest.xml, E-012 |
+| D-021 | 2026-11-07 | SMS để trống người nhận, người dùng tự chọn; không lưu số liên hệ | Chưa có nguồn xác nhận 115 nhận SMS; tránh lưu dữ liệu cá nhân | sos_screen.dart |
+| D-022 | 2026-11-07 | Nội dung SMS kèm tọa độ số và liên kết maps.google.com | Tọa độ đọc được khi không có Internet; liên kết chỉ tiện khi người nhận có Internet | prepare_sos_message.dart |
