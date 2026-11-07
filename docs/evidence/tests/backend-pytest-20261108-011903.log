@@ -1,0 +1,83 @@
+# backend pytest 20261108-011903 (cwd backend/, python Python 3.10.11)
+$ python scripts/build_index.py
+wrote D:\Start Github\firstaid-capstone\backend\data\protocols_index.json (6 protocols, skipped [])
+exit=0
+$ python -m pytest -v
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-9.2.0, pluggy-1.7.0 -- D:\Start Github\firstaid-capstone\backend\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Start Github\firstaid-capstone\backend
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.16.0
+collecting ... collected 60 items
+
+tests/test_api.py::test_healthz PASSED                                   [  1%]
+tests/test_api.py::test_route_thanh_cong PASSED                          [  3%]
+tests/test_api.py::test_rule_115_qua_http PASSED                         [  5%]
+tests/test_api.py::test_request_sai_tra_422_khong_phan_chieu[body0] PASSED [  6%]
+tests/test_api.py::test_request_sai_tra_422_khong_phan_chieu[body1] PASSED [  8%]
+tests/test_api.py::test_request_sai_tra_422_khong_phan_chieu[body2] PASSED [ 10%]
+tests/test_api.py::test_request_sai_tra_422_khong_phan_chieu[body3] PASSED [ 11%]
+tests/test_api.py::test_request_sai_tra_422_khong_phan_chieu[body4] PASSED [ 13%]
+tests/test_api.py::test_llm_loi_tra_ma_de_app_fallback PASSED            [ 15%]
+tests/test_api.py::test_auth_token_tuy_chon PASSED                       [ 16%]
+tests/test_api.py::test_sse_co_status_delta_va_result_da_validate PASSED [ 18%]
+tests/test_api.py::test_sse_loi_validate_khong_phat_result PASSED        [ 20%]
+tests/test_api.py::test_sse_rule_khong_co_delta PASSED                   [ 21%]
+tests/test_rules_and_retrieval.py::test_normalize_bo_dau PASSED          [ 23%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[Ng\u01b0\u1eddi l\u1edbn b\u1ea5t t\u1ec9nh, kh\xf4ng th\u1edf-cpr-cpr_adult_adolescent] PASSED [ 25%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[em b\xe9 3 th\xe1ng tu\u1ed5i kh\xf4ng th\u1edf-cpr-cpr_baby_child] PASSED [ 26%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[b\xe9 nh\xe0 t\xf4i kh\xf4ng ph\u1ea3n \u1ee9ng g\xec-cpr-cpr_baby_child] PASSED [ 28%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[b\u1ed1 t\xf4i ng\u1eebng tim-cpr-None] PASSED [ 30%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[em b\xe9 s\u01a1 sinh b\u1ecb ngh\u1eb9n, kh\xf4ng kh\xf3c \u0111\u01b0\u1ee3c-choking-choking_baby] PASSED [ 31%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[ng\u01b0\u1eddi l\u1edbn h\xf3c x\u01b0\u01a1ng, kh\xf4ng n\xf3i \u0111\u01b0\u1ee3c-choking-choking_adult_child] PASSED [ 33%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[h\xf3c \u0111\u1ed3 \u0103n, kh\xf4ng th\u1edf \u0111\u01b0\u1ee3c-choking-None] PASSED [ 35%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[m\xe1u phun ra t\u1eeb c\xe1nh tay-bleeding-bleeding_wounds_severe] PASSED [ 36%]
+tests/test_rules_and_retrieval.py::test_rule_precheck_goi_115[ch\u1ea3y m\xe1u nhi\u1ec1u kh\xf4ng c\u1ea7m \u0111\u01b0\u1ee3c-bleeding-bleeding_wounds_severe] PASSED [ 38%]
+tests/test_rules_and_retrieval.py::test_rule_khong_kich_hoat[b\u1ecb b\u1ecfng n\u01b0\u1edbc s\xf4i \u1edf tay] PASSED [ 40%]
+tests/test_rules_and_retrieval.py::test_rule_khong_kich_hoat[h\xf4m nay tr\u1eddi \u0111\u1eb9p qu\xe1] PASSED [ 41%]
+tests/test_rules_and_retrieval.py::test_rule_khong_kich_hoat[\u0111au b\u1ee5ng nh\u1eb9 t\u1eeb s\xe1ng] PASSED [ 43%]
+tests/test_rules_and_retrieval.py::test_rule_khong_kich_hoat[b\xe9 ho s\u1eb7c s\u1eefa nh\u01b0ng v\u1eabn ho \u0111\u01b0\u1ee3c] PASSED [ 45%]
+tests/test_rules_and_retrieval.py::test_rule_result_dung_schema_va_nguon PASSED [ 46%]
+tests/test_rules_and_retrieval.py::test_rule_khong_ro_tuoi_la_uncertain PASSED [ 48%]
+tests/test_rules_and_retrieval.py::test_index_chi_chua_muc_verified PASSED [ 50%]
+tests/test_rules_and_retrieval.py::test_index_loc_muc_unverified PASSED  [ 51%]
+tests/test_rules_and_retrieval.py::test_retrieval_bong_nuoc_soi PASSED   [ 53%]
+tests/test_rules_and_retrieval.py::test_retrieval_khong_khop_thi_rong PASSED [ 55%]
+tests/test_validation_and_service.py::test_hop_le PASSED                 [ 56%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[kh\xf4ng ph\u1ea3i json-llm_invalid_json] PASSED [ 58%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[{}-llm_schema_violation] PASSED [ 60%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw2-llm_schema_violation] PASSED [ 61%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw3-llm_schema_violation] PASSED [ 63%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw4-llm_protocol_not_allowed] PASSED [ 65%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw5-llm_schema_violation] PASSED [ 66%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw6-llm_schema_violation] PASSED [ 68%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw7-llm_invalid_sources] PASSED [ 70%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw8-llm_invalid_sources] PASSED [ 71%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw9-llm_schema_violation] PASSED [ 73%]
+tests/test_validation_and_service.py::test_validation_tra_ma_loi[raw10-llm_schema_violation] PASSED [ 75%]
+tests/test_validation_and_service.py::test_ma_hop_le_nhung_khong_thuoc_ung_vien PASSED [ 76%]
+tests/test_validation_and_service.py::test_null_hop_le_la_out_of_scope PASSED [ 78%]
+tests/test_validation_and_service.py::test_ghi_chu_co_thuoc_bi_thay PASSED [ 80%]
+tests/test_validation_and_service.py::test_rule_khong_goi_llm PASSED     [ 81%]
+tests/test_validation_and_service.py::test_rule_chay_duoc_khi_khong_co_llm PASSED [ 83%]
+tests/test_validation_and_service.py::test_cong_truy_xuat_khong_goi_llm_khi_khong_khop PASSED [ 85%]
+tests/test_validation_and_service.py::test_llm_thanh_cong PASSED         [ 86%]
+tests/test_validation_and_service.py::test_retry_gioi_han_roi_thanh_cong PASSED [ 88%]
+tests/test_validation_and_service.py::test_het_retry_tra_loi_unavailable PASSED [ 90%]
+tests/test_validation_and_service.py::test_timeout_tra_ma_504 PASSED     [ 91%]
+tests/test_validation_and_service.py::test_llm_that_su_treo_bi_cat_boi_timeout PASSED [ 93%]
+tests/test_validation_and_service.py::test_chua_cau_hinh_key PASSED      [ 95%]
+tests/test_validation_and_service.py::test_llm_tra_json_hong_khong_retry PASSED [ 96%]
+tests/test_validation_and_service.py::test_log_khong_chua_noi_dung_nguoi_dung PASSED [ 98%]
+tests/test_validation_and_service.py::test_ket_qua_cuoi_chi_co_5_truong PASSED [100%]
+
+============================== warnings summary ===============================
+.venv\lib\site-packages\fastapi\testclient.py:1
+  D:\Start Github\firstaid-capstone\backend\.venv\lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 60 passed, 1 warning in 3.00s ========================
+exit=0

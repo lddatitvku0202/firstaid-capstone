@@ -1,0 +1,206 @@
+{
+  "index_version": 1,
+  "source_file": "app/assets/protocols/protocols_v1.json",
+  "source_data_version": "1.0.0",
+  "source_sha256": "02fc89807969e6ccd132b0f6813f3089ed229447f809037a9f84d0615d285630",
+  "skipped_not_verified": [],
+  "protocols": [
+    {
+      "code": "bleeding_wounds_severe",
+      "title": "Chảy máu nặng bên ngoài",
+      "topic_id": "bleeding_wounds",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "all",
+      "version": "1.0.0",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "citations": [
+        {
+          "source_id": "IFRC-2025",
+          "pages": "256-258"
+        }
+      ],
+      "aliases": [
+        "chảy máu",
+        "máu chảy",
+        "vết thương hở",
+        "đứt tay",
+        "cắt vào tay",
+        "máu phun",
+        "mất máu",
+        "băng ép",
+        "cầm máu",
+        "dao cắt",
+        "rách da"
+      ],
+      "text": "Chảy máu nặng bên ngoài. Bảo người bị thương dùng tay ấn trực tiếp lên vết thương. Giúp người đó nằm xuống. Gọi cấp cứu 115. Ấn trực tiếp lên chỗ chảy máu. Nếu máu thấm qua gạc, đặt thêm một lớp gạc lên trên và ấn mạnh hơn. Nếu ấn không hiệu quả và chảy máu ở tay hoặc chân, cân nhắc dùng garô hoặc gạc cầm máu nếu có; vẫn tiếp tục ấn trực tiếp. Có thể bị sốc do mất máu: cho người đó ở tư thế thoải mái và giữ ấm bằng quần áo hoặc chăn. Không dùng điểm ép gián tiếp hoặc chườm đá để cầm máu. Không rút vật đang cắm vào vết thương; ấn xung quanh để giữ vật cố định. Không quấn băng vòng quanh chi thay cho việc ấn trực tiếp khi chảy máu nặng. Garô chỉ dùng cho chảy máu đe dọa tính mạng ở chi; đã đặt thì giữ nguyên cho đến khi cấp cứu đến."
+    },
+    {
+      "code": "burns_thermal_chemical",
+      "title": "Bỏng nhiệt và bỏng hóa chất",
+      "topic_id": "burns",
+      "severity": "urgent",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "all",
+      "version": "1.0.0",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "citations": [
+        {
+          "source_id": "IFRC-2025",
+          "pages": "288-290"
+        }
+      ],
+      "aliases": [
+        "bỏng",
+        "phỏng",
+        "nước sôi",
+        "bị bỏng",
+        "bỏng dầu",
+        "bỏng lửa",
+        "bỏng điện",
+        "bỏng axit",
+        "hóa chất bắn vào da",
+        "bàn là",
+        "bếp"
+      ],
+      "text": "Bỏng nhiệt và bỏng hóa chất. Làm mát vết bỏng bằng nước sạch chảy trong ít nhất 10 phút, tốt nhất 20 phút. Gọi 115 nếu vết bỏng lớn, sâu, gần mặt, miệng, họng hoặc vùng sinh dục, hoặc do hóa chất, điện, lửa. Tháo quần áo và trang sức gần vùng bỏng nếu chúng không dính vào da. Sau khi làm mát, che vết bỏng bằng băng ẩm, không dính (ví dụ hydrogel). Khi vận chuyển đi khám, có thể che vết bỏng bằng khăn ướt sạch hoặc màng bọc thực phẩm. Trấn an người bị bỏng; theo dõi tỉnh táo, nhịp thở và nhiệt độ, đặc biệt ở trẻ em và người dễ tổn thương. Bỏng hóa chất trên da hoặc mắt: rửa bằng nước sạch chảy cho đến khi bớt đau. Không dùng nước đá lạnh hoặc chườm đá lên vết bỏng. Không chọc hoặc bóc vỡ bóng nước. Không cố pha loãng hóa chất nếu đã nuốt phải; gọi trung tâm chống độc hoặc 115."
+    },
+    {
+      "code": "choking_adult_child",
+      "title": "Hóc dị vật đường thở: người lớn và trẻ em (từ 1 tuổi)",
+      "topic_id": "choking",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "adult_child",
+      "version": "1.0.0",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "citations": [
+        {
+          "source_id": "IFRC-2025",
+          "pages": "238-241"
+        }
+      ],
+      "aliases": [
+        "hóc",
+        "nghẹn",
+        "mắc nghẹn",
+        "kẹt họng",
+        "nuốt phải",
+        "hóc xương",
+        "hóc đồ ăn",
+        "ho sặc",
+        "tắc thở",
+        "nghẹt thở",
+        "người lớn",
+        "trẻ em",
+        "bé trên 1 tuổi"
+      ],
+      "text": "Hóc dị vật đường thở: người lớn và trẻ em (từ 1 tuổi). Nếu còn ho được (tắc một phần): khuyến khích người đó tiếp tục ho và theo dõi đến khi đỡ. Nếu không ho, không nói, không thở được (tắc hoàn toàn): vỗ mạnh tối đa 5 lần vào giữa hai bả vai. Nếu chưa hiệu quả: ấn bụng tối đa 5 lần (nắm tay đặt giữa rốn và xương ức, tay kia giữ, kéo giật mạnh vào trong và lên trên). Nếu vẫn chưa hiệu quả, gọi 115 ngay. Tiếp tục xen kẽ 5 lần vỗ lưng và 5 lần ấn bụng cho đến khi hết tắc hoặc người đó mất ý thức. Nếu người đó mất ý thức: bắt đầu hồi sinh tim phổi (CPR) tiêu chuẩn. Không móc mù trong miệng; chỉ lấy dị vật bằng ngón tay khi nhìn thấy rõ. Khi tắc một phần, tránh can thiệp mạnh vì người đó có thể tự ho ra hiệu quả hơn."
+    },
+    {
+      "code": "choking_baby",
+      "title": "Hóc dị vật đường thở: em bé dưới 1 tuổi",
+      "topic_id": "choking",
+      "severity": "life_threatening",
+      "target_audience": "Người chăm sóc trẻ, người sơ cứu",
+      "age_group": "infant",
+      "version": "1.0.0",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "citations": [
+        {
+          "source_id": "IFRC-2025",
+          "pages": "238-242"
+        }
+      ],
+      "aliases": [
+        "hóc",
+        "nghẹn",
+        "sặc sữa",
+        "em bé",
+        "sơ sinh",
+        "dưới 1 tuổi",
+        "bé nhỏ",
+        "con nhỏ bị nghẹn",
+        "tháng tuổi",
+        "nuốt phải"
+      ],
+      "text": "Hóc dị vật đường thở: em bé dưới 1 tuổi. Nếu bé còn ho hoặc khóc (tắc một phần): chờ xem bé tự ho ra, và theo dõi đến khi đỡ. Nếu bé không ho, không khóc, không thở được: vỗ mạnh tối đa 5 lần vào giữa hai bả vai. Nếu chưa hiệu quả: lật bé nằm ngửa trên đùi bạn, dùng hai ngón cái ôm vòng ngực ấn ngực tối đa 5 lần, ấn dứt khoát hơn so với ép ngực. Nếu vẫn chưa hiệu quả, gọi 115 ngay. Tiếp tục xen kẽ 5 lần vỗ lưng và 5 lần ấn ngực cho đến khi hết tắc hoặc bé mất ý thức. Nếu bé mất ý thức: bắt đầu CPR tiêu chuẩn. Không móc mù trong miệng; chỉ lấy dị vật khi nhìn thấy rõ. Không ấn bụng ở em bé vì các cơ quan còn đang phát triển, có thể bị tổn thương. Không cho uống nước hay treo ngược em bé: IFRC nêu đây là quan niệm sai cần sửa."
+    },
+    {
+      "code": "cpr_adult_adolescent",
+      "title": "Ngừng tuần hoàn: CPR người lớn và thanh thiếu niên",
+      "topic_id": "cardiac_arrest_cpr",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người sơ cứu",
+      "age_group": "adult",
+      "version": "1.0.0",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "citations": [
+        {
+          "source_id": "IFRC-2025",
+          "pages": "159-162"
+        }
+      ],
+      "aliases": [
+        "ngừng tim",
+        "ngưng tim",
+        "ngừng thở",
+        "ngưng thở",
+        "bất tỉnh",
+        "không thở",
+        "ép tim",
+        "hô hấp nhân tạo",
+        "ép ngực",
+        "người lớn",
+        "ngất xỉu",
+        "không phản ứng"
+      ],
+      "text": "Ngừng tuần hoàn: CPR người lớn và thanh thiếu niên. Nếu người đó không phản ứng và thở bất thường hoặc không thở: hô to gọi giúp và nhờ người gọi 115. Nếu chỉ có một mình, gọi 115 bằng loa ngoài rồi bắt đầu ngay. Ép ngực ngay: ấn vào giữa ngực với nhịp nhanh, đều, 100-120 lần mỗi phút. Ép sâu khoảng 5 cm, tránh sâu quá 6 cm; để ngực nảy lên hoàn toàn, không tì vào ngực giữa các lần ép. Nếu biết cách và sẵn sàng: kết hợp 30 lần ép ngực với 2 lần thổi ngạt; mỗi lần thổi khoảng 1 giây cho đến khi thấy ngực nâng lên; ngắt ép ngực không quá 10 giây. Không thể hoặc không muốn thổi ngạt thì chỉ ép ngực liên tục. Nếu có máy khử rung tim tự động (AED), nhờ người mang đến, làm theo hướng dẫn giọng nói và hạn chế ngắt ép ngực. Tiếp tục cho đến khi AED hoặc nhân viên cấp cứu yêu cầu dừng. Dừng ép nếu người đó có dấu hiệu hồi phục (ho, mở mắt, nói, cử động có chủ đích và thở bình thường). Nếu có từ hai người sơ cứu trở lên, thay phiên ép ngực mỗi 2 phút và không để gián đoạn khi đổi người. Không chỉ dựa vào việc bắt mạch để quyết định có ngừng tuần hoàn hay không. Không trì hoãn ép ngực đáng kể để chuyển người sang bề mặt cứng."
+    },
+    {
+      "code": "cpr_baby_child",
+      "title": "Ngừng tuần hoàn: CPR em bé và trẻ em",
+      "topic_id": "cardiac_arrest_cpr",
+      "severity": "life_threatening",
+      "target_audience": "Người dân, người chăm sóc trẻ",
+      "age_group": "infant_child",
+      "version": "1.0.0",
+      "source_verification": "verified",
+      "clinical_review": "not_clinically_reviewed",
+      "reuse_permission": "permitted",
+      "citations": [
+        {
+          "source_id": "IFRC-2025",
+          "pages": "187-188"
+        }
+      ],
+      "aliases": [
+        "ngừng tim",
+        "ngưng tim",
+        "ngừng thở",
+        "ngưng thở",
+        "bất tỉnh",
+        "không thở",
+        "ép tim",
+        "hô hấp nhân tạo",
+        "ép ngực",
+        "em bé",
+        "trẻ em",
+        "sơ sinh",
+        "con nhỏ",
+        "không phản ứng"
+      ],
+      "text": "Ngừng tuần hoàn: CPR em bé và trẻ em. Nếu bé hoặc trẻ không thở hoặc thở bất thường: hô to gọi giúp và nhờ người gọi 115. Nếu chỉ có một mình, gọi 115 bằng loa ngoài. Ép ngực 30 lần vào giữa ngực với nhịp nhanh, đều, 100-120 lần mỗi phút. Độ sâu: em bé ít nhất một phần ba độ sâu ngực (khoảng 4 cm); trẻ em một phần ba độ sâu ngực (khoảng 5 cm). Thổi ngạt 2 lần: em bé thổi vào miệng và mũi, trẻ em thổi vào miệng; mỗi lần khoảng 1 giây cho đến khi thấy ngực hoặc bụng nâng lên. Tiếp tục các chu kỳ 30 lần ép ngực và 2 lần thổi cho đến khi có cấp cứu đến hoặc trẻ có dấu hiệu sống và thở bình thường. Không thể hoặc không muốn thổi ngạt thì chỉ ép ngực liên tục với nhịp 100-120 lần mỗi phút. Nếu có AED, nhờ người mang đến và làm theo hướng dẫn giọng nói. "
+    }
+  ]
+}

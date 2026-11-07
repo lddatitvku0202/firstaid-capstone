@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "timestamp": "2026-11-08T01:05:22+07:00",
+    "mode": "fallback-sim",
+    "model": "n/a (không gọi LLM)",
+    "google_genai_version": "2.33.0",
+    "python": "3.10.11",
+    "git_commit": "452abb3",
+    "index_source_data_version": "1.0.0",
+    "index_source_sha256": "02fc89807969e6ccd132b0f6813f3089ed229447f809037a9f84d0615d285630",
+    "cases_sha256": "f6ebe02e734186b5428ea59ca8886b345eeb0d4516315ef116fbf4b6107867cc",
+    "settings": {
+      "retrieval_top_k": 3,
+      "retrieval_min_score": 2.0,
+      "llm_timeout_s": 12.0,
+      "llm_max_attempts": 2
+    },
+    "label_note": "Nhãn do nhóm tự gán, cần người dùng rà lại; không phải bộ kiểm chuẩn độc lập."
+  },
+  "n_cases": 35,
+  "results": {
+    "scenarios": {
+      "num": 10,
+      "den": 10,
+      "rate": 1.0
+    },
+    "rows": [
+      {
+        "scenario": "timeout",
+        "expected_error": "llm_timeout",
+        "got_error": "llm_timeout",
+        "http_status": 504,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "hang",
+        "expected_error": "llm_timeout",
+        "got_error": "llm_timeout",
+        "http_status": 504,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "http500",
+        "expected_error": "llm_unavailable",
+        "got_error": "llm_unavailable",
+        "http_status": 502,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "http429",
+        "expected_error": "llm_unavailable",
+        "got_error": "llm_unavailable",
+        "http_status": 502,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "bad_json",
+        "expected_error": "llm_invalid_json",
+        "got_error": "llm_invalid_json",
+        "http_status": 502,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "bad_code",
+        "expected_error": "llm_protocol_not_allowed",
+        "got_error": "llm_protocol_not_allowed",
+        "http_status": 502,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "bad_sources",
+        "expected_error": "llm_invalid_sources",
+        "got_error": "llm_invalid_sources",
+        "http_status": 502,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "extra_field",
+        "expected_error": "llm_schema_violation",
+        "got_error": "llm_schema_violation",
+        "http_status": 502,
+        "fallback_hint": "use_local_triage",
+        "pass": true
+      },
+      {
+        "scenario": "llm_down_but_rule_115",
+        "expected_error": null,
+        "got_error": null,
+        "pass": true
+      },
+      {
+        "scenario": "no_api_key",
+        "expected_error": "llm_not_configured",
+        "got_error": "llm_not_configured",
+        "pass": true
+      }
+    ],
+    "caveat": "Mô phỏng bằng fake LLM; KHÔNG phải hành vi của Gemini thật hay mạng thật."
+  }
+}

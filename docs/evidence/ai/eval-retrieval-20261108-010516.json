@@ -1,0 +1,444 @@
+{
+  "meta": {
+    "timestamp": "2026-11-08T01:05:16+07:00",
+    "mode": "retrieval",
+    "model": "n/a (không gọi LLM)",
+    "google_genai_version": "2.33.0",
+    "python": "3.10.11",
+    "git_commit": "452abb3",
+    "index_source_data_version": "1.0.0",
+    "index_source_sha256": "02fc89807969e6ccd132b0f6813f3089ed229447f809037a9f84d0615d285630",
+    "cases_sha256": "f6ebe02e734186b5428ea59ca8886b345eeb0d4516315ef116fbf4b6107867cc",
+    "settings": {
+      "retrieval_top_k": 3,
+      "retrieval_min_score": 2.0,
+      "llm_timeout_s": 12.0,
+      "llm_max_attempts": 2
+    },
+    "label_note": "Nhãn do nhóm tự gán, cần người dùng rà lại; không phải bộ kiểm chuẩn độc lập."
+  },
+  "n_cases": 35,
+  "results": {
+    "rule_recall_on_expect_call_115": {
+      "num": 9,
+      "den": 12,
+      "rate": 0.75
+    },
+    "rule_code_matches_label_when_fired": {
+      "num": 9,
+      "den": 9,
+      "rate": 1.0
+    },
+    "rule_false_positive_on_non_115": {
+      "num": 0,
+      "den": 23,
+      "rate": 0.0
+    },
+    "retrieval_recall_at_k_non_rule_cases_with_label": {
+      "num": 12,
+      "den": 14,
+      "rate": 0.8571
+    },
+    "retrieval_top1_non_rule_cases_with_label": {
+      "num": 9,
+      "den": 14,
+      "rate": 0.6429
+    },
+    "gate_blocks_cases_without_label": {
+      "num": 4,
+      "den": 12,
+      "rate": 0.3333
+    },
+    "gate_wrongly_blocks_cases_with_label": {
+      "num": 1,
+      "den": 14,
+      "rate": 0.0714
+    },
+    "latency_in_process_ms": {
+      "n": 35,
+      "p50_ms": 0.09,
+      "p95_ms": 0.14
+    },
+    "rows": [
+      {
+        "id": "c01",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": "cpr_adult_adolescent",
+        "candidates": [],
+        "expected": "cpr_adult_adolescent",
+        "expect_call_115": true
+      },
+      {
+        "id": "c02",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": "cpr_baby_child",
+        "candidates": [],
+        "expected": "cpr_baby_child",
+        "expect_call_115": true
+      },
+      {
+        "id": "c03",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": "cpr_baby_child",
+        "candidates": [],
+        "expected": "cpr_baby_child",
+        "expect_call_115": true
+      },
+      {
+        "id": "c04",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": null,
+        "candidates": [],
+        "expected": null,
+        "expect_call_115": true
+      },
+      {
+        "id": "c05",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": "choking_baby",
+        "candidates": [],
+        "expected": "choking_baby",
+        "expect_call_115": true
+      },
+      {
+        "id": "c06",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": "choking_adult_child",
+        "candidates": [],
+        "expected": "choking_adult_child",
+        "expect_call_115": true
+      },
+      {
+        "id": "c07",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": "bleeding_wounds_severe",
+        "candidates": [],
+        "expected": "bleeding_wounds_severe",
+        "expect_call_115": true
+      },
+      {
+        "id": "c08",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": "bleeding_wounds_severe",
+        "candidates": [],
+        "expected": "bleeding_wounds_severe",
+        "expect_call_115": true
+      },
+      {
+        "id": "c09",
+        "kind": "emergency_rule",
+        "rule_fired": true,
+        "rule_code": null,
+        "candidates": [],
+        "expected": null,
+        "expect_call_115": true
+      },
+      {
+        "id": "c10",
+        "kind": "rule_gap_probe",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "cpr_adult_adolescent"
+        ],
+        "expected": "cpr_adult_adolescent",
+        "expect_call_115": true
+      },
+      {
+        "id": "c11",
+        "kind": "rule_gap_probe",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "cpr_baby_child",
+          "choking_baby",
+          "cpr_adult_adolescent"
+        ],
+        "expected": "cpr_adult_adolescent",
+        "expect_call_115": true
+      },
+      {
+        "id": "c12",
+        "kind": "rule_gap_probe",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "bleeding_wounds_severe",
+          "burns_thermal_chemical",
+          "choking_baby"
+        ],
+        "expected": "bleeding_wounds_severe",
+        "expect_call_115": true
+      },
+      {
+        "id": "c13",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "burns_thermal_chemical",
+          "bleeding_wounds_severe"
+        ],
+        "expected": "burns_thermal_chemical",
+        "expect_call_115": false
+      },
+      {
+        "id": "c14",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "bleeding_wounds_severe"
+        ],
+        "expected": "burns_thermal_chemical",
+        "expect_call_115": false
+      },
+      {
+        "id": "c15",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "burns_thermal_chemical",
+          "bleeding_wounds_severe",
+          "choking_adult_child"
+        ],
+        "expected": "burns_thermal_chemical",
+        "expect_call_115": false
+      },
+      {
+        "id": "c16",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [],
+        "expected": "burns_thermal_chemical",
+        "expect_call_115": false
+      },
+      {
+        "id": "c17",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "choking_baby",
+          "choking_adult_child",
+          "burns_thermal_chemical"
+        ],
+        "expected": "choking_adult_child",
+        "expect_call_115": false
+      },
+      {
+        "id": "c18",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "choking_baby",
+          "choking_adult_child"
+        ],
+        "expected": "choking_baby",
+        "expect_call_115": false
+      },
+      {
+        "id": "c19",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "bleeding_wounds_severe",
+          "burns_thermal_chemical",
+          "choking_adult_child"
+        ],
+        "expected": "bleeding_wounds_severe",
+        "expect_call_115": false
+      },
+      {
+        "id": "c20",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "choking_adult_child",
+          "choking_baby",
+          "cpr_baby_child"
+        ],
+        "expected": "choking_baby",
+        "expect_call_115": false
+      },
+      {
+        "id": "c21",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "burns_thermal_chemical"
+        ],
+        "expected": "burns_thermal_chemical",
+        "expect_call_115": false
+      },
+      {
+        "id": "c22",
+        "kind": "clear",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "burns_thermal_chemical",
+          "bleeding_wounds_severe"
+        ],
+        "expected": "burns_thermal_chemical",
+        "expect_call_115": false
+      },
+      {
+        "id": "c23",
+        "kind": "ambiguous",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c24",
+        "kind": "ambiguous",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "choking_baby",
+          "choking_adult_child"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c25",
+        "kind": "ambiguous",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "bleeding_wounds_severe"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c26",
+        "kind": "ambiguous",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "cpr_adult_adolescent"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c27",
+        "kind": "ambiguous",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c28",
+        "kind": "out_of_scope",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "bleeding_wounds_severe"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c29",
+        "kind": "out_of_scope",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "cpr_adult_adolescent",
+          "choking_baby"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c30",
+        "kind": "out_of_scope",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "choking_baby"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c31",
+        "kind": "out_of_scope",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "burns_thermal_chemical",
+          "bleeding_wounds_severe"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c32",
+        "kind": "out_of_scope",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c33",
+        "kind": "out_of_scope",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [],
+        "expected": null,
+        "expect_call_115": false
+      },
+      {
+        "id": "c34",
+        "kind": "adversarial",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "burns_thermal_chemical",
+          "cpr_adult_adolescent",
+          "cpr_baby_child"
+        ],
+        "expected": "burns_thermal_chemical",
+        "expect_call_115": false
+      },
+      {
+        "id": "c35",
+        "kind": "adversarial",
+        "rule_fired": false,
+        "rule_code": null,
+        "candidates": [
+          "bleeding_wounds_severe",
+          "cpr_adult_adolescent"
+        ],
+        "expected": null,
+        "expect_call_115": false
+      }
+    ],
+    "caveat": "Quy tắc và danh sách alias do cùng nhóm viết và nhãn do nhóm tự gán: số đo có tính vòng tròn, chỉ cho thấy hành vi, không chứng minh độ chính xác."
+  }
+}
