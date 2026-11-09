@@ -1,0 +1,43 @@
+# build apk debug 20261110-002726 (cwd app/) sau Prompt 07
+
+$ flutter build apk --debug
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  geolocator 14.0.1 (14.1.2 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.6 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+18 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): flutter_tts
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+Running Gradle task 'assembleDebug'...                            224.6s
+√ Built build\app\outputs\flutter-apk\app-debug.apk
+exit=0
+
+$ grep usesCleartextTraffic/INTERNET trong merged manifest debug (build/app/intermediates/merged_manifest/debug/processDebugMainManifest/AndroidManifest.xml)
+15:    <uses-permission android:name="android.permission.INTERNET" />
+64:        android:usesCleartextTraffic="true" >

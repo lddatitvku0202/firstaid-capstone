@@ -58,9 +58,9 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.edit_note,
                       title: 'Mô tả tình huống',
                       subtitle:
-                          'Chưa có (AI sẽ cần mạng; dùng sàng lọc bên dưới)',
-                      enabled: false,
-                      onTap: () {},
+                          'Cần mạng; AI chỉ gợi ý phác đồ có sẵn, '
+                          'có thể bỏ qua bất cứ lúc nào',
+                      onTap: () => context.push('/describe'),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -85,26 +85,23 @@ class _EntryTile extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onTap,
-    this.enabled = true,
   });
 
   final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
-  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         minTileHeight: 64,
-        enabled: enabled,
         leading: Icon(icon),
         title: Text(title),
         subtitle: Text(subtitle),
-        trailing: enabled ? const Icon(Icons.chevron_right) : null,
-        onTap: enabled ? onTap : null,
+        trailing: const Icon(Icons.chevron_right),
+        onTap: onTap,
       ),
     );
   }

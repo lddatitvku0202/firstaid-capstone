@@ -6,11 +6,13 @@ import '../../data/repositories/drift_emergency_repository.dart';
 import '../../data/repositories/drift_protocol_repository.dart';
 import '../../data/repositories/drift_protocol_sync_store.dart';
 import '../../data/repositories/drift_sync_queue_repository.dart';
+import '../../data/repositories/http_ai_router_repository.dart';
 import '../../data/services/connectivity_plus_service.dart';
 import '../../data/services/flutter_tts_service.dart';
 import '../../data/services/geolocator_location_service.dart';
 import '../../data/services/url_launcher_dialer_service.dart';
 import '../../data/services/url_launcher_sms_composer.dart';
+import '../../domain/repositories/ai_router_repository.dart';
 import '../../domain/repositories/emergency_repository.dart';
 import '../../domain/repositories/protocol_repository.dart';
 import '../../domain/repositories/protocol_sync_store.dart';
@@ -29,10 +31,12 @@ import '../../domain/usecases/get_offline_protocols.dart';
 import '../../domain/usecases/get_protocol_by_code.dart';
 import '../../domain/usecases/prepare_sos_message.dart';
 import '../../domain/usecases/process_sync_queue.dart';
+import '../../domain/usecases/route_situation.dart';
 import '../../domain/usecases/run_sync.dart';
 import '../../domain/usecases/search_protocols.dart';
 import '../../domain/usecases/start_emergency_flow.dart';
 import '../../domain/usecases/sync_protocols.dart';
+import '../config/app_config.dart';
 
 /// Phải được override trong ProviderScope (main.dart hoặc test).
 final appDatabaseProvider = Provider<AppDatabase>(
@@ -93,6 +97,24 @@ final advanceTriageProvider = Provider(
   (ref) => AdvanceTriage(ref.watch(emergencyRepositoryProvider)),
 );
 final prepareSosMessageProvider = Provider((ref) => const PrepareSosMessage());
+
+/// Thiếu AI_BASE_URL => repository luôn báo notConfigured (app fallback).
+final aiRouterRepositoryProvider = Provider<AiRouterRepository>(
+  (ref) => AppConfig.aiConfigured
+      ? HttpAiRouterRepository(
+          baseUrl: AppConfig.aiBaseUrl,
+          apiKey: AppConfig.aiApiKey,
+        )
+      : const DisabledAiRouterRepository(),
+);
+final routeSituationProvider = Provider(
+  (ref) => RouteSituation(
+    ref.watch(aiRouterRepositoryProvider),
+    ref.watch(protocolRepositoryProvider),
+    ref.watch(connectivityServiceProvider),
+    timeout: Duration(seconds: AppConfig.aiTimeoutSeconds),
+  ),
+);
 
 /// null = chưa cấu hình Supabase (hoặc test): sync tắt, app dùng dữ liệu local.
 /// main.dart override khi có SUPABASE_URL/SUPABASE_ANON_KEY.

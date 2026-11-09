@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:app/core/di/providers.dart';
 import 'package:app/data/datasources/local/app_database.dart';
 import 'package:app/data/datasources/local/seed_loader.dart';
+import 'package:app/domain/entities/ai_route.dart';
 import 'package:app/domain/entities/app_settings.dart';
+import 'package:app/domain/repositories/ai_router_repository.dart';
 import 'package:app/domain/repositories/settings_repository.dart';
 import 'package:app/domain/services/connectivity_service.dart';
 import 'package:app/domain/services/dialer_service.dart';
@@ -12,6 +14,7 @@ import 'package:app/domain/services/location_service.dart';
 import 'package:app/domain/services/sms_composer.dart';
 import 'package:app/domain/services/tts_service.dart';
 import 'package:app/main.dart';
+import 'package:app/presentation/providers/settings_provider.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -120,8 +123,29 @@ class FakeSettingsRepository implements SettingsRepository {
   }
 }
 
+/// Fake máy chủ AI: [handler] quyết định luồng sự kiện; ghi lại văn bản đã gửi.
+class FakeAiRouter implements AiRouterRepository {
+  FakeAiRouter([this.handler]);
+
+  Stream<AiRouteEvent> Function(String text)? handler;
+  final List<String> calls = [];
+
+  @override
+  Stream<AiRouteEvent> routeSituation(String text) {
+    calls.add(text);
+    final h = handler;
+    if (h == null) {
+      return Stream.error(
+        const AiRouteException(AiRouteFailureKind.notConfigured),
+      );
+    }
+    return h(text);
+  }
+}
+
 class TestEnv {
   TestEnv({
+    required this.ai,
     required this.db,
     required this.tts,
     required this.connectivity,
@@ -138,6 +162,7 @@ class TestEnv {
   final FakeSettingsRepository settings;
   final FakeLocation location;
   final FakeSms sms;
+  final FakeAiRouter ai;
 
   List<Override> get overrides => [
     appDatabaseProvider.overrideWithValue(db),
@@ -148,6 +173,8 @@ class TestEnv {
     locationServiceProvider.overrideWithValue(location),
     smsComposerProvider.overrideWithValue(sms),
     clockProvider.overrideWithValue(() => DateTime(2026, 11, 7, 9, 30)),
+    initialSettingsProvider.overrideWithValue(settings.stored),
+    aiRouterRepositoryProvider.overrideWithValue(ai),
   ];
 }
 
@@ -160,6 +187,7 @@ Future<TestEnv> createEnv(
     longitude: 108.2022,
     accuracyMeters: 12,
   ),
+  AppSettings settings = const AppSettings(),
 }) async {
   final db = AppDatabase.forTesting(NativeDatabase.memory());
   await tester.runAsync(
@@ -171,9 +199,10 @@ Future<TestEnv> createEnv(
     tts: FakeTts(tts),
     connectivity: FakeConnectivity(connected: connected),
     dialer: FakeDialer(),
-    settings: FakeSettingsRepository(),
+    settings: FakeSettingsRepository(settings),
     location: FakeLocation(location),
     sms: FakeSms(),
+    ai: FakeAiRouter(),
   );
 }
 

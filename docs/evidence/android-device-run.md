@@ -35,3 +35,17 @@ Chưa chạy. Video: [CHỜ NGƯỜI DÙNG QUAY MÀN HÌNH] (lưu ngoài repo ho
 3. Xem trước → "Xác nhận và mở tin nhắn": ứng dụng SMS mở với nội dung soạn sẵn, người nhận trống. Xác nhận app KHÔNG tự gửi: chỉ gửi khi bạn bấm Gửi trong ứng dụng SMS.
 4. "Gọi 115 ngay" chỉ mở trình quay số (nhớ KHÔNG bấm gọi khi thử).
 5. Phân biệt mất Internet và mất sóng: (a) bật chế độ máy bay rồi bật lại GPS (tọa độ vẫn lấy được?; gọi/SMS sẽ không dùng được); (b) tắt dữ liệu di động và Wi-Fi nhưng giữ SIM còn sóng (tọa độ, SMS, trình quay số vẫn dùng được). Ghi lại kết quả thật.
+
+## Nối app với AI + fallback (Prompt 07)
+Chưa chạy. Video: [CHỜ NGƯỜI DÙNG QUAY VIDEO] (lưu ngoài repo hoặc docs/evidence/ nếu nhỏ). Ghi kết quả thật vào docs/evidence-ledger.md (E-025).
+1. Chạy backend trên máy dev (xem backend/README.md) và kiểm tra `http://localhost:8000/healthz`. Điện thoại thật cần cùng mạng Wi-Fi và dùng IP LAN của máy dev (uvicorn phải chạy với `--host 0.0.0.0`); emulator dùng `http://10.0.2.2:8000`. Có thể phải mở cổng 8000 trong Windows Firewall.
+2. Trong `app/.env` (đã gitignore) đặt `AI_BASE_URL=http://<IP_MAY_DEV>:8000` (và `AI_API_KEY` nếu backend đặt `API_AUTH_TOKEN`), rồi:
+
+```powershell
+cd "D:\Start Github\firstaid-capstone\app"
+flutter run -d <ID_THIET_BI> --dart-define-from-file=.env
+```
+
+   HTTP không mã hóa chỉ được phép ở bản debug.
+3. Kịch bản quay video: Home → "Mô tả tình huống" → nhập ví dụ "tay bị bỏng do nước sôi" → hộp thoại đồng ý (lần đầu) → thấy tiến trình → thẻ "KẾT QUẢ THAM KHẢO" → "Mở hướng dẫn từng bước". Quay lại, bật chế độ máy bay (chip mạng đổi sang "Không có mạng") → gửi lại → thẻ fallback "Không có mạng..." → "Bắt đầu sàng lọc offline" → sàng lọc Có/Không chạy được.
+4. Thử thêm (ghi lại kết quả thật): bấm "Bỏ qua AI, sàng lọc ngay" khi đang chờ; nhập "người lớn bất tỉnh, không thở" khi tắt mạng (phải ra "GỌI 115 NGAY", không cần mạng); tắt backend khi vẫn có Wi-Fi (phải fallback); nếu Gemini trả 429 thì app phải fallback.

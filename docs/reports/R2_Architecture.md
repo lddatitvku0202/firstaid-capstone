@@ -74,6 +74,14 @@ Log kiểm tra: `docs/evidence/tests/skeleton-checks-20261105-224643.log` (pub g
 - Log kiểm tra: `docs/evidence/tests/sync-checks-20261107-234308.log` (format, analyze "No issues found", 63 test pass; mọi lệnh exit=0). Build APK debug: `docs/evidence/tests/build-apk-debug-20261107-234503.log` (exit=0, chưa chạy trên máy). Chưa có kiểm thử với Supabase thật.
 - `EnqueueSosLog` mới là use case + test; CHƯA nối vào UI SOS và CHƯA có màn đăng nhập/consent, nên hiện app chưa gửi log SOS nào.
 
+### Nối app với AI định tuyến + fallback (Prompt 07)
+- Domain (Dart thuần): entity `AiRouteResult`/`AiRouteEvent`/`AiRouteException` (`domain/entities/ai_route.dart`), interface `AiRouterRepository`, use case `RouteSituation` và `detectEmergencyKeywords` (bản port 1-1 của `backend/app/rules.py`, chạy trên máy trước khi gửi gì lên mạng).
+- Data: `HttpAiRouterRepository` (package `http`, `POST /v1/route-situation?stream=true`, đọc SSE, validate chặt sự kiện `result` đúng 5 trường); `DisabledAiRouterRepository` khi thiếu `AI_BASE_URL`. Cấu hình `AI_BASE_URL`, `AI_API_KEY` (tùy chọn, không phải bí mật), `AI_TIMEOUT_SECONDS` qua `--dart-define(-from-file)`.
+- Presentation: `DescribeSituationScreen` (`/describe`), công tắc đồng ý trong Cài đặt (`AppSettings.aiPrivacyConsent`, lưu SharedPreferences).
+- Nội dung hiển thị khi có kết quả lấy từ Drift theo `protocol_code`; app không hiển thị `confidence_note` hay bất kỳ văn bản nào do LLM sinh.
+- Bản debug cho phép HTTP không mã hóa (`android:usesCleartextTraffic` chỉ trong `src/debug/AndroidManifest.xml`) để gọi backend chạy trên máy dev; bản release chưa build/kiểm tra.
+- Log: `docs/evidence/tests/ai-integration-checks-20261110-002444.log` (format, analyze "No issues found", 119 test pass), build APK debug `docs/evidence/tests/build-apk-debug-20261110-002726.log` (exit=0). Chưa chạy với backend thật trên điện thoại.
+
 ---
 
 ## 2. DATABASE SCHEMA & SECURITY POLICIES

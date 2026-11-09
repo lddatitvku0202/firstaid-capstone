@@ -19,6 +19,9 @@ class SettingsController extends Notifier<AppSettings> {
   Future<void> setTextScale(double scale) =>
       _update(state.copyWith(textScale: scale));
 
+  Future<void> setAiPrivacyConsent(bool value) =>
+      _update(state.copyWith(aiPrivacyConsent: value));
+
   Future<void> _update(AppSettings next) async {
     state = next;
     await ref.read(settingsRepositoryProvider).save(next);

@@ -1,3 +1,4 @@
+# ĐỒNG BỘ (R-28): sửa danh sách từ khóa nguy cấp ở đây thì phải sửa y hệt app/lib/domain/usecases/detect_emergency_keywords.dart (bản port Dart chạy trên máy).
 """Tiền kiểm quy tắc xác định: "gọi 115" KHÔNG phụ thuộc LLM.
 
 Các cụm từ khóa lấy theo điều kiện gọi 115 của chính các phác đồ trong app

@@ -54,6 +54,22 @@ class SettingsScreen extends ConsumerWidget {
               'Chữ mẫu: ${(settings.textScale * 100).round()}%',
               textScaler: TextScaler.linear(settings.textScale),
             ),
+            const SizedBox(height: 24),
+            Text(
+              'Quyền riêng tư',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              secondary: const Icon(Icons.cloud_upload_outlined),
+              title: const Text('Gửi mô tả tình huống tới máy chủ AI'),
+              subtitle: const Text(
+                'Tắt thì "Mô tả tình huống" hỏi lại trước khi gửi. '
+                'Sàng lọc và cẩm nang không cần gửi gì.',
+              ),
+              value: settings.aiPrivacyConsent,
+              onChanged: controller.setAiPrivacyConsent,
+            ),
           ],
         ),
       ),

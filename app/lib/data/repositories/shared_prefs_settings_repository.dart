@@ -5,6 +5,7 @@ import '../../domain/repositories/settings_repository.dart';
 
 const _themeKey = 'theme_mode';
 const _textScaleKey = 'text_scale';
+const _aiConsentKey = 'ai_privacy_consent';
 
 class SharedPrefsSettingsRepository implements SettingsRepository {
   const SharedPrefsSettingsRepository(this._prefs);
@@ -21,6 +22,7 @@ class SharedPrefsSettingsRepository implements SettingsRepository {
     return const AppSettings().copyWith(
       themeMode: mode,
       textScale: _prefs.getDouble(_textScaleKey),
+      aiPrivacyConsent: _prefs.getBool(_aiConsentKey),
     );
   }
 
@@ -28,5 +30,6 @@ class SharedPrefsSettingsRepository implements SettingsRepository {
   Future<void> save(AppSettings settings) async {
     await _prefs.setString(_themeKey, settings.themeMode.name);
     await _prefs.setDouble(_textScaleKey, settings.textScale);
+    await _prefs.setBool(_aiConsentKey, settings.aiPrivacyConsent);
   }
 }

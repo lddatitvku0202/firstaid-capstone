@@ -8,7 +8,7 @@
 ---
 
 ## 1. ARTIFICIAL INTELLIGENCE CAPABILITIES & BENCHMARKS
-* **Model Backbone:** Gemini qua SDK `google-genai` 2.33.0 (tên model cấu hình qua `GEMINI_MODEL`; mặc định `gemini-2.5-flash` CHƯA được xác minh bằng API). Dịch vụ FastAPI `backend/` + RAG-lite (BM25). Đã chạy eval với Gemini thật 2 lượt (2026-11-08, xem bên dưới). [CHƯA CÓ BẰNG CHỨNG: chưa deploy; app Flutter chưa tích hợp (Prompt 07).]
+* **Model Backbone:** Gemini qua SDK `google-genai` 2.33.0 (tên model cấu hình qua `GEMINI_MODEL`; mặc định `gemini-2.5-flash` CHƯA được xác minh bằng API). Dịch vụ FastAPI `backend/` + RAG-lite (BM25). Đã chạy eval với Gemini thật 2 lượt (2026-11-08, xem bên dưới). [CHƯA CÓ BẰNG CHỨNG: chưa deploy.] App Flutter đã tích hợp (Prompt 07, mục 1b) nhưng mới kiểm thử bằng fake/mock; chưa gọi backend thật từ app trên điện thoại.
 * **Vai trò của AI:** chỉ chọn một mã phác đồ trong số ứng viên truy xuất được (hoặc `null`). Không chẩn đoán, không kê thuốc, không sinh hướng dẫn sơ cứu; nội dung sơ cứu luôn lấy từ phác đồ cục bộ có trích dẫn. Hỗ trợ SSE: sự kiện trạng thái, mảnh đầu ra tạm (chưa validate) và kết quả cuối đã validate.
 
 ### Pipeline
@@ -78,6 +78,51 @@ Nguồn: `docs/evidence/ai/eval-llm-20261108-020235.json` (lần 1), `docs/evide
 * **Metric RAM/bộ nhớ model:** không áp dụng cho AI chạy trên cloud: mô hình nằm trên máy chủ của Google, app chỉ là HTTP client; bộ nhớ phía app khi gọi API chưa đo. Không mô tả AI cloud là hoạt động offline: khi mất mạng, app dùng sàng lọc cục bộ.
 * **Hạn chế:** chỉ phủ 4 chủ đề; dữ liệu truy xuất lấy từ phác đồ `not_clinically_reviewed`; nội dung tình huống đi tới Gemini (bên thứ ba) khi dùng đường LLM; endpoint công khai có rủi ro lạm dụng quota; danh sách từ khóa quy tắc chưa được rà soát lâm sàng.
 
+### 1b. Tích hợp app và fallback an toàn (Prompt 07)
+Màn "Mô tả tình huống" (`app/lib/presentation/screens/describe_situation_screen.dart`) gọi use case `RouteSituation` (`app/lib/domain/usecases/route_situation.dart`). AI chỉ trả mã; app mở phác đồ **từ Drift** theo `protocol_code` và hiển thị tiêu đề, nguồn, phiên bản, cảnh báo chưa thẩm định cùng nhãn "KẾT QUẢ THAM KHẢO" (không phải chẩn đoán). App **không hiển thị** `confidence_note` hay bất kỳ văn bản nào do LLM sinh; sự kiện SSE `delta` chỉ được đếm số ký tự để báo tiến trình.
+
+```mermaid
+flowchart TD
+  U[Người dùng nhập mô tả] --> K{Từ khóa nguy cấp?<br/>chạy trên máy, không gửi mạng}
+  K -- có --> C115[GỌI 115 NGAY<br/>+ mở phác đồ nếu rõ tuổi]
+  K -- không --> N{Có kết nối?}
+  N -- không --> FB[Fallback: sàng lọc Có/Không offline + Gọi 115]
+  N -- có --> P{Đã đồng ý gửi?<br/>hỏi ở lần đầu}
+  P -- không --> FB
+  P -- có --> S[POST /v1/route-situation?stream=true<br/>deadline tổng 15 s]
+  S -- lỗi mạng / timeout / HTTP lỗi / sự kiện error / sai schema --> FB
+  S -- call_115_now --> C115
+  S -- uncertain / null / out_of_scope --> FB
+  S -- mã không có trong Drift hoặc chủ đề không khớp --> FB
+  S -- mã hợp lệ --> R[Mở phác đồ từ Drift<br/>KẾT QUẢ THAM KHẢO + nguồn + cảnh báo]
+  B[Nút 'Bỏ qua AI, sàng lọc ngay' + Gọi 115<br/>luôn hiện, kể cả khi đang chờ] -.-> FB
+```
+
+| Điều kiện | Hành vi của app | Kiểm thử tự động |
+|---|---|---|
+| Mất mạng (connectivity báo không có kết nối) | Fallback ngay, không hỏi đồng ý, không gọi AI | unit + widget |
+| Không tới được máy chủ (lỗi mạng/DNS/TLS dù "có kết nối") | Fallback | unit (`network`) + data (`ClientException`) |
+| Timeout: deadline tổng phía app (mặc định 15 s, `AI_TIMEOUT_SECONDS`) hoặc server trả `llm_timeout`/HTTP 504 | Fallback; hết giờ thì hủy yêu cầu HTTP | unit (deadline 50 ms, xác nhận hủy) + widget + data |
+| Lỗi máy chủ (HTTP != 200, sự kiện `error`, ví dụ 429 → `llm_unavailable`) | Fallback | unit + widget + data |
+| Phản hồi sai schema (thừa/thiếu trường, category lạ, JSON hỏng) hoặc kết thúc không có `result` | Fallback | data + unit |
+| `uncertain = true`, `protocol_code = null`, `out_of_scope` | Fallback | unit + widget |
+| Mã không có trong allowlist cục bộ (Drift) hoặc chủ đề phác đồ khác `category` | Fallback | unit + widget |
+| Từ khóa nguy cấp (quy tắc cục bộ) hoặc server trả `call_115_now` | Thẻ "GỌI 115 NGAY" + nút Gọi 115; mở phác đồ nếu xác định được tuổi | unit + widget |
+| Chưa cấu hình `AI_BASE_URL` | Fallback | unit + widget |
+| Người dùng bấm "Bỏ qua AI, sàng lọc ngay" khi đang chờ | Hủy yêu cầu ngay, chuyển sang sàng lọc | widget (xác nhận hủy subscription) |
+
+* **Quyền riêng tư:** màn luôn hiện thông báo văn bản mô tả được gửi tới máy chủ của nhóm và Gemini (bên thứ ba). Trước lần gửi đầu tiên app hỏi đồng ý; từ chối thì không gửi và gợi ý sàng lọc offline. Lựa chọn lưu trong Cài đặt (có công tắc bật/tắt). Hộp thoại chỉ xuất hiện ngay trước khi gửi, sau kiểm tra từ khóa nguy cấp và kết nối, nên ca nguy cấp và ca mất mạng không bị chặn bởi hộp thoại.
+* **Quy tắc 115 trên máy:** `detectEmergencyKeywords` là bản port 1-1 của `backend/app/rules.py` (cùng danh sách cụm, chưa rà soát lâm sàng). Kiểm tra chéo một lần trên 35 ca `backend/eval/cases.jsonl`: Dart và Python cho cùng (luật, mã) 35/35 (9 ca kích hoạt ở cả hai). Đây là so sánh hai bản cài đặt, không phải độ chính xác lâm sàng; hai bản phải sửa đồng thời (R-28).
+* **Bằng chứng:** `docs/evidence/tests/ai-integration-checks-20261110-002444.log` (format 0 changed, analyze "No issues found", 119 test pass, kèm kết quả kiểm tra chéo 35/35); build APK debug `docs/evidence/tests/build-apk-debug-20261110-002726.log` (exit=0). Test mới: `app/test/domain/route_situation_test.dart`, `app/test/data/http_ai_router_repository_test.dart`, `app/test/describe_situation_test.dart`.
+* **Video kịch bản online → AI → tắt mạng → fallback:** [CHỜ NGƯỜI DÙNG QUAY VIDEO] (hướng dẫn: `docs/evidence/android-device-run.md`, mục Prompt 07).
+
+| Chưa đo / chưa kiểm chứng (app) | Trạng thái |
+|---|---|
+| App gọi backend thật (local hoặc deploy) trên điện thoại/emulator | CHƯA CHẠY |
+| Độ trễ người dùng cảm nhận, time to first token trong app | CHƯA ĐO |
+| Deadline 15 s có phù hợp mạng di động thật không | CHƯA ĐO (giá trị do nhóm chọn) |
+| Fallback khi tắt mạng thật / "có sóng nhưng không có Internet" trên máy | CHƯA KIỂM CHỨNG (chỉ fake) |
+
 ---
 
 ## 2. OFFLINE-FIRST SYNCHRONIZATION ENGINE
@@ -86,10 +131,10 @@ Nguồn: `docs/evidence/ai/eval-llm-20261108-020235.json` (lần 1), `docs/evide
 | Chức năng | Offline? | Ghi chú |
 |---|---|---|
 | Cẩm nang 6 phác đồ (bước, không nên làm, khi nào gọi 115, nguồn, phiên bản) | Thiết kế: có (đọc từ SQLite) | Chưa kiểm chứng trên máy thật |
-| Cây quyết định triage tĩnh (dữ liệu có trong DB, chưa có màn UI) | Thiết kế: có | Luật xác định, không phải AI |
+| Cây quyết định triage tĩnh (màn Sàng lọc, Prompt 03) | Thiết kế: có | Luật xác định, không phải AI; là đích fallback của AI |
 | Cảnh báo chưa thẩm định lâm sàng | Có | Hiển thị ở danh sách và chi tiết |
-| AI định tuyến (LLM + RAG-lite) | Không | Cần mạng; backend đã code + test mock + 2 lượt eval với Gemini thật (nhiều ca gặp HTTP 429), chưa tích hợp app |
-| SOS: gọi 115, vị trí, SMS | Chưa triển khai | Prompt 04 |
+| AI định tuyến (LLM + RAG-lite) | Không | Cần mạng. App đã tích hợp (mục 1b): mất mạng/timeout/lỗi/uncertain/mã lạ → sàng lọc tĩnh; từ khóa nguy cấp kiểm tra trên máy (offline) → Gọi 115. Chưa chạy với backend thật từ app |
+| SOS: gọi 115, vị trí, SMS | Gọi/nhắn cần sóng di động; tọa độ GPS không cần Internet | Đã code + test (Prompt 04, xem R2); chưa thử trên máy thật |
 | Đồng bộ phác đồ từ Supabase | Cần mạng để cập nhật; đọc phác đồ vẫn offline | Code + test bằng fake remote; chưa thử với Supabase thật |
 ### Chính sách xung đột và đồng bộ (Prompt 05)
 * **Phác đồ:** server version thắng, nhưng CHỈ nhận bản `clinical_review = reviewed` và `source_verification = verified`, và chỉ khi version mới hơn bản trên máy (so sánh số). Bản chưa review không bao giờ ghi đè bản ổn định.
@@ -103,5 +148,5 @@ Nguồn: `docs/evidence/ai/eval-llm-20261108-020235.json` (lần 1), `docs/evide
 ---
 
 ## 3. AUTOMATED TEST SUITE & PERFORMANCE PROFILING
-* **Unit Test Coverage:** [CHƯA CÓ BẰNG CHỨNG: chưa chạy test] • **Frame Rate:** [CHƯA CÓ BẰNG CHỨNG: chưa đo FPS]
+* **Số test tự động app:** 119 pass (`docs/evidence/tests/ai-integration-checks-20261110-002444.log`) • **Unit Test Coverage:** [CHƯA CÓ BẰNG CHỨNG: chưa đo coverage] • **Frame Rate:** [CHƯA CÓ BẰNG CHỨNG: chưa đo FPS]
 * **🔗 Internal Testing APK Link:** [CHƯA CÓ BẰNG CHỨNG: chưa có bản build]

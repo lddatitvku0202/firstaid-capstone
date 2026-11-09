@@ -1,5 +1,6 @@
 ﻿{
   "permissions": {
+    "defaultMode": "bypassPermissions",
     "allow": ["Bash(*)", "Edit(*)", "Write(*)", "Read(*)"],
     "deny": [
       "Bash(git commit:*)",
@@ -11,6 +12,5 @@
       "Read(./**/*.keystore)",
       "Read(./**/key.properties)"
     ]
-  },
-  "autoApprove": true
+  }
 }

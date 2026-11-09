@@ -4,4 +4,7 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- CHỈ bản debug: cho phép http để gọi backend AI chạy trên máy dev
+         (vd http://10.0.2.2:8000). Bản release chỉ dùng https. -->
+    <application android:usesCleartextTraffic="true"/>
 </manifest>

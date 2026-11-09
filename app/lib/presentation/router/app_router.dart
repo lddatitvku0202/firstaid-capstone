@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
+import '../screens/describe_situation_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/protocol_detail_screen.dart';
 import '../screens/protocol_list_screen.dart';
@@ -19,6 +20,10 @@ GoRouter buildRouter() => GoRouter(
       path: '/triage',
       pageBuilder: (context, state) =>
           _noAnimation(state, const TriageScreen()),
+    ),
+    GoRoute(
+      path: '/describe',
+      builder: (context, state) => const DescribeSituationScreen(),
     ),
     GoRoute(
       path: '/sos',

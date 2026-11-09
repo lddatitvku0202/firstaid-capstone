@@ -42,3 +42,11 @@
 | D-038 | 2026-11-08 | run_eval mode llm và --list-models bắt buộc `--confirm-real-api`; mode retrieval/fallback-sim chạy offline | Tránh tốn quota ngoài ý muốn | backend/eval/run_eval.py |
 | D-039 | 2026-11-08 | Phát SSE `delta` là mảnh tạm chưa validate; app chỉ dùng `result` | Đáp ứng streaming nhưng kết quả cuối vẫn validate đủ | backend/app/main.py |
 | D-040 | 2026-11-08 | Token xác thực tùy chọn (X-API-Key) cho endpoint | Giảm lạm dụng ngẫu nhiên; thừa nhận token nhúng trong app không phải bí mật thật | backend/app/main.py |
+| D-041 | 2026-11-10 | App chỉ dùng `protocol_code` từ AI để mở phác đồ trong Drift; không hiển thị `confidence_note` hay văn bản LLM; SSE `delta` chỉ đếm ký tự | CLAUDE.md §6: không hiển thị văn bản y khoa do LLM sinh | app/lib/presentation/screens/describe_situation_screen.dart |
+| D-042 | 2026-11-10 | Allowlist = phác đồ có trong Drift trên máy; thêm kiểm tra `topicId` của phác đồ khớp `category` | Phòng thủ lớp hai sau validation của server | app/lib/domain/usecases/route_situation.dart |
+| D-043 | 2026-11-10 | Port quy tắc 115 của backend sang Dart, chạy trước mọi lời gọi mạng | Ca nguy cấp không phụ thuộc mạng/AI/hộp thoại đồng ý; đổi lại phải giữ hai bản đồng bộ (R-28) | app/lib/domain/usecases/detect_emergency_keywords.dart, E-024 |
+| D-044 | 2026-11-10 | Deadline tổng 15 s cho một lần gọi AI (`AI_TIMEOUT_SECONDS`), hết giờ hủy yêu cầu | Lựa chọn của nhóm, chưa đo; người dùng có nút bỏ qua nên không phải chờ | app/lib/core/config/app_config.dart |
+| D-045 | 2026-11-10 | Hỏi đồng ý gửi mô tả ngay trước lần gửi đầu (sau kiểm tra từ khóa nguy cấp và kết nối), lưu trong Cài đặt, có công tắc thu hồi | Quyền riêng tư (R-22) mà không chặn ca nguy cấp | describe_situation_screen.dart, settings_screen.dart |
+| D-046 | 2026-11-10 | Khi fallback, hiện lý do + nút "Bắt đầu sàng lọc offline" thay vì tự chuyển màn | Người dùng hiểu vì sao AI không dùng được; nút bỏ qua/Gọi 115 vẫn luôn hiện | describe_situation_screen.dart |
+| D-047 | 2026-11-10 | Dùng package `http` (1.6.0, trước đó đã có dạng transitive) cho SSE; mỗi yêu cầu một client để hủy được | Không thêm gói mới vào cây phụ thuộc | app/pubspec.yaml |
+| D-048 | 2026-11-10 | Cho phép HTTP không mã hóa CHỈ ở bản debug | Gọi backend chạy trên máy dev (http://10.0.2.2:8000); release phải dùng https | app/android/app/src/debug/AndroidManifest.xml |
