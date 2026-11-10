@@ -10,7 +10,7 @@
 * CHAPTER 2: REQUIREMENTS ANALYSIS & MOBILE UI/UX DESIGN — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
 * CHAPTER 3: SYSTEM DESIGN & CLEAN ARCHITECTURE — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
 * CHAPTER 4: ADVANCED CAPABILITIES & ARTIFICIAL INTELLIGENCE — bản nháp bên dưới (đang cập nhật; số đo LLM mới có 2 lượt trên mẫu nhỏ, bị rate limit)
-* CHAPTER 5: TESTING, PERFORMANCE PROFILING & EVALUATION — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
+* CHAPTER 5: TESTING, PERFORMANCE PROFILING & EVALUATION — bản nháp bên dưới (FPS: [CHỜ SỐ ĐO THẬT])
 * CHAPTER 6: CONCLUSION, LESSONS LEARNED & FUTURE WORK — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
 
 ---
@@ -44,3 +44,18 @@
 *Kiểm chứng.* 119 test tự động pass, gồm unit test use case với fake repository (thành công, uncertain, timeout, mã sai, call_115_now, mất mạng, không đồng ý...), test client SSE bằng `MockClient` và widget test từng trạng thái màn hình (`docs/evidence/tests/ai-integration-checks-20261110-002444.log`); build APK debug thành công (`docs/evidence/tests/build-apk-debug-20261110-002726.log`). Chưa chạy app với backend thật; video kịch bản online → AI → tắt mạng → fallback: [CHỜ NGƯỜI DÙNG QUAY VIDEO].
 
 **Hạn chế.** Phủ 4 chủ đề; chưa deploy; app đã tích hợp nhưng chưa chạy với backend thật trên điện thoại; danh sách từ khóa 115 tồn tại ở hai nơi (Dart và Python) nên phải sửa đồng thời; kiểm thử với Gemini thật mới ở mẫu nhỏ và bị rate limit (40% ca không có kết quả LLM); chưa thử retry/backoff dài; chưa đo SSE với Gemini thật; từ khóa quy tắc chưa rà soát lâm sàng; nội dung tình huống gửi tới bên thứ ba khi dùng đường LLM.
+
+---
+
+## CHAPTER 5 (bản nháp): TESTING, PERFORMANCE PROFILING & EVALUATION
+**Chiến lược kiểm thử.** Nhờ Clean Architecture, mọi phụ thuộc nền tảng (mạng, TTS, trình quay số, vị trí, SMS, AI) đi qua interface ở Domain, nên use case và màn hình được kiểm thử với fake. Có bốn tầng: unit test Domain; test Data trên SQLite in-memory và HTTP giả lập (`MockClient`); widget test từng màn và từng trạng thái (gồm mọi nhánh fallback của AI); integration test chạy trên thiết bị.
+
+**Kết quả.** 155 test tự động pass, `flutter analyze` không có vấn đề (`docs/evidence/tests/quality-checks-20261110-013916.log`). Coverage dòng thật từ lcov: 1495/1716 (87.12%) nếu không tính file sinh tự động, 2010/3429 (58.62%) nếu tính cả `app_database.g.dart`. Lớp domain 272/280, presentation 685/708. Phần phủ thấp chủ yếu là wrapper nền tảng chỉ chạy được trên thiết bị và nguồn Supabase (chi tiết R3 mục 3.2). Integration test luồng khẩn cấp ở chế độ máy bay pass trên emulator Android 13 (`docs/evidence/tests/integration-emergency-offline-20261110-012638.log`); chưa chạy trên điện thoại thật.
+
+**Accessibility và Dark Mode.** Bảy màn chính được kiểm tự động ở cả giao diện Sáng và Tối với ba guideline của Flutter (vùng chạm ≥ 48 dp, nút có nhãn, tương phản chữ) và ở cỡ chữ 200%. Có test đối chứng để chứng minh các kiểm tra không "rỗng". Quá trình này tìm ra ba lỗi thật và đã sửa: chữ bị cắt trong nút cao cố định khi phóng to chữ, app bỏ qua cỡ chữ hệ thống, và thẻ kết quả AI nằm ngoài vùng nhìn thấy trên màn nhỏ (R3 mục 3.4). Dark Mode chưa được xem trên máy thật.
+
+**Hiệu năng.** Đã sửa các điểm nghi ngờ gây jank: dựng lại theme mỗi lần build, ghi đĩa mỗi frame khi kéo thanh cỡ chữ, danh sách nháy khi tìm kiếm (R3 mục 3.5). Chưa có số đo trước/sau. **FPS và frame time: [CHỜ SỐ ĐO THẬT]**. Quy trình đo profile mode trên máy thật và perf test lặp lại được đã chuẩn bị (`docs/evidence/fps/README.md`, `docs/evidence/fps/fps-measurements.md`).
+
+**Đánh giá AI.** Xem Chapter 4 và R3 mục 1.
+
+**Hạn chế.** Chưa đo FPS; chưa chạy trên điện thoại thật; coverage là coverage dòng (không phải nhánh) và không gồm integration test; test widget dùng font Ahem nên kiểm tra cỡ chữ mang tính bảo thủ; tương phản mới đo trong môi trường test.

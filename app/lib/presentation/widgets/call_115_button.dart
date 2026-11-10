@@ -12,9 +12,11 @@ class Call115Button extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
-    return SizedBox(
-      width: double.infinity,
-      height: 64,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minWidth: double.infinity,
+        minHeight: 64,
+      ),
       child: FilledButton.icon(
         style: FilledButton.styleFrom(
           backgroundColor: scheme.error,

@@ -140,8 +140,8 @@ class _BodyState extends ConsumerState<_Body> {
                   if (availability == TtsAvailability.vietnameseMissing ||
                       availability == TtsAvailability.unavailable)
                     const _TtsNotice(),
-                  SizedBox(
-                    height: 56,
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 56),
                     child: OutlinedButton.icon(
                       onPressed: availability == TtsAvailability.available
                           ? () => _tts.speak(step.text)
@@ -154,8 +154,8 @@ class _BodyState extends ConsumerState<_Body> {
                   Row(
                     children: [
                       Expanded(
-                        child: SizedBox(
-                          height: 56,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(minHeight: 56),
                           child: FilledButton.tonalIcon(
                             onPressed: _index > 0
                                 ? () => _go(_index - 1)
@@ -167,8 +167,8 @@ class _BodyState extends ConsumerState<_Body> {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: SizedBox(
-                          height: 56,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(minHeight: 56),
                           child: FilledButton.icon(
                             onPressed: _index < p.steps.length - 1
                                 ? () => _go(_index + 1)

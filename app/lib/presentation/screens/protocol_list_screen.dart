@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../domain/entities/first_aid_protocol.dart';
 import '../providers/protocol_providers.dart';
 import '../widgets/clinical_warning_banner.dart';
 
@@ -15,9 +16,19 @@ class ProtocolListScreen extends ConsumerStatefulWidget {
 class _ProtocolListScreenState extends ConsumerState<ProtocolListScreen> {
   String _query = '';
 
+  /// Kết quả gần nhất: hiện tiếp trong lúc truy vấn mới đang chạy để danh sách
+  /// không bị thay bằng vòng xoay ở mỗi phím gõ (nháy, layout lại cả màn).
+  List<FirstAidProtocol>? _last;
+
   @override
   Widget build(BuildContext context) {
-    final protocols = ref.watch(protocolSearchProvider(_query));
+    var protocols = ref.watch(protocolSearchProvider(_query));
+    final last = _last;
+    if (protocols.hasValue) {
+      _last = protocols.value;
+    } else if (protocols.isLoading && last != null) {
+      protocols = AsyncData(last);
+    }
     return Scaffold(
       appBar: AppBar(title: const Text('Cẩm nang sơ cứu')),
       body: SafeArea(

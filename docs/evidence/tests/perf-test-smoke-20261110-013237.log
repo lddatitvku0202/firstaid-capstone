@@ -1,0 +1,198 @@
+# CHẠY THỬ LUỒNG perf_test 20261110-013237 (debug, emulator vku_test_api33). KHÔNG PHẢI SỐ ĐO FPS: chỉ xác nhận kịch bản chạy hết; số đo phải lấy bằng flutter drive --profile trên máy thật (docs/evidence/fps/README.md).
+
+$ flutter test integration_test/perf_test.dart -d emulator-5554
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  geolocator 14.0.1 (14.1.2 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.6 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+18 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading D:/Start Github/firstaid-capstone/app/integration_test/perf_test.dart
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): flutter_tts
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Running Gradle task 'assembleDebug'...                             64.7s
+√ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...           5.7s
+00:00 +0: frame timing: giao diện Sáng
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: Failed to connect to VM Service at ws://localhost:55178/WGSwsFkKneA=/ws.
+This may happen if DDS is enabled. If this test was launched via `flutter drive`, try adding
+`--no-dds`.
+The original exception was:
+SocketException: Connection refused (OS Error: Connection refused, errno = 111), address =
+localhost, port = 38388
+#0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+#1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+#2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+#3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+#4      Socket.startConnect (dart:io/socket.dart:918:21)
+#5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+#6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+#7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+#8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+#9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+#10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+#11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+#12     _vmServiceConnectUri (package:integration_test/integration_test.dart:467:44)
+#13     IntegrationTestWidgetsFlutterBinding.enableTimeline
+(package:integration_test/integration_test.dart:264:28)
+<asynchronous suspension>
+#14     IntegrationTestWidgetsFlutterBinding.traceTimeline
+(package:integration_test/integration_test.dart:296:5)
+<asynchronous suspension>
+#15     IntegrationTestWidgetsFlutterBinding._runAndGetGCInfo
+(package:integration_test/integration_test.dart:371:34)
+<asynchronous suspension>
+#16     IntegrationTestWidgetsFlutterBinding.watchPerformance
+(package:integration_test/integration_test.dart:420:43)
+<asynchronous suspension>
+#17     _runScenarios
+(file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:56:3)
+<asynchronous suspension>
+#18     main.<anonymous closure>
+(file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:103:5)
+<asynchronous suspension>
+#19     testWidgets.<anonymous closure>.<anonymous closure>
+(package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#20     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#21     StackZoneSpecification._registerCallback.<anonymous closure>
+(package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+
+When the exception was thrown, this was the stack:
+#0      IntegrationTestWidgetsFlutterBinding.enableTimeline (package:integration_test/integration_test.dart:266:9)
+<asynchronous suspension>
+#1      IntegrationTestWidgetsFlutterBinding.traceTimeline (package:integration_test/integration_test.dart:296:5)
+<asynchronous suspension>
+#2      IntegrationTestWidgetsFlutterBinding._runAndGetGCInfo (package:integration_test/integration_test.dart:371:34)
+<asynchronous suspension>
+#3      IntegrationTestWidgetsFlutterBinding.watchPerformance (package:integration_test/integration_test.dart:420:43)
+<asynchronous suspension>
+#4      _runScenarios (file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:56:3)
+<asynchronous suspension>
+#5      main.<anonymous closure> (file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:103:5)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  frame timing: giao diện Sáng
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:15 +0 -1: frame timing: giao diện Sáng [E]
+  Test failed. See exception logs above.
+  The test description was: frame timing: giao diện Sáng
+  
+00:15 +0 -1: frame timing: giao diện Tối
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following StateError was thrown running a test:
+Bad state: Failed to connect to VM Service at ws://localhost:55178/WGSwsFkKneA=/ws.
+This may happen if DDS is enabled. If this test was launched via `flutter drive`, try adding
+`--no-dds`.
+The original exception was:
+SocketException: Connection refused (OS Error: Connection refused, errno = 111), address =
+localhost, port = 34830
+#0      _NativeSocket.startConnect (dart:io-patch/socket_patch.dart:849:35)
+#1      _RawSocket.startConnect (dart:io-patch/socket_patch.dart:2313:26)
+#2      RawSocket.startConnect (dart:io-patch/socket_patch.dart:41:23)
+#3      Socket._startConnect (dart:io-patch/socket_patch.dart:2574:22)
+#4      Socket.startConnect (dart:io/socket.dart:918:21)
+#5      _ConnectionTarget.connect (dart:_http/http_impl.dart:2701:20)
+#6      _HttpClient._getConnection.connect (dart:_http/http_impl.dart:3200:12)
+#7      _HttpClient._getConnection (dart:_http/http_impl.dart:3205:12)
+#8      _HttpClient._openUrl (dart:_http/http_impl.dart:3026:12)
+#9      _HttpClient.openUrl (dart:_http/http_impl.dart:2868:7)
+#10     _WebSocketImpl.connect (dart:_http/websocket_impl.dart:1346:10)
+#11     WebSocket.connect (dart:_http/websocket.dart:348:24)
+#12     _vmServiceConnectUri (package:integration_test/integration_test.dart:467:44)
+#13     IntegrationTestWidgetsFlutterBinding.enableTimeline
+(package:integration_test/integration_test.dart:264:28)
+<asynchronous suspension>
+#14     IntegrationTestWidgetsFlutterBinding.traceTimeline
+(package:integration_test/integration_test.dart:296:5)
+<asynchronous suspension>
+#15     IntegrationTestWidgetsFlutterBinding._runAndGetGCInfo
+(package:integration_test/integration_test.dart:371:34)
+<asynchronous suspension>
+#16     IntegrationTestWidgetsFlutterBinding.watchPerformance
+(package:integration_test/integration_test.dart:420:43)
+<asynchronous suspension>
+#17     _runScenarios
+(file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:56:3)
+<asynchronous suspension>
+#18     main.<anonymous closure>
+(file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:107:5)
+<asynchronous suspension>
+#19     testWidgets.<anonymous closure>.<anonymous closure>
+(package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#20     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+#21     StackZoneSpecification._registerCallback.<anonymous closure>
+(package:stack_trace/src/stack_zone_specification.dart:114:42)
+<asynchronous suspension>
+
+When the exception was thrown, this was the stack:
+#0      IntegrationTestWidgetsFlutterBinding.enableTimeline (package:integration_test/integration_test.dart:266:9)
+<asynchronous suspension>
+#1      IntegrationTestWidgetsFlutterBinding.traceTimeline (package:integration_test/integration_test.dart:296:5)
+<asynchronous suspension>
+#2      IntegrationTestWidgetsFlutterBinding._runAndGetGCInfo (package:integration_test/integration_test.dart:371:34)
+<asynchronous suspension>
+#3      IntegrationTestWidgetsFlutterBinding.watchPerformance (package:integration_test/integration_test.dart:420:43)
+<asynchronous suspension>
+#4      _runScenarios (file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:56:3)
+<asynchronous suspension>
+#5      main.<anonymous closure> (file:///D:/Start%20Github/firstaid-capstone/app/integration_test/perf_test.dart:107:5)
+<asynchronous suspension>
+#6      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#7      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+The test description was:
+  frame timing: giao diện Tối
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:20 +0 -2: frame timing: giao diện Tối [E]
+  Test failed. See exception logs above.
+  The test description was: frame timing: giao diện Tối
+  
+00:20 +0 -2: (tearDownAll)
+00:22 +0 -2: Some tests failed.
+
+Failing tests:
+  D:/Start Github/firstaid-capstone/app/integration_test/perf_test.dart: frame timing: giao diện Sáng
+  D:/Start Github/firstaid-capstone/app/integration_test/perf_test.dart: frame timing: giao diện Tối
+exit=1

@@ -112,7 +112,7 @@ final routeSituationProvider = Provider(
     ref.watch(aiRouterRepositoryProvider),
     ref.watch(protocolRepositoryProvider),
     ref.watch(connectivityServiceProvider),
-    timeout: Duration(seconds: AppConfig.aiTimeoutSeconds),
+    timeout: const Duration(seconds: AppConfig.aiTimeoutSeconds),
   ),
 );
 

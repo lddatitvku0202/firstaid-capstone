@@ -5,7 +5,7 @@
 | R-01 | Nguồn y khoa: đã có 6 PDF trong docs/source/medical/ nhưng chỉ IFRC-2025 đọc được; nội dung nguồn VN chưa dùng (xem R-10) | Trung bình | Đối chiếu khi đọc được nguồn VN | Giảm một phần |
 | R-02 | Bản quyền tài liệu y khoa; repo public | Cao | .gitignore chặn PDF; chỉ lưu metadata/URL/checksum | Mở |
 | R-03 | Nội dung chưa được rà soát chuyên môn (clinical_review) | Cao | App luôn hiện cảnh báo | Mở |
-| R-04 | Chưa có điện thoại Android thật (video demo, FPS) | Trung bình | Dùng emulator tạm; đo thật khi có máy | Mở |
+| R-04 | Chưa có điện thoại Android thật (video demo, FPS) | Trung bình | Dùng emulator tạm (integration test offline đã pass trên emulator, E-028); hướng dẫn + perf test đo FPS sẵn sàng (docs/evidence/fps/); đo thật khi có máy | Mở |
 | R-05 | Thiếu pandoc / poppler (không đọc PDF, không convert báo cáo) | Thấp | Cài khi cần | Mở |
 | R-06 | Chưa có Supabase project, Gemini key, hosting FastAPI, keystore | Trung bình | Người dùng tạo; không commit secret | Mở |
 | R-07 | Nộp muộn R1-R3 | Trung bình | Nộp gộp theo giảng viên | Mở |
@@ -31,3 +31,4 @@
 | R-27 | Lỗi hạ tầng/fallback khi gọi Gemini tăng từ 9/35 (25.7%) ở eval lần 1 lên 14/35 (40%) ở lần 2; cả 14 ca lần 2 là HTTP 429 (rate limit; người dùng cho biết gói miễn phí, file chỉ ghi 429). Retry hiện tại (2 lần, backoff 0,5 s) không đủ vượt giới hạn tốc độ | Cao | Retry + backoff dài hơn khi deploy, tăng thời gian nghỉ giữa các lời gọi, cân nhắc nâng hạn mức; app luôn có fallback sang sàng lọc cục bộ + nút Gọi 115 (Prompt 07); chưa triển khai các biện pháp giảm thiểu | Mở |
 | R-28 | Danh sách từ khóa quy tắc 115 có ở hai nơi (backend/app/rules.py và app/lib/domain/usecases/detect_emergency_keywords.dart) có thể lệch nhau | Trung bình | Ghi chú đồng bộ (kèm mã R-28) ở đầu cả hai file; backend pytest 60 pass sau khi thêm (E-026); kiểm tra chéo 35/35 (E-024) mới chạy một lần, chưa có test tự động liên dự án | Mở |
 | R-29 | Deadline 15 s và hành vi trên mạng di động thật chưa đo; "có kết nối" không đảm bảo có Internet | Trung bình | Lỗi mạng/timeout đều fallback; nút bỏ qua và Gọi 115 luôn hiện; đo khi có máy | Mở |
+| R-30 | Kiểm tra accessibility chạy trong widget test với font Ahem và màn giả lập; có thể khác trên máy thật (font Roboto/của hãng, cỡ chữ hệ thống phi tuyến Android 14) | Thấp | Kiểm tra bảo thủ (Ahem rộng hơn font thật); xem lại bằng mắt trên máy thật ở cỡ chữ lớn nhất và Dark Mode | Mở |

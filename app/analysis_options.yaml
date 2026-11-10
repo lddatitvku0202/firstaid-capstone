@@ -18,3 +18,9 @@ linter:
     - unawaited_futures
     - prefer_final_locals
     - directives_ordering
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - use_colored_box
+    - sized_box_for_whitespace

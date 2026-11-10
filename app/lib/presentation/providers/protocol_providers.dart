@@ -8,8 +8,9 @@ final protocolListProvider = FutureProvider<List<FirstAidProtocol>>(
   (ref) => ref.watch(getOfflineProtocolsProvider).call(),
 );
 
-final protocolSearchProvider =
-    FutureProvider.family<List<FirstAidProtocol>, String>(
+/// autoDispose: mỗi chuỗi tìm kiếm là một provider; không giữ lại khi đã gõ tiếp.
+final protocolSearchProvider = FutureProvider.autoDispose
+    .family<List<FirstAidProtocol>, String>(
       (ref, query) => ref.watch(searchProtocolsProvider).call(query),
     );
 

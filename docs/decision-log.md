@@ -50,3 +50,9 @@
 | D-046 | 2026-11-10 | Khi fallback, hiện lý do + nút "Bắt đầu sàng lọc offline" thay vì tự chuyển màn | Người dùng hiểu vì sao AI không dùng được; nút bỏ qua/Gọi 115 vẫn luôn hiện | describe_situation_screen.dart |
 | D-047 | 2026-11-10 | Dùng package `http` (1.6.0, trước đó đã có dạng transitive) cho SSE; mỗi yêu cầu một client để hủy được | Không thêm gói mới vào cây phụ thuộc | app/pubspec.yaml |
 | D-048 | 2026-11-10 | Cho phép HTTP không mã hóa CHỈ ở bản debug | Gọi backend chạy trên máy dev (http://10.0.2.2:8000); release phải dùng https | app/android/app/src/debug/AndroidManifest.xml |
+| D-049 | 2026-11-10 | Nút chính dùng chiều cao tối thiểu (`ConstrainedBox(minHeight)`) thay vì chiều cao cố định | Chữ phóng to không bị cắt (phát hiện bằng test cỡ chữ 200%) | app/lib/presentation/, E-027 |
+| D-050 | 2026-11-10 | Cỡ chữ hiệu lực = cỡ chữ hệ thống × hệ số trong Cài đặt, chặn trên 2.0 | Tôn trọng cài đặt trợ năng của Android; 2.0 là mức đã kiểm thử | app/lib/presentation/theme/app_text_scaler.dart |
+| D-051 | 2026-11-10 | Báo coverage cả hai con số: gồm và không gồm file sinh tự động *.g.dart | `app_database.g.dart` (1713 dòng) do drift_dev sinh làm lệch số; không giấu số gộp | app/tool/coverage_summary.dart |
+| D-052 | 2026-11-10 | Đo FPS bằng `flutter drive --profile --no-dds` + `watchPerformance` (lặp lại được) và DevTools; không đo trên emulator/debug | Chỉ profile trên máy thật mới đại diện; người dùng tự chạy | docs/evidence/fps/README.md |
+| D-053 | 2026-11-10 | Thêm dev dependency SDK `integration_test`, `flutter_driver` | Integration test trên thiết bị và đo frame timing | app/pubspec.yaml |
+| D-054 | 2026-11-10 | "Mô tả tình huống" tự cuộn tới thẻ kết quả | Trên màn nhỏ/bàn phím ảo thẻ nằm ngoài vùng nhìn thấy (integration test lần 3) | describe_situation_screen.dart |

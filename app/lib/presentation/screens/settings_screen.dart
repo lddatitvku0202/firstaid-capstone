@@ -48,7 +48,8 @@ class SettingsScreen extends ConsumerWidget {
               divisions: 13,
               value: settings.textScale,
               label: '${(settings.textScale * 100).round()}%',
-              onChanged: controller.setTextScale,
+              onChanged: controller.previewTextScale,
+              onChangeEnd: controller.setTextScale,
             ),
             Text(
               'Chữ mẫu: ${(settings.textScale * 100).round()}%',

@@ -148,5 +148,52 @@ flowchart TD
 ---
 
 ## 3. AUTOMATED TEST SUITE & PERFORMANCE PROFILING
-* **Số test tự động app:** 119 pass (`docs/evidence/tests/ai-integration-checks-20261110-002444.log`) • **Unit Test Coverage:** [CHƯA CÓ BẰNG CHỨNG: chưa đo coverage] • **Frame Rate:** [CHƯA CÓ BẰNG CHỨNG: chưa đo FPS]
+### 3.1 Bộ test tự động (Prompt 08)
+* **Kết quả:** 155 test pass (`flutter test --coverage`), `flutter analyze` "No issues found", `dart format` 0 file thay đổi. Log: `docs/evidence/tests/quality-checks-20261110-013916.log`.
+* **Phân loại:** unit test use case/domain (với fake repository), test Data (Drift SQLite in-memory, `MockClient` cho SSE, SharedPreferences mock, mapper Supabase), widget test từng màn và trạng thái, test kiến trúc (Domain không import framework), test accessibility (mục 3.3).
+* **Integration test (thiết bị):** `app/integration_test/emergency_offline_test.dart`, chạy trên **emulator** Android 13 (`sdk_gphone64_x86_64`, AVD `vku_test_api33`) ở **chế độ máy bay** (`airplane_mode_on=1`, `Active default network: none`). Dùng thật: asset phác đồ/sàng lọc, SQLite, `connectivity_plus`, router. Fake: trình quay số, TTS, vị trí, SMS. Luồng: chip "Không có mạng" → KHẨN CẤP → 3 câu trả lời → CPR bước 1→2 → Gọi 115 → Mô tả tình huống → fallback offline (không hỏi đồng ý, không gửi) → sàng lọc. **Pass** ở lần chạy cuối: `docs/evidence/tests/integration-emergency-offline-20261110-012638.log`. Bốn log trước được giữ lại: lần 1–3 fail do lỗi của chính test (chờ bất đồng bộ chưa đủ, nút ngoài màn hình, thẻ kết quả ngoài vùng nhìn thấy); lần 3 dẫn tới sửa UX ở mục 3.4. Chưa chạy trên điện thoại thật.
+
+### 3.2 Coverage (số thật từ lcov, Flutter 3.47.6)
+Nguồn: `docs/evidence/tests/coverage-20261110-013916.lcov.info`; bảng theo file và theo lớp: `docs/evidence/tests/coverage-summary-20261110-013916.md` (sinh bằng `app/tool/coverage_summary.dart`).
+
+| Phạm vi | Dòng hit / tổng | % |
+|---|---|---|
+| Toàn bộ file trong lcov (63 file, gồm `app_database.g.dart` do drift_dev sinh) | 2010 / 3429 | 58.62% |
+| Không tính file sinh tự động `*.g.dart` (62 file) | 1495 / 1716 | 87.12% |
+| Lớp domain | 272 / 280 | 97.14% |
+| Lớp presentation | 685 / 708 | 96.75% |
+| Lớp data (gồm `.g.dart`) | 998 / 2336 | 42.72% |
+| core | 34 / 67 | 50.75% |
+
+* Phần trăm tính từ đúng hai số nguyên bên cạnh, làm tròn 2 chữ số. Coverage là **dòng** (line), không phải nhánh.
+* Phủ thấp (có chủ đích hoặc chưa làm): wrapper nền tảng chỉ chạy trên thiết bị: `connectivity_plus_service` 0/8, `flutter_tts_service` 0/10, `geolocator_location_service` 1/22, `url_launcher_dialer_service` 1/3; `supabase_remote_sync_source` 0/33 (cần Supabase thật); `app_config` 0/9 (đọc `--dart-define`); `app_database.dart` 8/62 (nhánh migration); `main.dart` 21/38.
+* lcov không liệt kê 11 file chỉ có interface/enum (không có dòng thực thi) và **không gồm** integration test.
+
+### 3.3 Material 3, Dark Mode, accessibility (kiểm tra tự động)
+`app/test/accessibility_test.dart`, màn hình 360×800 dp:
+* 7 màn chính (Home, Sàng lọc, Hướng dẫn CPR, Cẩm nang, Cài đặt, SOS, Mô tả tình huống) × 2 theme (Sáng/Tối) = 14 test, mỗi test kiểm 3 guideline của Flutter: `androidTapTargetGuideline` (vùng chạm ≥ 48 dp), `labeledTapTargetGuideline` (mọi nút có nhãn), `textContrastGuideline` (tương phản chữ theo WCAG). Tất cả pass.
+* Cỡ chữ 200% trên 7 màn: không tràn layout và **không có chữ bị cắt** (bộ phát hiện tự viết so chiều cao cần để vẽ chữ với chiều cao được cấp).
+* 2 test **đối chứng** chứng minh các kiểm tra trên thật sự bắt lỗi (nút 20×20 không nhãn + chữ tương phản thấp → trượt; chữ to trong nút cao cố định → bị phát hiện cắt).
+* Theme: `useMaterial3: true`, sáng/tối từ cùng `ColorScheme.fromSeed`; không có màu cứng trong `lib/presentation` ngoài màu seed. Thông tin quan trọng có chữ + icon (không chỉ dựa vào màu).
+* Giới hạn: test dùng font Ahem (mỗi ký tự vuông, rộng hơn font thật) nên kiểm tra cỡ chữ là bảo thủ; contrast chỉ đo trong widget test; **chưa xem Dark Mode trên máy thật** (ảnh: docs/evidence/screenshots/emergency_ui.md [CHỜ NGƯỜI DÙNG CHỤP]).
+
+### 3.4 Lỗi tìm ra và đã sửa
+| Vấn đề | Cách phát hiện | Sửa |
+|---|---|---|
+| Ở cỡ chữ 200%, chữ bị cắt trong 14 nút có chiều cao cố định (KHẨN CẤP, Gọi 115, Trước/Tiếp, Bỏ qua AI...) mà Flutter không báo lỗi | test cỡ chữ lớn + bộ phát hiện cắt chữ | `SizedBox(height: N)` → `ConstrainedBox(minHeight: N)`: nút giữ kích thước tối thiểu, cao lên theo chữ |
+| App **ghi đè** cỡ chữ hệ thống Android bằng hệ số trong Cài đặt (người dùng đặt chữ to trong Android không có tác dụng) | rà code `main.dart` | `AppTextScaler`: cỡ chữ hệ thống × hệ số app, chặn trên 2.0 (mức đã kiểm thử); có test |
+| Trên màn nhỏ/bàn phím ảo, thẻ kết quả/fallback của "Mô tả tình huống" nằm ngoài vùng nhìn thấy | integration test lần 3 trên emulator | tự cuộn tới thẻ khi có kết quả; widget test 360×640 pass, và fail khi tắt tính năng (đối chứng); integration test lần 5 pass không cuộn thủ công |
+
+### 3.5 Tối ưu chỗ nghi ngờ jank (chưa đo trước/sau: [CHỜ SỐ ĐO THẬT])
+| Thay đổi | Lý do |
+|---|---|
+| `AppTheme` dựng `ThemeData` một lần rồi dùng lại (trước: dựng lại mỗi lần `FirstAidApp` build) | `ColorScheme.fromSeed` tính bảng màu; app rebuild mỗi khi cài đặt đổi, kể cả từng frame khi kéo thanh cỡ chữ |
+| Thanh cỡ chữ: `onChanged` chỉ đổi state, `onChangeEnd` mới ghi SharedPreferences | Trước đây ghi đĩa ở mọi frame khi kéo |
+| Cẩm nang: provider tìm kiếm `autoDispose`; giữ danh sách cũ trong lúc truy vấn mới chạy | Trước đây mỗi phím gõ thay danh sách bằng vòng xoay (nháy, layout lại cả màn) và giữ provider cũ mãi |
+| Bật lint `prefer_const_*`, `use_colored_box`, `sized_box_for_whitespace`; `dart fix` sửa 2 chỗ còn thiếu `const` | Widget `const` được Flutter bỏ qua khi rebuild; code vốn đã gần như dùng `const` đầy đủ |
+| `AppTextScaler` so sánh bằng nhau theo giá trị | Tránh `MediaQuery` đổi giá trị (và rebuild cây con) khi cỡ chữ không đổi |
+
+### 3.6 Frame rate
+* **Frame Rate:** [CHỜ SỐ ĐO THẬT]. Hướng dẫn đo profile mode trên máy thật: `docs/evidence/fps/README.md`; bảng điền số: `docs/evidence/fps/fps-measurements.md`. Perf test lặp lại được: `app/integration_test/perf_test.dart` + `app/test_driver/perf_driver.dart` (`flutter drive --profile --no-dds`, xuất frame build/raster time và số frame vượt 16 ms).
+* Perf test mới được **chạy thử luồng** ở debug trên emulator (`docs/evidence/tests/perf-test-smoke-20261110-013449.log`, 3/3 pass) để xác nhận kịch bản chạy hết; đây **không phải số đo** và không có số nào được ghi.
 * **🔗 Internal Testing APK Link:** [CHƯA CÓ BẰNG CHỨNG: chưa có bản build]

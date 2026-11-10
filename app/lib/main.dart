@@ -13,6 +13,7 @@ import 'data/datasources/remote/supabase_remote_sync_source.dart';
 import 'data/repositories/shared_prefs_settings_repository.dart';
 import 'presentation/providers/settings_provider.dart';
 import 'presentation/router/app_router.dart';
+import 'presentation/theme/app_text_scaler.dart';
 import 'presentation/theme/app_theme.dart';
 
 Future<void> main() async {
@@ -71,11 +72,18 @@ class _FirstAidAppState extends ConsumerState<FirstAidApp> {
       darkTheme: AppTheme.dark(),
       themeMode: toFlutterThemeMode(settings.themeMode),
       routerConfig: _router,
-      builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context)
-            .copyWith(textScaler: TextScaler.linear(settings.textScale)),
-        child: child ?? const SizedBox.shrink(),
-      ),
+      builder: (context, child) {
+        final mq = MediaQuery.of(context);
+        return MediaQuery(
+          data: mq.copyWith(
+            textScaler: AppTextScaler.resolve(
+              mq.textScaler,
+              settings.textScale,
+            ),
+          ),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

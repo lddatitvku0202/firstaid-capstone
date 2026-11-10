@@ -19,6 +19,11 @@ class SettingsController extends Notifier<AppSettings> {
   Future<void> setTextScale(double scale) =>
       _update(state.copyWith(textScale: scale));
 
+  /// Xem trước khi đang kéo thanh trượt: chỉ đổi state, KHÔNG ghi đĩa mỗi
+  /// frame (lưu bằng [setTextScale] khi thả tay).
+  void previewTextScale(double scale) =>
+      state = state.copyWith(textScale: scale);
+
   Future<void> setAiPrivacyConsent(bool value) =>
       _update(state.copyWith(aiPrivacyConsent: value));
 

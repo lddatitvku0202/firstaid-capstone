@@ -1,0 +1,131 @@
+# CHẠY THỬ LUỒNG perf_test 20261110-013449 (DEBUG, emulator vku_test_api33) bằng flutter drive --no-dds. KHÔNG PHẢI SỐ ĐO FPS: debug + emulator không đại diện; file JSON sinh ra trong build/ bị bỏ qua, không đưa số vào báo cáo. Lần trước (...-013237.log) fail vì chạy bằng flutter test (watchPerformance cần VM service).
+# LƯU Ý: các dòng D/EGL_emulation app_time_stats bên dưới do emulator tự in ở DEBUG mode; KHÔNG dùng làm số đo FPS.
+
+$ flutter drive -d emulator-5554 --no-dds --driver=test_driver/perf_driver.dart --target=integration_test/perf_test.dart
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  geolocator 14.0.1 (14.1.2 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.6 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+18 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): flutter_tts
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Running Gradle task 'assembleDebug'...                             58.4s
+√ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...           6.9s
+I/TextToSpeech(11186): Connected to TTS engine
+I/TextToSpeech(11186): Setting up the connection to TTS engine...
+W/ku.firstaid.app(11186): Accessing hidden method Landroid/view/accessibility/AccessibilityNodeInfo;->getSourceNodeId()J (unsupported,test-api, reflection, allowed)
+W/ku.firstaid.app(11186): Accessing hidden method Landroid/view/accessibility/AccessibilityRecord;->getSourceNodeId()J (unsupported, reflection, allowed)
+W/ku.firstaid.app(11186): Accessing hidden field Landroid/view/accessibility/AccessibilityNodeInfo;->mChildNodeIds:Landroid/util/LongArray; (unsupported, reflection, allowed)
+W/ku.firstaid.app(11186): Accessing hidden method Landroid/util/LongArray;->get(I)J (unsupported, reflection, allowed)
+D/AccessibilityBridge(11186): Setting not found: accessibility_display_inversion_enabled, using default: 0
+D/FlutterRenderer(11186): Width is zero. 0,0
+D/CompatibilityChangeReporter(11186): Compat change id reported: 237531167; UID 10182; state: DISABLED
+W/Parcel  (11186): Expecting binder but got null!
+I/Choreographer(11186): Skipped 255 frames!  The application may be doing too much work on its main thread.
+D/FlutterRenderer(11186): Width is zero. 0,0
+D/FlutterJNI(11186): Sending viewport metrics to the engine.
+D/HostConnection(11186): HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_vulkan_queue_submit_with_commands ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_multi_configs ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+W/OpenGLRenderer(11186): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/EGL_emulation(11186): eglCreateContext: 0x7a15e3169210: maj 3 min 0 rcv 3
+D/EGL_emulation(11186): eglMakeCurrent: 0x7a15e3169210: ver 3 0 (tinfo 0x7a17ff041180) (first time)
+I/Gralloc4(11186): mapper 4.x is not supported
+W/Gralloc4(11186): allocator 4.x is not supported
+D/HostConnection(11186): HostComposition ext ANDROID_EMU_CHECKSUM_HELPER_v1 ANDROID_EMU_native_sync_v2 ANDROID_EMU_dma_v1 ANDROID_EMU_direct_mem ANDROID_EMU_host_composition_v1 ANDROID_EMU_host_composition_v2 ANDROID_EMU_vulkan ANDROID_EMU_deferred_vulkan_commands ANDROID_EMU_vulkan_null_optional_strings ANDROID_EMU_vulkan_create_resources_with_requirements ANDROID_EMU_YUV_Cache ANDROID_EMU_vulkan_ignored_handles ANDROID_EMU_has_shared_slots_host_memory_allocator ANDROID_EMU_vulkan_free_memory_sync ANDROID_EMU_vulkan_shader_float16_int8 ANDROID_EMU_vulkan_async_queue_submit ANDROID_EMU_vulkan_queue_submit_with_commands ANDROID_EMU_sync_buffer_data ANDROID_EMU_vulkan_async_qsri ANDROID_EMU_read_color_buffer_dma ANDROID_EMU_hwc_multi_configs ANDROID_EMU_hwc_color_transform GL_OES_EGL_image_external_essl3 GL_OES_vertex_array_object GL_KHR_texture_compression_astc_ldr ANDROID_EMU_host_side_tracing ANDROID_EMU_gles_max_version_3_0 
+D/FlutterGeolocator(11186): Creating service.
+D/FlutterGeolocator(11186): Binding to location service.
+I/Choreographer(11186): Skipped 149 frames!  The application may be doing too much work on its main thread.
+D/FlutterGeolocator(11186): Geolocator foreground service connected
+D/FlutterGeolocator(11186): Initializing Geolocator services
+D/FlutterGeolocator(11186): Flutter engine connected. Connected engine count 1
+D/FlutterJNI(11186): Sending viewport metrics to the engine.
+I/ku.firstaid.app(11186): Compiler allocated 4355KB to compile void android.view.ViewRootImpl.performTraversals()
+D/ProfileInstaller(11186): Installing profile for vn.vku.firstaid.app
+VMServiceFlutterDriver: Connecting to Flutter application at http://127.0.0.1:55266/QEIDq14T5TY=/
+VMServiceFlutterDriver: Isolate found with number: 8549522308416791
+VMServiceFlutterDriver: Isolate 8549522308416791 is runnable.
+VMServiceFlutterDriver: Isolate is paused at start.
+VMServiceFlutterDriver: Attempting to resume isolate
+I/Choreographer(11186): Skipped 38 frames!  The application may be doing too much work on its main thread.
+I/flutter (11186): 00:00 +0: frame timing: giao diện Sáng
+VMServiceFlutterDriver: Connected to Flutter application.
+I/Choreographer(11186): Skipped 70 frames!  The application may be doing too much work on its main thread.
+I/Choreographer(11186): Skipped 39 frames!  The application may be doing too much work on its main thread.
+I/OpenGLRenderer(11186): Davey! duration=876ms; Flags=1, FrameTimelineVsyncId=18041, IntendedVsync=1960653282390, Vsync=1961303282364, InputEventId=0, HandleInputStart=1961318974200, AnimationStart=1961319019400, PerformTraversalsStart=1961319082200, DrawStart=1961320963400, FrameDeadline=1960669949056, FrameInterval=1961318692400, FrameStartTime=16666666, SyncQueued=1961322535700, SyncStart=1961323108800, IssueDrawCommandsStart=1961323328700, SwapBuffers=1961349632900, FrameCompleted=1961529932900, DequeueBufferDuration=1680300, QueueBufferDuration=1139200, GpuCompleted=1961528123700, SwapBuffersCompleted=1961529932900, DisplayPresentTime=0, CommandSubmissionCompleted=1961349632900, 
+D/FlutterJNI(11186): Sending viewport metrics to the engine.
+D/EGL_emulation(11186): app_time_stats: avg=2001.57ms min=278.91ms max=4868.90ms count=3
+W/OnBackInvokedCallback(11186): OnBackInvokedCallback is not enabled for the application.
+W/OnBackInvokedCallback(11186): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+D/EGL_emulation(11186): app_time_stats: avg=827.61ms min=60.04ms max=2736.24ms count=4
+D/EGL_emulation(11186): app_time_stats: avg=54.45ms min=12.50ms max=152.94ms count=19
+D/EGL_emulation(11186): app_time_stats: avg=59.48ms min=32.54ms max=116.66ms count=17
+D/EGL_emulation(11186): app_time_stats: avg=180.86ms min=29.74ms max=587.67ms count=7
+W/OnBackInvokedCallback(11186): OnBackInvokedCallback is not enabled for the application.
+W/OnBackInvokedCallback(11186): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+W/InputMethodManager(11186): Ignoring showSoftInput() as view=io.flutter.embedding.android.FlutterView{8f952e2 VFE...... .F....ID 0,0-320,640 #1} is not served.
+D/EGL_emulation(11186): app_time_stats: avg=695.19ms min=32.99ms max=2377.21ms count=4
+W/InputMethodManager(11186): Ignoring showSoftInput() as view=io.flutter.embedding.android.FlutterView{8f952e2 VFE...... .F....ID 0,0-320,640 #1} is not served.
+D/EGL_emulation(11186): app_time_stats: avg=7291.37ms min=3945.39ms max=10637.35ms count=2
+I/AssistStructure(11186): Flattened final assist data: 384 bytes, containing 1 windows, 3 views
+D/EGL_emulation(11186): app_time_stats: avg=478.32ms min=149.91ms max=1304.52ms count=4
+D/EGL_emulation(11186): app_time_stats: avg=39.60ms min=13.27ms max=72.92ms count=24
+D/EGL_emulation(11186): app_time_stats: avg=44.81ms min=11.44ms max=115.49ms count=19
+D/EGL_emulation(11186): app_time_stats: avg=35.09ms min=18.40ms max=85.60ms count=27
+D/EGL_emulation(11186): app_time_stats: avg=43.16ms min=11.55ms max=117.66ms count=22
+D/EGL_emulation(11186): app_time_stats: avg=45.97ms min=21.01ms max=151.08ms count=21
+D/EGL_emulation(11186): app_time_stats: avg=35.83ms min=17.37ms max=115.13ms count=24
+D/EGL_emulation(11186): app_time_stats: avg=50.62ms min=15.00ms max=123.89ms count=19
+D/EGL_emulation(11186): app_time_stats: avg=40.48ms min=16.15ms max=127.79ms count=25
+D/EGL_emulation(11186): app_time_stats: avg=28.69ms min=11.33ms max=44.00ms count=30
+D/EGL_emulation(11186): app_time_stats: avg=225.05ms min=19.57ms max=2102.01ms count=13
+W/OnBackInvokedCallback(11186): OnBackInvokedCallback is not enabled for the application.
+W/OnBackInvokedCallback(11186): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+I/flutter (11186): 00:31 +1: frame timing: giao diện Tối
+D/EGL_emulation(11186): app_time_stats: avg=73.63ms min=9.56ms max=393.41ms count=15
+D/FlutterJNI(11186): Sending viewport metrics to the engine.
+D/EGL_emulation(11186): app_time_stats: avg=433.68ms min=46.47ms max=2068.57ms count=6
+D/EGL_emulation(11186): app_time_stats: avg=48.37ms min=12.33ms max=90.70ms count=21
+D/EGL_emulation(11186): app_time_stats: avg=51.49ms min=15.31ms max=98.35ms count=19
+W/InputMethodManager(11186): Ignoring showSoftInput() as view=io.flutter.embedding.android.FlutterView{8f952e2 VFE...... .F...... 0,0-320,640 #1 aid=1073741824} is not served.
+W/InputMethodManager(11186): Ignoring showSoftInput() as view=io.flutter.embedding.android.FlutterView{8f952e2 VFE...... .F...... 0,0-320,640 #1 aid=1073741824} is not served.
+I/AssistStructure(11186): Flattened final assist data: 384 bytes, containing 1 windows, 3 views
+D/EGL_emulation(11186): app_time_stats: avg=349.04ms min=32.98ms max=2092.67ms count=8
+D/EGL_emulation(11186): app_time_stats: avg=66.06ms min=13.51ms max=165.26ms count=15
+D/EGL_emulation(11186): app_time_stats: avg=40.53ms min=17.17ms max=119.82ms count=25
+D/EGL_emulation(11186): app_time_stats: avg=33.04ms min=11.68ms max=54.98ms count=28
+D/EGL_emulation(11186): app_time_stats: avg=38.19ms min=12.00ms max=115.43ms count=24
+D/EGL_emulation(11186): app_time_stats: avg=51.09ms min=18.23ms max=118.82ms count=19
+D/EGL_emulation(11186): app_time_stats: avg=29.16ms min=11.05ms max=47.03ms count=29
+D/EGL_emulation(11186): app_time_stats: avg=39.74ms min=14.36ms max=119.00ms count=24
+D/EGL_emulation(11186): app_time_stats: avg=39.32ms min=13.73ms max=116.03ms count=23
+D/EGL_emulation(11186): app_time_stats: avg=35.55ms min=18.05ms max=114.74ms count=28
+D/EGL_emulation(11186): app_time_stats: avg=474.04ms min=39.66ms max=2066.27ms count=5
+I/flutter (11186): 00:51 +2: (tearDownAll)
+I/flutter (11186): 00:51 +3: All tests passed!
+All tests passed.
+exit=0

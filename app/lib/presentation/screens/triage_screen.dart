@@ -51,14 +51,14 @@ class _TriageScreenState extends ConsumerState<TriageScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: _error != null
-              ? Column(
+              ? const Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text(
+                    Text(
                       'Không đọc được dữ liệu sàng lọc. Hãy gọi 115 nếu nguy hiểm.',
                     ),
-                    const Spacer(),
-                    const Call115Button(),
+                    Spacer(),
+                    Call115Button(),
                   ],
                 )
               : node == null
@@ -89,8 +89,8 @@ class _NodeView extends StatelessWidget {
       }
       if (node.protocolCode != null) {
         children.add(
-          SizedBox(
-            height: 64,
+          ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 64),
             child: FilledButton.icon(
               onPressed: () => context.push('/protocols/${node.protocolCode}'),
               icon: const Icon(Icons.list_alt),
@@ -122,8 +122,8 @@ class _NodeView extends StatelessWidget {
         const SizedBox(height: 24),
         const Call115Button(),
         const SizedBox(height: 12),
-        SizedBox(
-          height: 56,
+        ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 56),
           child: OutlinedButton.icon(
             onPressed: () => context.push('/sos'),
             icon: const Icon(Icons.sms),
@@ -148,8 +148,8 @@ class _AnswerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 72,
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 72),
       child: FilledButton.tonalIcon(
         onPressed: onPressed,
         icon: Icon(icon),

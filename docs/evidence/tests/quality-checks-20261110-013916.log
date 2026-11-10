@@ -1,0 +1,323 @@
+# quality checks (Prompt 08, bản cuối) 20261110-013916 (cwd app/)
+
+$ flutter pub get
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  geolocator 14.0.1 (14.1.2 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.6 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+18 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+exit=0
+
+$ dart format --set-exit-if-changed lib test integration_test test_driver tool
+Formatted 93 files (0 changed) in 0.56 seconds.
+exit=0
+
+$ flutter analyze
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  geolocator 14.0.1 (14.1.2 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.6 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+18 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Analyzing app...                                                
+No issues found! (ran in 11.6s)
+exit=0
+
+$ flutter test --coverage
+Resolving dependencies...
+Downloading packages...
+  built_collection 5.1.2 (6.0.0 available)
+  code_assets 1.2.1 (2.2.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  flutter_riverpod 3.4.3 (3.5.0 available)
+  geolocator 14.0.1 (14.1.2 available)
+  hooks 2.0.2 (2.2.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  native_toolchain_c 0.19.2 (0.19.6 available)
+  objective_c 9.5.0 (9.6.3 available)
+  petitparser 7.0.2 (7.1.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  riverpod 3.4.3 (3.5.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  sqlite3 3.5.2 (3.9.0 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+18 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart
+00:00 +0: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: detector flags forbidden imports
+00:00 +1: D:/Start Github/firstaid-capstone/app/test/architecture/domain_isolation_test.dart: lib/domain has no forbidden imports
+00:00 +2: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: đối chứng: các kiểm tra thật sự bắt lỗi nút 20x20 không nhãn, chữ tương phản thấp -> trượt
+00:02 +3: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: đối chứng: các kiểm tra thật sự bắt lỗi chữ to trong nút cao cố định -> phát hiện bị cắt
+00:02 +4: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:03 +5: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:03 +6: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:03 +7: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:03 +8: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:03 +9: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:03 +10: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:04 +11: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Sàng lọc (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:04 +12: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:05 +13: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Cẩm nang (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:06 +14: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Cài đặt (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:07 +15: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: SOS (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:07 +16: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Mô tả tình huống (dark): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:07 +17: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:07 +18: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Sàng lọc (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +19: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Sàng lọc (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +20: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +21: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +22: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +23: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +24: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +25: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +26: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +27: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +28: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +29: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Cẩm nang (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +30: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Cài đặt (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:08 +31: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: SOS (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:09 +32: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Mô tả tình huống (light): tap target >= 48dp, nút có nhãn, contrast chữ đạt guideline
+00:09 +33: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Home: cỡ chữ 200% trên màn 360dp không tràn, không cắt chữ
+00:09 +34: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Sàng lọc: cỡ chữ 200% trên màn 360dp không tràn, không cắt chữ
+00:09 +35: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Hướng dẫn CPR: cỡ chữ 200% trên màn 360dp không tràn, không cắt chữ
+00:09 +36: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Cẩm nang: cỡ chữ 200% trên màn 360dp không tràn, không cắt chữ
+00:09 +37: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Cài đặt: cỡ chữ 200% trên màn 360dp không tràn, không cắt chữ
+00:10 +38: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: SOS: cỡ chữ 200% trên màn 360dp không tràn, không cắt chữ
+00:10 +39: D:/Start Github/firstaid-capstone/app/test/accessibility_test.dart: Mô tả tình huống: cỡ chữ 200% trên màn 360dp không tràn, không cắt chữ
+00:14 +40: D:/Start Github/firstaid-capstone/app/test/data/remote_mapper_and_settings_repo_test.dart: protocolFromRemoteRow ánh xạ đủ trường, enum và trích dẫn
+00:14 +41: D:/Start Github/firstaid-capstone/app/test/data/remote_mapper_and_settings_repo_test.dart: protocolFromRemoteRow chưa review -> bắt buộc cảnh báo; steps null -> rỗng
+00:14 +42: D:/Start Github/firstaid-capstone/app/test/data/remote_mapper_and_settings_repo_test.dart: protocolFromRemoteRow enum lạ -> SeedFormatException (không đoán)
+00:14 +43: D:/Start Github/firstaid-capstone/app/test/data/remote_mapper_and_settings_repo_test.dart: SharedPrefsSettingsRepository chưa lưu gì -> mặc định (hệ thống, 1.0, chưa đồng ý AI)
+00:14 +44: D:/Start Github/firstaid-capstone/app/test/data/remote_mapper_and_settings_repo_test.dart: SharedPrefsSettingsRepository lưu rồi đọc lại đủ 3 trường
+00:14 +45: D:/Start Github/firstaid-capstone/app/test/data/remote_mapper_and_settings_repo_test.dart: SharedPrefsSettingsRepository giá trị hỏng/ngoài khoảng -> về mặc định / bị kẹp
+00:15 +46: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: seed parse: 4 chủ đề MVP đều có phác đồ
+00:15 +47: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: mọi phác đồ có >=1 citation với source_id verified trong register
+00:15 +48: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: mọi bước có citation và có >=1 bước
+00:15 +49: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: trạng thái nguồn hợp lệ và chưa ai rà soát lâm sàng
+00:15 +50: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: giá trị enum lạ bị từ chối
+00:15 +51: D:/Start Github/firstaid-capstone/app/test/data/seed_data_test.dart: triage: liên kết nút hợp lệ và mã phác đồ tồn tại
+00:16 +52: loading D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart
+00:18 +52: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:20 +53: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:20 +54: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:20 +55: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:20 +56: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:20 +57: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:20 +58: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:20 +59: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lần đầu: hỏi đồng ý -> AI chọn mã -> phác đồ từ Drift, nguồn, cảnh báo; KHÔNG hiện văn bản LLM
+00:22 +60: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đã đồng ý thì không hỏi lại
+00:23 +61: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +62: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +63: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +64: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +65: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +66: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +67: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +68: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +69: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +70: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +71: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +72: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +73: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +74: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +75: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +76: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +77: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +78: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +79: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +80: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +81: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +82: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +83: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +84: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: không đồng ý -> không gửi, gợi ý sàng lọc offline
+00:23 +85: D:/Start Github/firstaid-capstone/app/test/domain/route_situation_test.dart: detectEmergencyKeywords (cùng ca với backend/tests) khớp: hóc đồ ăn, không thở được
+00:23 +86: D:/Start Github/firstaid-capstone/app/test/domain/route_situation_test.dart: detectEmergencyKeywords (cùng ca với backend/tests) khớp: máu phun ra từ cánh tay
+00:23 +87: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đang xử lý: hiện tiến trình streaming; Bỏ qua -> sàng lọc ngay và hủy yêu cầu
+00:23 +88: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đang xử lý: hiện tiến trình streaming; Bỏ qua -> sàng lọc ngay và hủy yêu cầu
+00:23 +89: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đang xử lý: hiện tiến trình streaming; Bỏ qua -> sàng lọc ngay và hủy yêu cầu
+00:23 +90: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đang xử lý: hiện tiến trình streaming; Bỏ qua -> sàng lọc ngay và hủy yêu cầu
+00:23 +91: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đang xử lý: hiện tiến trình streaming; Bỏ qua -> sàng lọc ngay và hủy yêu cầu
+00:23 +92: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đang xử lý: hiện tiến trình streaming; Bỏ qua -> sàng lọc ngay và hủy yêu cầu
+00:23 +93: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: đang xử lý: hiện tiến trình streaming; Bỏ qua -> sàng lọc ngay và hủy yêu cầu
+00:24 +94: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: màn nhỏ 360x640: tự cuộn để thẻ kết quả nằm trong vùng nhìn thấy
+00:24 +95: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: Bỏ qua ngay khi chưa nhập gì -> sàng lọc
+00:25 +96: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: mất mạng -> fallback ngay, không gọi AI; nút sàng lọc offline
+00:26 +97: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: uncertain -> fallback sàng lọc + Gọi 115, không mở phác đồ
+00:26 +98: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: mã không có trong cẩm nang -> fallback sàng lọc + Gọi 115, không mở phác đồ
+00:26 +99: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: timeout -> fallback sàng lọc + Gọi 115, không mở phác đồ
+00:27 +100: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: lỗi máy chủ (429/5xx) -> fallback sàng lọc + Gọi 115, không mở phác đồ
+00:27 +101: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: chưa cấu hình AI_BASE_URL -> fallback sàng lọc + Gọi 115, không mở phác đồ
+00:27 +102: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: từ khóa nguy cấp -> GỌI 115 NGAY, không hỏi đồng ý, không gửi mạng
+00:28 +103: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: server rules call_115_now -> GỌI 115 NGAY
+00:28 +104: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: server rules call_115_now -> GỌI 115 NGAY
+00:28 +105: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: server rules call_115_now -> GỌI 115 NGAY
+00:28 +106: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: server rules call_115_now -> GỌI 115 NGAY
+00:28 +107: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: server rules call_115_now -> GỌI 115 NGAY
+00:28 +108: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: ô trống -> báo lỗi nhập, không gọi AI
+00:28 +109: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: Dark Mode: kết quả hiển thị đủ chữ + icon
+00:29 +110: D:/Start Github/firstaid-capstone/app/test/describe_situation_test.dart: Cài đặt: bật/tắt đồng ý gửi mô tả, được lưu
+00:30 +111: loading D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart
+00:32 +111: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:33 +112: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +113: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +114: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +115: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +116: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +117: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +118: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +119: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +120: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +121: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +122: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +123: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +124: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +125: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +126: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +127: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +128: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:34 +129: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: giải thích quyền trước, chưa lấy vị trí/chưa gửi gì
+00:35 +130: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: luồng xác nhận: vị trí -> xem trước -> xác nhận mới mở SMS
+00:36 +131: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: bỏ qua vị trí: soạn tin không tọa độ
+00:36 +132: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi permissionDenied: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:37 +133: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi permissionDeniedForever: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:38 +134: D:/Start Github/firstaid-capstone/app/test/theme_text_scale_test.dart: AppTheme Material 3, sáng/tối đúng brightness, dựng một lần (cache)
+00:39 +135: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi serviceDisabled: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:39 +136: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi serviceDisabled: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:39 +137: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi serviceDisabled: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:39 +138: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi serviceDisabled: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:40 +139: D:/Start Github/firstaid-capstone/app/test/theme_text_scale_test.dart: app tôn trọng cỡ chữ hệ thống (trước đây bị ghi đè)
+00:40 +140: D:/Start Github/firstaid-capstone/app/test/theme_text_scale_test.dart: app tôn trọng cỡ chữ hệ thống (trước đây bị ghi đè)
+00:41 +141: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: lỗi error: thông báo, thử lại, bỏ qua, vẫn gọi 115
+00:41 +142: D:/Start Github/firstaid-capstone/app/test/theme_text_scale_test.dart: kéo thanh cỡ chữ: chỉ ghi đĩa khi thả tay
+00:42 +143: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: bị chặn vĩnh viễn / GPS tắt: mở đúng màn cài đặt
+00:43 +144: D:/Start Github/firstaid-capstone/app/test/sos_screen_test.dart: thử lại sau lỗi thành công thì vào màn xem trước
+00:44 +145: loading D:/Start Github/firstaid-capstone/app/test/widget_test.dart
+00:46 +145: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home có nút KHẨN CẤP (icon + chữ), lối vào và chip mạng
+00:48 +146: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Home chip mạng chuyển sang chữ + icon offline
+00:48 +147: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage KHẨN CẤP -> không phản ứng, không thở -> CPR + gọi 115
+00:50 +148: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage mọi bước sàng lọc đều có nút Gọi 115 ngay
+00:50 +149: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Triage không xác định tình huống -> Gọi 115
+00:52 +150: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước hiện bước, nguồn, version, cảnh báo, KHÔNG ĐƯỢC LÀM
+00:52 +151: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước Tiếp/Trước đổi bước; Đọc to gọi TTS với đúng text
+00:53 +152: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Hướng dẫn từng bước thiếu giọng vi-VN: thông báo rõ, vẫn hiện text, nút đọc tắt
+00:53 +153: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Cẩm nang danh sách, cảnh báo và tìm kiếm local không dấu
+00:54 +154: D:/Start Github/firstaid-capstone/app/test/widget_test.dart: Cài đặt đổi chế độ tối và cỡ chữ, được lưu qua repository
+00:56 +155: All tests passed!
+exit=0
+
+$ dart run tool/coverage_summary.dart coverage/lcov.info
+|---|---|---|
+| lib/core/config/app_config.dart | 0 / 9 | 0.00% |
+| lib/core/di/providers.dart | 34 / 58 | 58.62% |
+| lib/data/datasources/local/app_database.dart | 8 / 62 | 12.90% |
+| lib/data/datasources/local/app_database.g.dart | 515 / 1713 | 30.06% |
+| lib/data/datasources/local/protocol_local_datasource.dart | 61 / 61 | 100.00% |
+| lib/data/datasources/local/seed_loader.dart | 82 / 82 | 100.00% |
+| lib/data/datasources/remote/supabase_remote_sync_source.dart | 0 / 33 | 0.00% |
+| lib/data/models/remote_protocol_mapper.dart | 24 / 24 | 100.00% |
+| lib/data/models/seed_parser.dart | 85 / 91 | 93.41% |
+| lib/data/repositories/drift_emergency_repository.dart | 6 / 7 | 85.71% |
+| lib/data/repositories/drift_protocol_repository.dart | 5 / 5 | 100.00% |
+| lib/data/repositories/drift_protocol_sync_store.dart | 45 / 45 | 100.00% |
+| lib/data/repositories/drift_sync_queue_repository.dart | 52 / 52 | 100.00% |
+| lib/data/repositories/http_ai_router_repository.dart | 96 / 99 | 96.97% |
+| lib/data/repositories/shared_prefs_settings_repository.dart | 13 / 13 | 100.00% |
+| lib/data/services/connectivity_plus_service.dart | 0 / 8 | 0.00% |
+| lib/data/services/flutter_tts_service.dart | 0 / 10 | 0.00% |
+| lib/data/services/geolocator_location_service.dart | 1 / 22 | 4.55% |
+| lib/data/services/url_launcher_dialer_service.dart | 1 / 3 | 33.33% |
+| lib/data/services/url_launcher_sms_composer.dart | 4 / 6 | 66.67% |
+| lib/domain/entities/ai_route.dart | 9 / 11 | 81.82% |
+| lib/domain/entities/app_settings.dart | 6 / 6 | 100.00% |
+| lib/domain/entities/cited_text.dart | 1 / 1 | 100.00% |
+| lib/domain/entities/emergency_case.dart | 1 / 1 | 100.00% |
+| lib/domain/entities/first_aid_protocol.dart | 2 / 2 | 100.00% |
+| lib/domain/entities/protocol_step.dart | 1 / 1 | 100.00% |
+| lib/domain/entities/sos_message.dart | 2 / 2 | 100.00% |
+| lib/domain/entities/source_citation.dart | 3 / 3 | 100.00% |
+| lib/domain/entities/sync_job.dart | 1 / 1 | 100.00% |
+| lib/domain/entities/triage_node.dart | 2 / 2 | 100.00% |
+| lib/domain/services/location_service.dart | 3 / 3 | 100.00% |
+| lib/domain/services/remote_sync_source.dart | 4 / 6 | 66.67% |
+| lib/domain/usecases/advance_triage.dart | 5 / 5 | 100.00% |
+| lib/domain/usecases/detect_emergency_keywords.dart | 23 / 24 | 95.83% |
+| lib/domain/usecases/enqueue_sos_log.dart | 9 / 9 | 100.00% |
+| lib/domain/usecases/get_current_location_for_sos.dart | 3 / 3 | 100.00% |
+| lib/domain/usecases/get_offline_protocols.dart | 2 / 2 | 100.00% |
+| lib/domain/usecases/get_protocol_by_code.dart | 3 / 3 | 100.00% |
+| lib/domain/usecases/prepare_sos_message.dart | 20 / 20 | 100.00% |
+| lib/domain/usecases/process_sync_queue.dart | 25 / 25 | 100.00% |
+| lib/domain/usecases/route_situation.dart | 78 / 81 | 96.30% |
+| lib/domain/usecases/run_sync.dart | 13 / 13 | 100.00% |
+| lib/domain/usecases/search_protocols.dart | 20 / 20 | 100.00% |
+| lib/domain/usecases/start_emergency_flow.dart | 6 / 6 | 100.00% |
+| lib/domain/usecases/sync_protocols.dart | 20 / 20 | 100.00% |
+| lib/domain/utils/version_compare.dart | 10 / 10 | 100.00% |
+| lib/main.dart | 21 / 38 | 55.26% |
+| lib/presentation/providers/protocol_providers.dart | 11 / 13 | 84.62% |
+| lib/presentation/providers/settings_provider.dart | 19 / 20 | 95.00% |
+| lib/presentation/router/app_router.dart | 19 / 20 | 95.00% |
+| lib/presentation/screens/describe_situation_screen.dart | 205 / 206 | 99.51% |
+| lib/presentation/screens/home_screen.dart | 31 / 34 | 91.18% |
+| lib/presentation/screens/protocol_detail_screen.dart | 108 / 109 | 99.08% |
+| lib/presentation/screens/protocol_list_screen.dart | 32 / 35 | 91.43% |
+| lib/presentation/screens/settings_screen.dart | 27 / 27 | 100.00% |
+| lib/presentation/screens/sos_screen.dart | 115 / 119 | 96.64% |
+| lib/presentation/screens/triage_screen.dart | 55 / 58 | 94.83% |
+| lib/presentation/theme/app_text_scaler.dart | 11 / 13 | 84.62% |
+| lib/presentation/theme/app_theme.dart | 6 / 7 | 85.71% |
+| lib/presentation/widgets/call_115_button.dart | 12 / 13 | 92.31% |
+| lib/presentation/widgets/clinical_warning_banner.dart | 15 / 15 | 100.00% |
+| lib/presentation/widgets/network_chip.dart | 7 / 7 | 100.00% |
+| lib/presentation/widgets/sos_button.dart | 12 / 12 | 100.00% |
+
+| Lớp | Dòng hit / tổng | % |
+|---|---|---|
+| core | 34 / 67 | 50.75% |
+| data | 998 / 2336 | 42.72% |
+| domain | 272 / 280 | 97.14% |
+| khác | 21 / 38 | 55.26% |
+| presentation | 685 / 708 | 96.75% |
+
+TỔNG: 2010 / 3429 dòng (58.62%), 63 file trong lcov.info
+TỔNG KHÔNG TÍNH *.g.dart: 1495 / 1716 dòng (87.12%), 62 file
+exit=0

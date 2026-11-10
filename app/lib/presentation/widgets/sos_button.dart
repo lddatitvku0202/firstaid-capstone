@@ -14,9 +14,11 @@ class SosButton extends StatelessWidget {
     return Semantics(
       button: true,
       label: 'Khẩn cấp, bắt đầu sàng lọc',
-      child: SizedBox(
-        width: double.infinity,
-        height: 120,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: double.infinity,
+          minHeight: 120,
+        ),
         child: FilledButton.icon(
           onPressed: onPressed,
           style: FilledButton.styleFrom(

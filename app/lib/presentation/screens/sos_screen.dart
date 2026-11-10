@@ -302,6 +302,9 @@ class _BigButton extends StatelessWidget {
             icon: Icon(icon),
             label: Text(label),
           );
-    return SizedBox(height: 56, child: button);
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 56),
+      child: button,
+    );
   }
 }

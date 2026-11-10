@@ -158,6 +158,33 @@ void main() {
     expect(cancelled, isTrue);
   });
 
+  testWidgets(
+    'màn nhỏ 360x640: tự cuộn để thẻ kết quả nằm trong vùng nhìn thấy',
+    (tester) async {
+      final env = await _openDescribe(tester, connected: false);
+      tester.view.physicalSize = const Size(1080, 1920); // 360x640 dp
+      tester.view.devicePixelRatio = 3.0;
+      await tester.pump();
+      await tester.enterText(find.byType(TextField), 'tay bị bỏng');
+      await tester.scrollUntilVisible(
+        find.text(DescribeSituationScreen.submitLabel),
+        100,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(find.text(DescribeSituationScreen.submitLabel));
+      await tester.pump();
+      final msg = find.text(fallbackMessage(FallbackReason.offline));
+      await _pumpUntil(tester, msg);
+      await settle(tester);
+      // Vùng nhìn thấy của danh sách = từ dưới AppBar tới trên thanh nút cố định.
+      final list = tester.getRect(find.byType(Scrollable).first);
+      final card = tester.getRect(msg);
+      expect(card.top, greaterThanOrEqualTo(list.top));
+      expect(card.bottom, lessThanOrEqualTo(list.bottom));
+      expect(env.ai.calls, isEmpty);
+    },
+  );
+
   testWidgets('Bỏ qua ngay khi chưa nhập gì -> sàng lọc', (tester) async {
     final env = await _openDescribe(tester);
     await tester.tap(find.text(DescribeSituationScreen.skipLabel));

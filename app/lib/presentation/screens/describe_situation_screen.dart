@@ -61,6 +61,22 @@ class _DescribeSituationScreenState
   _Phase _phase = const _Idle();
   bool _showEmptyError = false;
 
+  /// Gắn vào vùng trạng thái để tự cuộn tới khi có kết quả (màn nhỏ hoặc bàn
+  /// phím ảo có thể đẩy thẻ kết quả ra ngoài vùng nhìn thấy).
+  final _outcomeKey = GlobalKey();
+
+  void _revealOutcome() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = _outcomeKey.currentContext;
+      if (!mounted || ctx == null) return;
+      Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 200),
+        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+      );
+    });
+  }
+
   @override
   void dispose() {
     _sub?.cancel();
@@ -94,6 +110,7 @@ class _DescribeSituationScreenState
               RouteDone(:final outcome) => _Done(outcome),
             };
           });
+          if (u is RouteDone) _revealOutcome();
         });
   }
 
@@ -185,8 +202,8 @@ class _DescribeSituationScreenState
                           : null,
                     ),
                   ),
-                  SizedBox(
-                    height: 56,
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 56),
                     child: FilledButton.icon(
                       onPressed: processing ? null : _submit,
                       icon: const Icon(Icons.search),
@@ -194,28 +211,31 @@ class _DescribeSituationScreenState
                     ),
                   ),
                   const SizedBox(height: 16),
-                  switch (_phase) {
-                    _Idle() => Text(
-                      'AI chỉ gợi ý một phác đồ có sẵn trong cẩm nang trên máy, '
-                      'không chẩn đoán. Cần mạng.',
-                      style: text.bodyMedium,
-                    ),
-                    _Processing(:final stage, :final chars) => _ProgressView(
-                      stage: stage,
-                      chars: chars,
-                    ),
-                    _Done(:final outcome) => switch (outcome) {
-                      RoutedToProtocol(:final protocol) => _ResultCard(
-                        protocol: protocol,
+                  KeyedSubtree(
+                    key: _outcomeKey,
+                    child: switch (_phase) {
+                      _Idle() => Text(
+                        'AI chỉ gợi ý một phác đồ có sẵn trong cẩm nang trên máy, '
+                        'không chẩn đoán. Cần mạng.',
+                        style: text.bodyMedium,
                       ),
-                      EmergencyCall115(:final source, :final protocol) =>
-                        _EmergencyCard(source: source, protocol: protocol),
-                      FallbackToTriage(:final reason) => _FallbackCard(
-                        reason: reason,
-                        onStartTriage: _skipToTriage,
+                      _Processing(:final stage, :final chars) => _ProgressView(
+                        stage: stage,
+                        chars: chars,
                       ),
+                      _Done(:final outcome) => switch (outcome) {
+                        RoutedToProtocol(:final protocol) => _ResultCard(
+                          protocol: protocol,
+                        ),
+                        EmergencyCall115(:final source, :final protocol) =>
+                          _EmergencyCard(source: source, protocol: protocol),
+                        FallbackToTriage(:final reason) => _FallbackCard(
+                          reason: reason,
+                          onStartTriage: _skipToTriage,
+                        ),
+                      },
                     },
-                  },
+                  ),
                 ],
               ),
             ),
@@ -227,9 +247,11 @@ class _DescribeSituationScreenState
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        minWidth: double.infinity,
+                        minHeight: 56,
+                      ),
                       child: OutlinedButton.icon(
                         onPressed: _skipToTriage,
                         icon: const Icon(Icons.fast_forward),
@@ -371,8 +393,8 @@ class _ResultCard extends StatelessWidget {
               const ClinicalWarningBanner(),
             ],
             const SizedBox(height: 12),
-            SizedBox(
-              height: 64,
+            ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 64),
               child: FilledButton.icon(
                 onPressed: () => context.push('/protocols/${protocol.code}'),
                 icon: const Icon(Icons.list_alt),
@@ -437,8 +459,8 @@ class _EmergencyCard extends StatelessWidget {
           const Call115Button(),
           if (p != null) ...[
             const SizedBox(height: 12),
-            SizedBox(
-              height: 64,
+            ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 64),
               child: FilledButton.tonalIcon(
                 onPressed: () => context.push('/protocols/${p.code}'),
                 icon: const Icon(Icons.list_alt),
@@ -507,8 +529,8 @@ class _FallbackCard extends StatelessWidget {
               'Nếu nguy hiểm tính mạng, gọi 115.',
             ),
             const SizedBox(height: 12),
-            SizedBox(
-              height: 64,
+            ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 64),
               child: FilledButton.icon(
                 onPressed: onStartTriage,
                 icon: const Icon(Icons.alt_route),
