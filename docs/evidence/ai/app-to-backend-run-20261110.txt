@@ -1,0 +1,1 @@
+2026-11-10 10:43:11,856 INFO firstaid.route route ok rid=19763363 source=llm code=burns_thermal_chemical uncertain=False text_len=25 ms=2962
