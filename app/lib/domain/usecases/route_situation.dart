@@ -66,7 +66,8 @@ class RouteDone extends RouteSituationUpdate {
 
 /// Định tuyến mô tả tình huống tới phác đồ cục bộ, với fallback an toàn.
 ///
-/// Thứ tự: rỗng -> từ khóa nguy cấp (trên máy, không gửi mạng) -> có mạng
+/// Thứ tự: rỗng -> từ khóa nguy cấp (trên máy, không gửi mạng) -> AI đã được
+/// cấu hình (chưa thì fallback ngay, không hỏi đồng ý) -> có mạng
 /// -> người dùng đồng ý gửi -> gọi AI (deadline tổng) -> kiểm tra kết quả với
 /// allowlist là các phác đồ trong Drift. Không bao giờ ném lỗi: luôn kết thúc
 /// bằng đúng một [RouteDone].
@@ -105,6 +106,13 @@ class RouteSituation {
           await _lookup(local.protocolCode),
         ),
       );
+      return;
+    }
+
+    // R-33: bản build không có AI_BASE_URL không gửi gì lên mạng, nên không
+    // kiểm tra mạng và không hỏi đồng ý.
+    if (!_ai.isConfigured) {
+      yield const RouteDone(FallbackToTriage(FallbackReason.notConfigured));
       return;
     }
 

@@ -56,11 +56,13 @@ Future<TestEnv> _openDescribe(
   WidgetTester tester, {
   AppSettings settings = _consented,
   bool connected = true,
+  bool aiConfigured = true,
   Stream<AiRouteEvent> Function(String)? handler,
 }) async {
   _tallScreen(tester);
   final env = await createEnv(tester, settings: settings, connected: connected);
   env.ai.handler = handler;
+  env.ai.configured = aiConfigured;
   await pumpFullApp(tester, env);
   await tester.tap(find.text('Mô tả tình huống'));
   await settle(tester);
@@ -284,6 +286,54 @@ void main() {
     await tester.pump();
     await tester.runAsync(() => Future<void>.delayed(Duration.zero));
     expect(env.dialer.dialed, ['115']);
+  });
+
+  group('chưa cấu hình máy chủ AI (R-33)', () {
+    testWidgets('mở màn: thẻ "chưa cấu hình" + nút sàng lọc offline ngay từ '
+        'đầu; gửi mô tả không hỏi đồng ý, không gọi AI', (tester) async {
+      final env = await _openDescribe(
+        tester,
+        settings: const AppSettings(), // chưa từng đồng ý
+        aiConfigured: false,
+        handler: (_) => _ok(_result()),
+      );
+      final msg = fallbackMessage(FallbackReason.notConfigured);
+      expect(find.text(msg), findsOneWidget);
+      expect(find.text('Bắt đầu sàng lọc offline'), findsOneWidget);
+      expect(find.text(Call115Button.label), findsOneWidget);
+      expect(find.text(DescribeSituationScreen.privacyNotice), findsNothing);
+
+      await _submit(tester, 'tay bị bỏng do nước sôi');
+      await _pumpUntil(tester, find.text(msg));
+      await tester.pump();
+      expect(find.text(DescribeSituationScreen.consentTitle), findsNothing);
+      expect(env.ai.calls, isEmpty);
+      expect(env.settings.stored.aiPrivacyConsent, isFalse);
+      expect(find.text(DescribeSituationScreen.referenceLabel), findsNothing);
+
+      await tester.tap(find.text('Bắt đầu sàng lọc offline'));
+      await settle(tester);
+      expect(find.textContaining('phản ứng khi bạn gọi to'), findsOneWidget);
+    });
+
+    testWidgets('vẫn kiểm tra từ khóa nguy cấp trên máy -> GỌI 115 NGAY', (
+      tester,
+    ) async {
+      final env = await _openDescribe(
+        tester,
+        settings: const AppSettings(),
+        aiConfigured: false,
+        handler: (_) => _ok(_result()),
+      );
+      await _submit(tester, 'Người lớn bất tỉnh, không thở');
+      await _pumpUntil(tester, find.textContaining('GỌI 115 NGAY'));
+      expect(find.text(DescribeSituationScreen.consentTitle), findsNothing);
+      expect(env.ai.calls, isEmpty);
+      expect(
+        find.text(fallbackMessage(FallbackReason.notConfigured)),
+        findsNothing,
+      );
+    });
   });
 
   testWidgets('server rules call_115_now -> GỌI 115 NGAY', (tester) async {

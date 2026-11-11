@@ -58,8 +58,14 @@ class _DescribeSituationScreenState
     extends ConsumerState<DescribeSituationScreen> {
   final _controller = TextEditingController();
   StreamSubscription<RouteSituationUpdate>? _sub;
-  _Phase _phase = const _Idle();
+  late _Phase _phase = _initialPhase();
   bool _showEmptyError = false;
+
+  /// R-33: chưa cấu hình máy chủ AI thì hiện thẻ fallback ngay từ đầu
+  /// (vẫn nhập được để kiểm tra từ khóa 115 trên máy).
+  _Phase _initialPhase() => ref.read(aiRouterRepositoryProvider).isConfigured
+      ? const _Idle()
+      : const _Done(FallbackToTriage(FallbackReason.notConfigured));
 
   /// Gắn vào vùng trạng thái để tự cuộn tới khi có kết quả (màn nhỏ hoặc bàn
   /// phím ảo có thể đẩy thẻ kết quả ra ngoài vùng nhìn thấy).
@@ -181,11 +187,14 @@ class _DescribeSituationScreenState
                     child: NetworkChip(),
                   ),
                   const SizedBox(height: 8),
-                  const _Notice(
-                    icon: Icons.privacy_tip_outlined,
-                    text: DescribeSituationScreen.privacyNotice,
-                  ),
-                  const SizedBox(height: 12),
+                  // R-33: chưa cấu hình AI thì không có gì được gửi đi.
+                  if (ref.watch(aiRouterRepositoryProvider).isConfigured) ...[
+                    const _Notice(
+                      icon: Icons.privacy_tip_outlined,
+                      text: DescribeSituationScreen.privacyNotice,
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                   TextField(
                     controller: _controller,
                     enabled: !processing,

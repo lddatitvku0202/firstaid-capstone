@@ -13,6 +13,9 @@ class DisabledAiRouterRepository implements AiRouterRepository {
   const DisabledAiRouterRepository();
 
   @override
+  bool get isConfigured => false;
+
+  @override
   Stream<AiRouteEvent> routeSituation(String text) =>
       Stream.error(const AiRouteException(AiRouteFailureKind.notConfigured));
 }
@@ -33,6 +36,9 @@ class HttpAiRouterRepository implements AiRouterRepository {
   /// Token tùy chọn (header X-API-Key). Nhúng trong app nên KHÔNG phải bí mật.
   final String apiKey;
   final http.Client Function() _clientFactory;
+
+  @override
+  bool get isConfigured => true;
 
   Uri get endpoint {
     final base = baseUrl.endsWith('/')

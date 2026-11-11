@@ -130,6 +130,12 @@ class FakeAiRouter implements AiRouterRepository {
   Stream<AiRouteEvent> Function(String text)? handler;
   final List<String> calls = [];
 
+  /// false = giả lập bản build không có AI_BASE_URL.
+  bool configured = true;
+
+  @override
+  bool get isConfigured => configured;
+
   @override
   Stream<AiRouteEvent> routeSituation(String text) {
     calls.add(text);

@@ -51,9 +51,13 @@ class _Connectivity implements ConnectivityService {
 }
 
 class _FakeAi implements AiRouterRepository {
-  _FakeAi(this.handler);
+  _FakeAi(this.handler, {this.configured = true});
   final Stream<AiRouteEvent> Function(String) handler;
+  final bool configured;
   final calls = <String>[];
+
+  @override
+  bool get isConfigured => configured;
 
   @override
   Stream<AiRouteEvent> routeSituation(String text) {
@@ -94,8 +98,9 @@ void main() {
     bool connected = true,
     Future<bool> Function() confirm = _yes,
     Duration timeout = const Duration(seconds: 5),
+    bool configured = true,
   }) {
-    ai = _FakeAi(handler);
+    ai = _FakeAi(handler, configured: configured);
     final uc = RouteSituation(
       ai,
       _LocalProtocols(),
@@ -232,6 +237,31 @@ void main() {
       expect(reason(u), FallbackReason.offline);
       expect(ai.calls, isEmpty);
       expect(asked, isFalse);
+    });
+
+    test('chưa cấu hình AI (R-33) -> notConfigured ngay, không hỏi đồng ý, '
+        'không gọi AI', () async {
+      var asked = false;
+      final u = await run(
+        (_) => _final(_result()),
+        configured: false,
+        confirm: () async => asked = true,
+      );
+      expect(reason(u), FallbackReason.notConfigured);
+      expect(u, hasLength(1));
+      expect(ai.calls, isEmpty);
+      expect(asked, isFalse);
+    });
+
+    test('chưa cấu hình AI vẫn kiểm tra từ khóa nguy cấp trên máy', () async {
+      final u = await run(
+        (_) => _final(_result()),
+        text: 'Người lớn bất tỉnh, không thở',
+        configured: false,
+      );
+      final o = outcome(u) as EmergencyCall115;
+      expect(o.source, Call115Source.localKeywords);
+      expect(ai.calls, isEmpty);
     });
 
     test('không đồng ý gửi -> không gọi AI', () async {
