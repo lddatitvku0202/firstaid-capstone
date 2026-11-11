@@ -1,0 +1,140 @@
+# Release: push tag v*.*.* (vd v1.0.0) -> build AAB + APK release, ký bằng keystore
+# từ GitHub Secrets qua Fastlane (app/android/fastlane/Fastfile), upload artifact.
+#
+# Secrets cần có (Settings -> Secrets and variables -> Actions):
+#   KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD
+# Hướng dẫn: docs/evidence/ci/release-signing-guide.md
+#
+# An toàn: GitHub tự che (***) giá trị secret trong log; workflow không echo secret,
+# keystore giải mã vào $RUNNER_TEMP và bị xóa ở bước cuối (kể cả khi lỗi).
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      build_name:
+        description: "Phiên bản X.Y.Z (khi chạy tay, không có tag)"
+        required: true
+        default: "1.0.0"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  android:
+    name: Android signed release (Fastlane)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xác định phiên bản
+        id: version
+        env:
+          INPUT_BUILD_NAME: ${{ github.event.inputs.build_name }}
+        run: |
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            NAME="${GITHUB_REF_NAME#v}"
+          else
+            NAME="${INPUT_BUILD_NAME}"
+          fi
+          if ! printf '%s' "$NAME" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Phiên bản phải dạng X.Y.Z (tag vX.Y.Z), nhận '$NAME'"
+            exit 1
+          fi
+          echo "build_name=$NAME" >> "$GITHUB_OUTPUT"
+          # versionCode tăng dần theo số lần chạy workflow này.
+          echo "build_number=${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      # Khớp máy phát triển: JDK 21 (Temurin), Flutter 3.47.6 stable.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.6
+          cache: true
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: In phiên bản công cụ
+        run: |
+          flutter --version
+          java -version
+          ruby --version
+          echo "ANDROID_HOME=${ANDROID_HOME}"
+          ls "${ANDROID_HOME}/build-tools"
+
+      - name: Kiểm tra trước khi build (analyze + test)
+        working-directory: app
+        run: |
+          flutter pub get
+          flutter analyze
+          flutter test
+
+      - name: Giải mã keystore và tạo key.properties (không in secret)
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set +x
+          for v in KEYSTORE_BASE64 KEYSTORE_PASSWORD KEY_ALIAS KEY_PASSWORD; do
+            if [ -z "${!v}" ]; then
+              echo "::error::Thiếu GitHub Secret $v (xem docs/evidence/ci/release-signing-guide.md)"
+              exit 1
+            fi
+          done
+          umask 077
+          KS="${RUNNER_TEMP}/firstaid-release.jks"
+          printf '%s' "$KEYSTORE_BASE64" | tr -d '\r\n ' | base64 --decode > "$KS"
+          if [ ! -s "$KS" ]; then
+            echo "::error::KEYSTORE_BASE64 giải mã ra file rỗng"
+            exit 1
+          fi
+          {
+            printf 'storeFile=%s\n' "$KS"
+            printf 'storePassword=%s\n' "$KEYSTORE_PASSWORD"
+            printf 'keyAlias=%s\n' "$KEY_ALIAS"
+            printf 'keyPassword=%s\n' "$KEY_PASSWORD"
+          } > app/android/key.properties
+          echo "Đã tạo keystore ($(stat -c %s "$KS") byte) và key.properties."
+
+      - name: Cài Fastlane
+        working-directory: app/android
+        run: |
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4
+          bundle exec fastlane --version
+
+      - name: Fastlane release (build + ký + xác minh chữ ký)
+        working-directory: app/android
+        run: >
+          bundle exec fastlane android release
+          build_name:${{ steps.version.outputs.build_name }}
+          build_number:${{ steps.version.outputs.build_number }}
+
+      - name: Xóa keystore và key.properties
+        if: always()
+        run: |
+          rm -f "${RUNNER_TEMP}/firstaid-release.jks" app/android/key.properties
+          echo "Đã xóa."
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firstaid-android-${{ steps.version.outputs.build_name }}+${{ steps.version.outputs.build_number }}
+          path: app/build/release-artifacts/
+          if-no-files-found: error
+          retention-days: 30

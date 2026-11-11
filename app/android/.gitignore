@@ -12,3 +12,11 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+# Fastlane: file sinh ra khi chạy, không commit
+fastlane/report.xml
+fastlane/README.md
+fastlane/Preferences
+fastlane/test_output
+.bundle/
+vendor/bundle/

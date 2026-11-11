@@ -1,6 +1,6 @@
 # Requirements Traceability
 
-Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026-11-10.
+Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026-11-11.
 
 ## 5 tiêu chuẩn bắt buộc
 | # | Tiêu chuẩn | Trạng thái | Bằng chứng |
@@ -9,7 +9,7 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | 2 | Tính năng AI thực sự (Streaming LLM) | Partial | Backend FastAPI + Gemini client + SSE + validation, 60 test mock (E-017); eval offline (E-018, E-019); eval Gemini thật 2 lượt, lần 2: nguồn hợp lệ 5/5, đúng mã 18/20, p50 2698 ms nhưng 14/35 (40%) lỗi hạ tầng HTTP 429 nên mẫu rất nhỏ (E-020); chưa thử retry/backoff dài; chưa đo SSE với Gemini thật; chưa deploy (E-021). App đã tích hợp màn "Mô tả tình huống" (SSE, fallback, đồng ý quyền riêng tư), 119 test pass (E-022), build APK debug (E-023); chưa chạy app với backend thật; video fallback [CHỜ NGƯỜI DÙNG QUAY VIDEO] (E-025) |
 | 3 | Offline-First (Drift + Supabase) | Partial | Drift + seed (E-006); schema/RLS + sync queue + test fake remote (E-014); RLS đã chạy trên Supabase: 13/13 PASS, ghi nhận 2026-11-08 (E-015, `docs/evidence/rls/rls-test-20261107-001222.csv`; chưa có ảnh SQL Editor, chưa có ca `sync_events`); app Flutter chưa thử với Supabase thật; chưa thử trên máy |
 | 4 | Material 3, Dark Mode, 60fps | Partial | M3 sáng/tối; 7 màn × 2 theme đạt guideline tap target/nhãn/tương phản, cỡ chữ 200% không tràn/cắt chữ (E-027); 3 lỗi accessibility đã sửa; tối ưu jank (R3 3.5); integration test offline pass trên emulator (E-028). Dark Mode chưa xem trên máy thật; **FPS: [CHỜ SỐ ĐO THẬT]** (hướng dẫn + perf test sẵn, E-029) |
-| 5 | Ký số release tự động qua Fastlane | Missing | — |
+| 5 | Ký số release tự động qua Fastlane | Partial | ci.yml + release.yml + Fastfile + Gradle đọc key.properties (E-032); ký thử cục bộ bằng keystore thử: APK v2 verified, AAB jar verified (E-033); lệnh CI chạy cục bộ (E-034); workflow trên GitHub CHƯA CHẠY (E-035), chưa có keystore thật/Secrets |
 
 ## Báo cáo
 | Report | Trạng thái | Ghi chú |
@@ -17,7 +17,7 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | R1 | Partial | Khung + mô tả đề tài + luồng/màn hình đã triển khai; thiếu persona, tên nhóm, ảnh máy thật |
 | R2 | Partial | Clean Architecture + Drift + SOS + ERD + bảng RLS đã ghi; RLS 13/13 PASS (E-015, ghi nhận 2026-11-08; giới hạn xem docs/evidence/rls/README.md); thiếu video, tag M2 |
 | R3 | Partial | Bảng offline/online + xung đột + pipeline AI + số đo offline + số đo LLM thật (mẫu nhỏ) + mục 1b tích hợp app/fallback + mục 3 test/coverage/accessibility/tối ưu (Prompt 08); thiếu video fallback, chạy app với backend thật trên điện thoại/backend đã deploy (mới có emulator + backend local, E-031), FPS [CHỜ SỐ ĐO THẬT], APK release |
-| R4 | Partial | Chapter 4 (AI) và Chapter 5 (test, hiệu năng) bản nháp; FPS [CHỜ SỐ ĐO THẬT]; các chương khác chưa viết |
+| R4 | Partial | Chapter 4 (AI), Chapter 5 (test, hiệu năng) và mục CI/CD & ký số release bản nháp (workflow CHƯA CHẠY); FPS [CHỜ SỐ ĐO THẬT]; các chương khác chưa viết |
 
 ## Form Q1-Q19
 | Q | Nội dung | Trạng thái |

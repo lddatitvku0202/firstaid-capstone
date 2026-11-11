@@ -1,0 +1,70 @@
+# CI: mọi push/PR chạy kiểm tra Flutter (format, analyze, test) và pytest backend.
+# Không dùng secret nào.
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  flutter:
+    name: Flutter (format, analyze, test)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      # Khớp máy phát triển: Flutter 3.47.6 (Dart 3.13.5), kênh stable.
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.6
+          cache: true
+
+      - name: In phiên bản công cụ
+        run: flutter --version
+
+      - run: flutter pub get
+
+      - name: dart format (kiểm tra, không sửa)
+        run: dart format --output=none --set-exit-if-changed .
+
+      - run: flutter analyze
+
+      - run: flutter test
+
+  backend:
+    name: Backend (pytest)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      # Khớp máy phát triển: Python 3.10.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+
+      - run: python --version
+
+      - run: pip install -r requirements-dev.txt
+
+      # Test dùng fake LLM, không cần GEMINI_API_KEY.
+      - run: python -m pytest -q

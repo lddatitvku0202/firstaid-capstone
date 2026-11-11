@@ -11,6 +11,7 @@
 * CHAPTER 3: SYSTEM DESIGN & CLEAN ARCHITECTURE — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
 * CHAPTER 4: ADVANCED CAPABILITIES & ARTIFICIAL INTELLIGENCE — bản nháp bên dưới (đang cập nhật; số đo LLM mới có 2 lượt trên mẫu nhỏ, bị rate limit)
 * CHAPTER 5: TESTING, PERFORMANCE PROFILING & EVALUATION — bản nháp bên dưới (FPS: [CHỜ SỐ ĐO THẬT])
+* CI/CD & KÝ SỐ RELEASE (tiêu chuẩn 5): bản nháp bên dưới (workflow GitHub CHƯA CHẠY)
 * CHAPTER 6: CONCLUSION, LESSONS LEARNED & FUTURE WORK — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
 
 ---
@@ -59,3 +60,46 @@
 **Đánh giá AI.** Xem Chapter 4 và R3 mục 1.
 
 **Hạn chế.** Chưa đo FPS; chưa chạy trên điện thoại thật; coverage là coverage dòng (không phải nhánh) và không gồm integration test; test widget dùng font Ahem nên kiểm tra cỡ chữ mang tính bảo thủ; tương phản mới đo trong môi trường test.
+
+---
+
+## CI/CD & KÝ SỐ RELEASE (bản nháp, tiêu chuẩn 5)
+**Thiết kế.** Có hai workflow GitHub Actions, đều chạy trên `ubuntu-latest`:
+- `.github/workflows/ci.yml` chạy với mọi push và PR, gồm hai job:
+  - Flutter: `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test`.
+  - Backend: `pytest` với Python 3.10.
+  - Workflow này không dùng secret.
+- `.github/workflows/release.yml` chạy khi push tag `vX.Y.Z` hoặc chạy tay:
+  1. Chạy lại analyze và test.
+  2. Giải mã keystore từ secret `KEYSTORE_BASE64` vào thư mục tạm của runner và tạo `app/android/key.properties` từ `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`.
+  3. Gọi Fastlane lane `android release` (`app/android/fastlane/Fastfile`), lane này:
+     - Build AAB và APK release. Tên phiên bản lấy từ tag; versionCode là số lần chạy workflow.
+     - Xác minh chữ ký: apksigner cho APK, jarsigner/keytool cho AAB.
+     - Từ chối nếu thiếu `key.properties` hoặc nếu chứng chỉ là `CN=Android Debug`.
+     - Ghi SHA-256 của từng file.
+  4. Xóa keystore ở bước `if: always()`, rồi upload artifact.
+- Gradle (`app/android/app/build.gradle.kts`) đọc khóa ký từ `key.properties`. File này gitignore. Thiếu file thì bản release ký bằng khóa debug, chỉ để chạy thử trên máy. Đã kiểm tra: apksigner báo `CN=Android Debug`, đúng chuỗi mà Fastlane lane dùng để từ chối.
+
+**Bảo mật (repo public).**
+- Keystore, mật khẩu và `key.properties` không nằm trong repo; `.gitignore` chặn `*.jks`, `*.keystore`, `key.properties`.
+- Secret chỉ đi qua biến môi trường của một bước. Workflow không echo secret, và GitHub che giá trị secret trong log.
+- PR từ fork không đọc được secret.
+- Hướng dẫn tạo và sao lưu keystore, thêm Secrets: `docs/evidence/ci/release-signing-guide.md`.
+
+**Phiên bản công cụ.** CI cấu hình Flutter 3.47.6 stable và JDK Temurin 21, khớp máy phát triển; Python 3.10. Bản vá JDK, Python và build-tools trên runner có thể khác máy dev; bảng so sánh ở `docs/evidence/ci/ci-runs.md`. Fastlane `~> 2.225` chạy trên Ruby 3.3; chưa có Gemfile.lock.
+
+**Kiểm chứng đến nay (cục bộ, Windows).**
+- Đã build AAB và APK release bằng một keystore **thử dùng một lần**, không phải keystore thật (`docs/evidence/ci/local-signing-check-20261111-194317.log`):
+  - APK: `apksigner verify` báo "Verified using v2 scheme: true", chứng chỉ `CN=FirstAid Throwaway Test, O=VKU, C=VN`.
+  - AAB: `jarsigner -verify` báo "jar verified.", kèm cảnh báo bình thường cho chứng chỉ tự ký và không có timestamp.
+- Điều này cho thấy cấu hình ký trong Gradle hoạt động.
+- Lệnh của job Flutter trong CI chạy cục bộ (`docs/evidence/ci/local-ci-flutter-20261111-195857.log`): format 0 changed (93 file), analyze "No issues found!", 155 test pass.
+- Backend pytest cục bộ: 60 passed (`docs/evidence/ci/local-ci-backend-20261111-194606.log`).
+- Hai file workflow parse YAML hợp lệ.
+
+**Chưa kiểm chứng.**
+- Workflow trên GitHub: **CHƯA CHẠY** (cần push và thêm Secrets).
+- Fastfile chưa được chạy lần nào, vì máy dev không có Ruby.
+- Keystore thật chưa tạo.
+- APK/AAB release ký bằng keystore thật: **CHƯA CÓ**.
+- Kết quả sẽ ghi vào `docs/evidence/ci/ci-runs.md`.

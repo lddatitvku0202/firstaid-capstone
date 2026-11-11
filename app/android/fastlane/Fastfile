@@ -1,0 +1,76 @@
+# Fastlane cho Android (FirstAid). Chạy từ app/android:
+#   bundle exec fastlane android release build_name:1.0.0 build_number:7
+#
+# Yêu cầu: app/android/key.properties (CI tạo từ GitHub Secrets; KHÔNG commit),
+# flutter, JDK (keytool/jarsigner) và Android SDK build-tools (apksigner) trong môi trường.
+# Lane không in mật khẩu: các lệnh dưới đây không nhận secret làm tham số.
+
+require "fileutils"
+require "digest"
+
+default_platform(:android)
+
+platform :android do
+  # Tìm thư mục app/android dù fastlane chạy trong ./fastlane hay app/android.
+  def android_dir
+    [Dir.pwd, File.expand_path("..", Dir.pwd)].find do |d|
+      File.exist?(File.join(d, "app", "build.gradle.kts"))
+    end || UI.user_error!("Không tìm thấy app/android (cwd=#{Dir.pwd})")
+  end
+
+  def apksigner_path
+    sdk = ENV["ANDROID_HOME"] || ENV["ANDROID_SDK_ROOT"]
+    UI.user_error!("Chưa đặt ANDROID_HOME/ANDROID_SDK_ROOT") if sdk.to_s.empty?
+    versions = Dir.glob(File.join(sdk, "build-tools", "*")).select { |d| File.directory?(d) }
+    latest = versions.max_by { |d| Gem::Version.new(File.basename(d)) rescue Gem::Version.new("0") }
+    UI.user_error!("Không có Android build-tools trong #{sdk}") if latest.nil?
+    File.join(latest, "apksigner")
+  end
+
+  desc "Build AAB + APK release đã ký bằng khóa trong key.properties, xác minh chữ ký"
+  lane :release do |options|
+    android = android_dir
+    app = File.expand_path("..", android)
+    key_props = File.join(android, "key.properties")
+    UI.user_error!("Thiếu #{key_props}: không build release để tránh ký bằng khóa debug") unless File.exist?(key_props)
+
+    build_name = options[:build_name].to_s
+    build_number = options[:build_number].to_s
+    UI.user_error!("build_name phải dạng X.Y.Z, nhận '#{build_name}'") unless build_name.match?(/\A\d+\.\d+\.\d+\z/)
+    UI.user_error!("build_number phải là số nguyên dương, nhận '#{build_number}'") unless build_number.match?(/\A[1-9]\d*\z/)
+    version_args = ["--build-name=#{build_name}", "--build-number=#{build_number}"]
+
+    Dir.chdir(app) do
+      sh("flutter", "build", "appbundle", "--release", *version_args)
+      sh("flutter", "build", "apk", "--release", *version_args)
+    end
+
+    aab = File.join(app, "build/app/outputs/bundle/release/app-release.aab")
+    apk = File.join(app, "build/app/outputs/flutter-apk/app-release.apk")
+    [aab, apk].each { |f| UI.user_error!("Không thấy #{f}") unless File.exist?(f) }
+
+    # Xác minh chữ ký APK (v1/v2/v3) và chứng chỉ không phải khóa debug.
+    apk_certs = sh(apksigner_path, "verify", "--verbose", "--print-certs", apk)
+    UI.user_error!("APK ký bằng khóa DEBUG") if apk_certs.include?("CN=Android Debug")
+
+    # AAB ký kiểu JAR: jarsigner xác minh, keytool đọc chứng chỉ.
+    jar_verify = sh("jarsigner", "-verify", aab)
+    UI.user_error!("AAB chưa được ký hợp lệ") unless jar_verify.include?("jar verified")
+    aab_certs = sh("keytool", "-printcert", "-jarfile", aab)
+    UI.user_error!("AAB ký bằng khóa DEBUG") if aab_certs.include?("CN=Android Debug")
+
+    out = File.join(app, "build/release-artifacts")
+    FileUtils.rm_rf(out)
+    FileUtils.mkdir_p(out)
+    base = "firstaid-#{build_name}+#{build_number}"
+    FileUtils.cp(aab, File.join(out, "#{base}.aab"))
+    FileUtils.cp(apk, File.join(out, "#{base}.apk"))
+    File.write(File.join(out, "apksigner-verify.txt"), apk_certs)
+    File.write(File.join(out, "aab-certs.txt"), aab_certs)
+    sums = ["#{base}.aab", "#{base}.apk"].map do |n|
+      "#{Digest::SHA256.file(File.join(out, n)).hexdigest}  #{n}"
+    end
+    File.write(File.join(out, "SHA256SUMS.txt"), sums.join("\n") + "\n")
+    UI.success("Đã ký và xác minh: #{out}")
+  end
+end

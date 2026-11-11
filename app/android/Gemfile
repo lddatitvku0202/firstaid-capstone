@@ -1,0 +1,6 @@
+source "https://rubygems.org"
+
+# Chạy trên GitHub Actions (ubuntu-latest), không cần Ruby trên Windows.
+# Chưa có Gemfile.lock (máy dev không có Ruby): phiên bản fastlane thật được
+# in ra log workflow (`bundle exec fastlane --version`).
+gem "fastlane", "~> 2.225"
