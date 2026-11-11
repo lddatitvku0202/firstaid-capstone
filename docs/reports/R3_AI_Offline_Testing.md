@@ -8,7 +8,7 @@
 ---
 
 ## 1. ARTIFICIAL INTELLIGENCE CAPABILITIES & BENCHMARKS
-* **Model Backbone:** Gemini qua SDK `google-genai` 2.33.0 (tên model cấu hình qua `GEMINI_MODEL`; mặc định `gemini-2.5-flash` CHƯA được xác minh bằng API). Dịch vụ FastAPI `backend/` + RAG-lite (BM25). Đã chạy eval với Gemini thật 2 lượt (2026-11-08, xem bên dưới). [CHƯA CÓ BẰNG CHỨNG: chưa deploy.] App Flutter đã tích hợp (Prompt 07, mục 1b) nhưng mới kiểm thử bằng fake/mock; chưa gọi backend thật từ app trên điện thoại.
+* **Model Backbone:** Gemini qua SDK `google-genai` 2.33.0 (tên model cấu hình qua `GEMINI_MODEL`; mặc định `gemini-2.5-flash` CHƯA được xác minh bằng API). Dịch vụ FastAPI `backend/` + RAG-lite (BM25). Đã chạy eval với Gemini thật 2 lượt (2026-11-08, xem bên dưới). [CHƯA CÓ BẰNG CHỨNG: chưa deploy.] App Flutter đã tích hợp (Prompt 07, mục 1b) nhưng kiểm thử tự động bằng fake/mock; ngoài ra đã có một lần chạy thủ công app trên emulator gọi backend local thật (2026-11-10, E-031; chỉ vài lần thử, chưa phải đo đạc; chưa chạy trên điện thoại thật).
 * **Vai trò của AI:** chỉ chọn một mã phác đồ trong số ứng viên truy xuất được (hoặc `null`). Không chẩn đoán, không kê thuốc, không sinh hướng dẫn sơ cứu; nội dung sơ cứu luôn lấy từ phác đồ cục bộ có trích dẫn. Hỗ trợ SSE: sự kiện trạng thái, mảnh đầu ra tạm (chưa validate) và kết quả cuối đã validate.
 
 ### Pipeline
@@ -114,14 +114,17 @@ flowchart TD
 * **Quyền riêng tư:** màn luôn hiện thông báo văn bản mô tả được gửi tới máy chủ của nhóm và Gemini (bên thứ ba). Trước lần gửi đầu tiên app hỏi đồng ý; từ chối thì không gửi và gợi ý sàng lọc offline. Lựa chọn lưu trong Cài đặt (có công tắc bật/tắt). Hộp thoại chỉ xuất hiện ngay trước khi gửi, sau kiểm tra từ khóa nguy cấp và kết nối, nên ca nguy cấp và ca mất mạng không bị chặn bởi hộp thoại.
 * **Quy tắc 115 trên máy:** `detectEmergencyKeywords` là bản port 1-1 của `backend/app/rules.py` (cùng danh sách cụm, chưa rà soát lâm sàng). Kiểm tra chéo một lần trên 35 ca `backend/eval/cases.jsonl`: Dart và Python cho cùng (luật, mã) 35/35 (9 ca kích hoạt ở cả hai). Đây là so sánh hai bản cài đặt, không phải độ chính xác lâm sàng; hai bản phải sửa đồng thời (R-28).
 * **Bằng chứng:** `docs/evidence/tests/ai-integration-checks-20261110-002444.log` (format 0 changed, analyze "No issues found", 119 test pass, kèm kết quả kiểm tra chéo 35/35); build APK debug `docs/evidence/tests/build-apk-debug-20261110-002726.log` (exit=0). Test mới: `app/test/domain/route_situation_test.dart`, `app/test/data/http_ai_router_repository_test.dart`, `app/test/describe_situation_test.dart`.
+* **Chạy thủ công app → backend thật (E-031, 2026-11-10):** app Flutter (debug) trên emulator Android `vku_test_api33` gọi backend FastAPI chạy local trên máy phát triển qua `AI_BASE_URL=http://10.0.2.2:8000` (theo lời người chạy; URL không xuất hiện trong log/ảnh). Log backend `docs/evidence/ai/app-to-backend-run-20261110.txt` có đúng 1 dòng: `route ok ... source=llm code=burns_thermal_chemical uncertain=False text_len=25 ms=2962`, xác nhận một yêu cầu đi qua đường LLM (Gemini). Ảnh `docs/evidence/screenshots/ai-describe-result-burns-emulator.png` cho thấy thẻ "Bỏng nhiệt và bỏng hóa chất" kèm cảnh báo chưa thẩm định lâm sàng và nút Gọi 115; `ai-describe-result-115-emulator.png` cho thấy thẻ "GỌI 115 NGAY" do quy tắc từ khóa chạy trên máy (không gửi đi, theo chữ trong thẻ); `ai-fallback-offline-emulator.png` cho thấy thẻ "Không có mạng..." với nút "Bắt đầu sàng lọc offline" khi thanh trạng thái có biểu tượng máy bay (văn bản nhập 25 ký tự). **Giới hạn:** emulator, không phải điện thoại thật; backend local, chưa deploy; chỉ vài lần thử thủ công, không phải đo độ trễ hay độ chính xác từ phía app (`ms=2962` là thời gian xử lý ghi bởi backend cho một yêu cầu, không phải số đo có ý nghĩa thống kê); chưa kiểm chứng SSE với Gemini thật ở mức time to first token; log chỉ có 1 dòng nên không chứng minh được ảnh "bỏng" tương ứng đúng dòng log đó (giờ log 10:43, giờ trên ảnh 11:07–11:08; mã phác đồ và độ dài 25 ký tự khớp nhưng không đủ để khẳng định); ảnh offline cho thấy kết quả hiển thị nhưng không cho biết nguyên nhân nội bộ (mất kết nối hay lỗi khác).
 * **Video kịch bản online → AI → tắt mạng → fallback:** [CHỜ NGƯỜI DÙNG QUAY VIDEO] (hướng dẫn: `docs/evidence/android-device-run.md`, mục Prompt 07).
 
 | Chưa đo / chưa kiểm chứng (app) | Trạng thái |
 |---|---|
-| App gọi backend thật (local hoặc deploy) trên điện thoại/emulator | CHƯA CHẠY |
+| App gọi backend thật trên **điện thoại thật** hoặc backend **đã deploy** | CHƯA CHẠY (chỉ mới chạy trên emulator với backend local, xem bên dưới) |
 | Độ trễ người dùng cảm nhận, time to first token trong app | CHƯA ĐO |
 | Deadline 15 s có phù hợp mạng di động thật không | CHƯA ĐO (giá trị do nhóm chọn) |
-| Fallback khi tắt mạng thật / "có sóng nhưng không có Internet" trên máy | CHƯA KIỂM CHỨNG (chỉ fake) |
+| Time to first token của SSE với Gemini thật, đo từ phía app | CHƯA ĐO / CHƯA KIỂM CHỨNG |
+| Độ chính xác định tuyến đo từ phía app (số ca thủ công quá ít) | CHƯA ĐO |
+| Fallback khi "có sóng nhưng không có Internet" trên máy thật | CHƯA KIỂM CHỨNG (chỉ fake) |
 
 ---
 
@@ -133,7 +136,7 @@ flowchart TD
 | Cẩm nang 6 phác đồ (bước, không nên làm, khi nào gọi 115, nguồn, phiên bản) | Thiết kế: có (đọc từ SQLite) | Chưa kiểm chứng trên máy thật |
 | Cây quyết định triage tĩnh (màn Sàng lọc, Prompt 03) | Thiết kế: có | Luật xác định, không phải AI; là đích fallback của AI |
 | Cảnh báo chưa thẩm định lâm sàng | Có | Hiển thị ở danh sách và chi tiết |
-| AI định tuyến (LLM + RAG-lite) | Không | Cần mạng. App đã tích hợp (mục 1b): mất mạng/timeout/lỗi/uncertain/mã lạ → sàng lọc tĩnh; từ khóa nguy cấp kiểm tra trên máy (offline) → Gọi 115. Chưa chạy với backend thật từ app |
+| AI định tuyến (LLM + RAG-lite) | Không | Cần mạng. App đã tích hợp (mục 1b): mất mạng/timeout/lỗi/uncertain/mã lạ → sàng lọc tĩnh; từ khóa nguy cấp kiểm tra trên máy (offline) → Gọi 115. Đã chạy thủ công một lần trên emulator với backend local (mục 1b, E-031); chưa chạy trên điện thoại thật hay backend đã deploy |
 | SOS: gọi 115, vị trí, SMS | Gọi/nhắn cần sóng di động; tọa độ GPS không cần Internet | Đã code + test (Prompt 04, xem R2); chưa thử trên máy thật |
 | Đồng bộ phác đồ từ Supabase | Cần mạng để cập nhật; đọc phác đồ vẫn offline | Code + test bằng fake remote; chưa thử với Supabase thật |
 ### Chính sách xung đột và đồng bộ (Prompt 05)

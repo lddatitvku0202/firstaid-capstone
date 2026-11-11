@@ -16,7 +16,7 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 |---|---|---|
 | R1 | Partial | Khung + mô tả đề tài + luồng/màn hình đã triển khai; thiếu persona, tên nhóm, ảnh máy thật |
 | R2 | Partial | Clean Architecture + Drift + SOS + ERD + bảng RLS đã ghi; RLS 13/13 PASS (E-015, ghi nhận 2026-11-08; giới hạn xem docs/evidence/rls/README.md); thiếu video, tag M2 |
-| R3 | Partial | Bảng offline/online + xung đột + pipeline AI + số đo offline + số đo LLM thật (mẫu nhỏ) + mục 1b tích hợp app/fallback + mục 3 test/coverage/accessibility/tối ưu (Prompt 08); thiếu video fallback, chạy app với backend thật, FPS [CHỜ SỐ ĐO THẬT], APK release |
+| R3 | Partial | Bảng offline/online + xung đột + pipeline AI + số đo offline + số đo LLM thật (mẫu nhỏ) + mục 1b tích hợp app/fallback + mục 3 test/coverage/accessibility/tối ưu (Prompt 08); thiếu video fallback, chạy app với backend thật trên điện thoại/backend đã deploy (mới có emulator + backend local, E-031), FPS [CHỜ SỐ ĐO THẬT], APK release |
 | R4 | Partial | Chapter 4 (AI) và Chapter 5 (test, hiệu năng) bản nháp; FPS [CHỜ SỐ ĐO THẬT]; các chương khác chưa viết |
 
 ## Form Q1-Q19
@@ -42,4 +42,4 @@ Trạng thái: Done / Partial / Missing / Not verified. Ngày cập nhật: 2026
 | SOS và vị trí (gọi 115, tọa độ, SMS soạn sẵn có xác nhận) | Partial | Code + 45 test (E-011); chưa chạy trên máy thật; video [CHỜ NGƯỜI DÙNG QUAY MÀN HÌNH] |
 | Đồng bộ Supabase (phác đồ + hàng đợi log SOS) | Partial | Code + 63 test (E-014); RLS 13/13 PASS trên Supabase, ghi nhận 2026-11-08 (E-015); app Flutter chưa thử với Supabase thật; UI consent/đăng nhập chưa có |
 | AI định tuyến tình huống (backend) | Partial | E-017..E-021. Eval LLM thật lần 2: nguồn 5/5 (100%), đúng mã 18/20 (90%), p50 2698 ms, lỗi hạ tầng 14/35 (40%, HTTP 429); mẫu nhỏ, chưa chạy với retry đủ dài; chưa deploy |
-| AI trong app: Mô tả tình huống + fallback an toàn (Prompt 07) | Partial | Code + 119 test pass (E-022), build APK debug (E-023), quy tắc 115 Dart khớp backend 35/35 ca (E-024); chưa chạy với backend thật trên máy; video online → AI → tắt mạng → fallback [CHỜ NGƯỜI DÙNG QUAY VIDEO] (E-025) |
+| AI trong app: Mô tả tình huống + fallback an toàn (Prompt 07) | Partial | Code + 119 test pass (E-022), build APK debug (E-023), quy tắc 115 Dart khớp backend 35/35 ca (E-024); đã chạy thủ công trên emulator với backend local thật, vài lần thử, có log + 3 ảnh (E-031), chưa chạy trên điện thoại thật/backend deploy; video online → AI → tắt mạng → fallback [CHỜ NGƯỜI DÙNG QUAY VIDEO] (E-025) |
