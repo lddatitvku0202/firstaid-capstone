@@ -5,8 +5,15 @@
 #   KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD
 # Hướng dẫn: docs/evidence/ci/release-signing-guide.md
 #
+# Variables cần có (Settings -> Secrets and variables -> Actions -> Variables):
+#   AI_BASE_URL  (URL backend AI, bắt buộc https://; nhúng vào APK nên KHÔNG phải bí mật)
+# Không đưa GEMINI_API_KEY vào app hay workflow: key chỉ nằm ở backend.
+#
 # An toàn: GitHub tự che (***) giá trị secret trong log; workflow không echo secret,
 # keystore giải mã vào $RUNNER_TEMP và bị xóa ở bước cuối (kể cả khi lỗi).
+# GitHub KHÔNG tự che Variables: bước "Kiểm tra cấu hình AI" đăng ký che (add-mask)
+# AI_BASE_URL rồi chuyển cho các bước sau qua $GITHUB_ENV; Fastlane truyền giá trị
+# bằng --dart-define-from-file nên dòng lệnh flutter build không chứa URL.
 name: release
 
 on:
@@ -51,6 +58,30 @@ jobs:
           echo "build_name=$NAME" >> "$GITHUB_OUTPUT"
           # versionCode tăng dần theo số lần chạy workflow này.
           echo "build_number=${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      # Thất bại sớm (trước khi cài công cụ) nếu thiếu/sai cấu hình AI. Không in giá trị.
+      - name: Kiểm tra cấu hình AI (GitHub Variables)
+        env:
+          AI_BASE_URL: ${{ vars.AI_BASE_URL }}
+        run: |
+          set +x
+          if [ -z "${AI_BASE_URL}" ]; then
+            echo "::error::Thiếu GitHub Variable AI_BASE_URL (Settings -> Secrets and variables -> Actions -> Variables)"
+            exit 1
+          fi
+          echo "::add-mask::${AI_BASE_URL}"
+          case "${AI_BASE_URL}" in
+            https://*) ;;
+            *)
+              echo "::error::AI_BASE_URL phải bắt đầu bằng https:// (bản release không cho phép HTTP không mã hóa)"
+              exit 1
+              ;;
+          esac
+          {
+            echo "AI_BASE_URL=${AI_BASE_URL}"
+            echo "AI_TIMEOUT_SECONDS=45"
+          } >> "$GITHUB_ENV"
+          echo "AI_BASE_URL hợp lệ (https://, ${#AI_BASE_URL} ký tự); AI_TIMEOUT_SECONDS=45."
 
       # Khớp máy phát triển: JDK 21 (Temurin), Flutter 3.47.6 stable.
       - uses: actions/setup-java@v4

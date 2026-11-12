@@ -8,7 +8,7 @@
 ---
 
 ## 1. ARTIFICIAL INTELLIGENCE CAPABILITIES & BENCHMARKS
-* **Model Backbone:** Gemini qua SDK `google-genai` 2.33.0 (tên model cấu hình qua `GEMINI_MODEL`; mặc định `gemini-2.5-flash` CHƯA được xác minh bằng API). Dịch vụ FastAPI `backend/` + RAG-lite (BM25). Đã chạy eval với Gemini thật 2 lượt (2026-11-08, xem bên dưới). [CHƯA CÓ BẰNG CHỨNG: chưa deploy.] App Flutter đã tích hợp (Prompt 07, mục 1b) nhưng kiểm thử tự động bằng fake/mock; ngoài ra đã có một lần chạy thủ công app trên emulator gọi backend local thật (2026-11-10, E-031; chỉ vài lần thử, chưa phải đo đạc; chưa chạy trên điện thoại thật).
+* **Model Backbone:** Gemini qua SDK `google-genai` 2.33.0 (tên model cấu hình qua `GEMINI_MODEL`; mặc định `gemini-2.5-flash` CHƯA được xác minh bằng API). Dịch vụ FastAPI `backend/` + RAG-lite (BM25). Đã chạy eval với Gemini thật 2 lượt (2026-11-08, xem bên dưới). Backend đã deploy trên Render ngày 2026-11-12 (mục 1c, E-042); mới gọi thử thủ công một lần, **chưa có số đo nào từ bản deploy**. App Flutter đã tích hợp (Prompt 07, mục 1b) nhưng kiểm thử tự động bằng fake/mock; ngoài ra đã có một lần chạy thủ công app trên emulator gọi backend local thật (2026-11-10, E-031; chỉ vài lần thử, chưa phải đo đạc; chưa chạy trên điện thoại thật).
 * **Vai trò của AI:** chỉ chọn một mã phác đồ trong số ứng viên truy xuất được (hoặc `null`). Không chẩn đoán, không kê thuốc, không sinh hướng dẫn sơ cứu; nội dung sơ cứu luôn lấy từ phác đồ cục bộ có trích dẫn. Hỗ trợ SSE: sự kiện trạng thái, mảnh đầu ra tạm (chưa validate) và kết quả cuối đã validate.
 
 ### Pipeline
@@ -122,12 +122,22 @@ flowchart TD
 
 | Chưa đo / chưa kiểm chứng (app) | Trạng thái |
 |---|---|
-| App gọi backend thật trên **điện thoại thật** hoặc backend **đã deploy** | CHƯA CHẠY (chỉ mới chạy trên emulator với backend local, xem bên dưới) |
+| App gọi backend **đã deploy** (Render) hoặc chạy trên **điện thoại thật** | CHƯA CHẠY: backend đã deploy (mục 1c) nhưng chưa có bản app nào build với `AI_BASE_URL` của Render; app mới chạy trên emulator với backend local (xem bên dưới) |
 | Độ trễ người dùng cảm nhận, time to first token trong app | CHƯA ĐO |
 | Deadline 15 s có phù hợp mạng di động thật không | CHƯA ĐO (giá trị do nhóm chọn) |
 | Time to first token của SSE với Gemini thật, đo từ phía app | CHƯA ĐO / CHƯA KIỂM CHỨNG |
 | Độ chính xác định tuyến đo từ phía app (số ca thủ công quá ít) | CHƯA ĐO |
 | Fallback khi "có sóng nhưng không có Internet" trên máy thật | CHƯA KIỂM CHỨNG (chỉ fake) |
+
+
+### 1c. Backend đã deploy trên Render (2026-11-12)
+* **Thông tin do người dùng cung cấp (không có trong file bằng chứng):** chạy dạng Docker (`backend/Dockerfile`), gói Free, vùng Singapore.
+* **Có trong file bằng chứng:**
+  * `docs/evidence/ai/render-deploy-check-20261112-111702.txt`: URL `https://firstaid-capstone.onrender.com`; `healthz: status=ok`; một lần gọi `route-situation` với input không dấu "be bi bong nuoc soi o tay" trả `category=burns`, `protocol_code=burns_thermal_chemical`, `sources=IFRC-2025 pages=288-290`, `uncertain=False`.
+  * `docs/evidence/ai/render-service-live-20261112.png` (ảnh log trên trang Render, khung 11:09–11:12 GMT+7 ngày 12/11): dòng "Your service is live", "Available at your primary URL https://firstaid-capstone.onrender.com", một `GET /` trả 404 và nhiều `GET /healthz` trả 200 OK cách nhau khoảng 5 giây. Ảnh không có dòng `POST /v1/route-situation` (lần gọi route ghi trong file txt lúc 11:17, ngoài khung ảnh).
+* **Đây là một lần gọi thủ công, không phải đo độ trễ hay độ chính xác.** Chưa có số đo AI nào từ backend đã deploy (độ trễ, tỷ lệ đúng mã, time to first token, tỷ lệ lỗi). File không ghi đường xử lý (`X-Route-Source`), mã HTTP, thời gian phản hồi hay công cụ dùng để gọi. Theo thiết kế (mục Pipeline), kết quả `category=burns` kèm mã phác đồ chỉ có thể đến từ đường LLM (quy tắc 115 trả `call_115_now`, cổng truy xuất trả `out_of_scope`), nên lần gọi này gợi ý Gemini đã được cấu hình trên server; đây là suy luận, file không ghi trực tiếp.
+* **Rủi ro:** (1) gói Free ngủ sau một thời gian không dùng, lần gọi đầu chậm; thời gian khởi động chưa đo nên chưa biết deadline phía app có đủ không (app fallback nếu quá hạn); (2) endpoint công khai, theo người dùng **không bật xác thực** (backend chỉ kiểm `X-API-Key` khi đặt `api_auth_token`), chưa có rate limit: có thể bị lạm dụng làm cạn quota Gemini (R-21); (3) `GEMINI_API_KEY` chỉ nằm ở biến môi trường của Render (theo người dùng); app và workflow không chứa key này.
+* App: bản release v0.1.0 vẫn offline-only. Pipeline đã được sửa để nhận `AI_BASE_URL` từ GitHub Variables (E-041) nhưng **chưa chạy**, nên chưa có bản app nào gọi backend đã deploy.
 
 ---
 

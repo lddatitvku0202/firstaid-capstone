@@ -4,9 +4,12 @@
 # Yêu cầu: app/android/key.properties (CI tạo từ GitHub Secrets; KHÔNG commit),
 # flutter, JDK (keytool/jarsigner) và Android SDK build-tools (apksigner) trong môi trường.
 # Lane không in mật khẩu: các lệnh dưới đây không nhận secret làm tham số.
+# Cần thêm biến môi trường AI_BASE_URL (https://...) và AI_TIMEOUT_SECONDS (vd 45).
 
 require "fileutils"
 require "digest"
+require "json"
+require "tmpdir"
 
 default_platform(:android)
 
@@ -40,9 +43,26 @@ platform :android do
     UI.user_error!("build_number phải là số nguyên dương, nhận '#{build_number}'") unless build_number.match?(/\A[1-9]\d*\z/)
     version_args = ["--build-name=#{build_name}", "--build-number=#{build_number}"]
 
-    Dir.chdir(app) do
-      sh("flutter", "build", "appbundle", "--release", *version_args)
-      sh("flutter", "build", "apk", "--release", *version_args)
+    # Cấu hình AI (R-33): lấy từ biến môi trường (CI: GitHub Variable AI_BASE_URL).
+    # Không in giá trị; truyền qua file JSON tạm (--dart-define-from-file) để dòng lệnh
+    # flutter build mà fastlane in ra không chứa URL. GEMINI_API_KEY không bao giờ vào app.
+    ai_base_url = ENV["AI_BASE_URL"].to_s.strip
+    UI.user_error!("Thiếu AI_BASE_URL: không build release không có cấu hình AI") if ai_base_url.empty?
+    UI.user_error!("AI_BASE_URL phải bắt đầu bằng https://") unless ai_base_url.start_with?("https://")
+    ai_timeout = ENV["AI_TIMEOUT_SECONDS"].to_s.strip
+    UI.user_error!("AI_TIMEOUT_SECONDS phải là số nguyên dương") unless ai_timeout.match?(/\A[1-9]\d*\z/)
+    defines_file = File.join(Dir.tmpdir, "firstaid-dart-defines-#{Process.pid}.json")
+    File.write(defines_file, JSON.generate({ "AI_BASE_URL" => ai_base_url, "AI_TIMEOUT_SECONDS" => ai_timeout }))
+    File.chmod(0o600, defines_file)
+    build_args = version_args + ["--dart-define-from-file=#{defines_file}"]
+
+    begin
+      Dir.chdir(app) do
+        sh("flutter", "build", "appbundle", "--release", *build_args)
+        sh("flutter", "build", "apk", "--release", *build_args)
+      end
+    ensure
+      File.delete(defines_file) if File.exist?(defines_file)
     end
 
     aab = File.join(app, "build/app/outputs/bundle/release/app-release.aab")

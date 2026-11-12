@@ -1,0 +1,13 @@
+# Kiểm tra cú pháp YAML cục bộ sau khi thêm cấu hình AI vào release (20261112-113024, PyYAML, Windows)
+.github/workflows/release.yml OK; jobs= ['android'] ; steps= 13
+  buoc kiem tra AI: env keys = ['AI_BASE_URL'] ; dung vars.AI_BASE_URL: True
+.github/workflows/ci.yml OK; jobs= ['flutter', 'backend'] ; steps= 7
+exit=0
+
+$ grep -n GEMINI (workflow + Fastfile + app/lib)
+.github/workflows/ci.yml:69:      # Test dùng fake LLM, không cần GEMINI_API_KEY.
+.github/workflows/release.yml:10:# Không đưa GEMINI_API_KEY vào app hay workflow: key chỉ nằm ở backend.
+app/android/fastlane/Fastfile:48:    # flutter build mà fastlane in ra không chứa URL. GEMINI_API_KEY không bao giờ vào app.
+
+$ grep secrets.AI_ / vars.
+65:          AI_BASE_URL: ${{ vars.AI_BASE_URL }}

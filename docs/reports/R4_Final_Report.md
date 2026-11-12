@@ -67,7 +67,7 @@ Mục tiêu an toàn do nhóm đặt thêm (CLAUDE.md §6): nội dung sơ cứu
 | 1 | Chế độ khẩn cấp một chạm, không cần tài khoản | Must | Đã triển khai | E-009, E-028 |
 | 2 | Cẩm nang sơ cứu offline, tìm kiếm không dấu, hiển thị nguồn và phiên bản | Must | Đã triển khai (6 phác đồ IFRC-2025) | E-006, E-007, E-009 |
 | 3 | SOS: gọi 115, tọa độ GPS, SMS soạn sẵn do người dùng tự gửi | Must | Đã triển khai; chưa thử trên máy thật | E-011 |
-| 4 | AI hỗ trợ tìm đúng phác đồ (streaming, RAG-lite) | Must | Backend + app đã có; backend chưa deploy; bản release offline-only | E-017..E-022, E-031 |
+| 4 | AI hỗ trợ tìm đúng phác đồ (streaming, RAG-lite) | Must | Backend + app đã có; backend đã deploy trên Render (2026-11-12, một lần gọi thử, chưa có số đo; E-042); bản release v0.1.0 offline-only | E-017..E-022, E-031 |
 | 5 | Bộ đếm nhịp CPR (100–120 nhịp/phút) | Should | **Chưa triển khai** | — |
 | 6 | Bản đồ điểm hỗ trợ, cộng đồng tình nguyện viên | Could | **Chưa triển khai** | — |
 | 7 | Đọc to từng bước (TTS vi-VN) | (thuộc mục 1–2) | Đã triển khai; giọng vi-VN thật chưa kiểm chứng trên máy | E-009, R-11 |
@@ -165,14 +165,15 @@ Nguồn: `supabase/migrations/0001_init.sql`; chi tiết ERD và bảng RLS ở 
 - **Chính sách xung đột** (R3 mục 2): server thắng nhưng chỉ nhận bản `reviewed` + `verified` và version mới hơn; ghi trong một transaction; seed không ghi đè bản mới từ server; log SOS append-only với UUID do client sinh (idempotent); hàng đợi retry tối đa 5 lần, backoff mũ 30 s đến 1 giờ (giá trị do nhóm chọn, chưa đo).
 
 ### 3.5 Backend định tuyến AI
-`backend/app/`: `main.py` (FastAPI: `GET /healthz`, `POST /v1/route-situation`, SSE khi `?stream=true`), `rules.py` (quy tắc 115 xác định), `retrieval.py` (BM25 trên chỉ mục `verified`), `llm.py` (Gemini, timeout, retry giới hạn), `router_service.py`, `schemas.py` (JSON cố định 5 trường), `textnorm.py`. Chi tiết và số đo ở Chương 4. Backend **chưa deploy** (Dockerfile chưa build thử, E-021).
+`backend/app/`: `main.py` (FastAPI: `GET /healthz`, `POST /v1/route-situation`, SSE khi `?stream=true`), `rules.py` (quy tắc 115 xác định), `retrieval.py` (BM25 trên chỉ mục `verified`), `llm.py` (Gemini, timeout, retry giới hạn), `router_service.py`, `schemas.py` (JSON cố định 5 trường), `textnorm.py`. Chi tiết và số đo ở Chương 4. Backend **đã deploy** trên Render ngày 2026-11-12 tại https://firstaid-capstone.onrender.com (theo người dùng: Docker, gói Free, vùng Singapore). Bằng chứng: `healthz: status=ok` và một lần gọi `route-situation` trả `burns_thermal_chemical` (`docs/evidence/ai/render-deploy-check-20261112-111702.txt`), ảnh log Render "Your service is live" (`docs/evidence/ai/render-service-live-20261112.png`); E-042. Đây là một lần gọi thủ công, không phải số đo. Rủi ro: gói Free ngủ khi không dùng nên lần gọi đầu chậm; endpoint công khai không xác thực (theo người dùng) và chưa có rate limit (R-21); `GEMINI_API_KEY` chỉ ở biến môi trường của Render, không có trong app hay workflow.
 
 ### 3.6 Bảo mật và quyền riêng tư
 - Không hardcode secret; cấu hình qua `--dart-define(-from-file)`; `.env`, `*.jks`, `key.properties` gitignore. Repo public.
 - Quyền Android: chỉ `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION`, `INTERNET`, `ACCESS_NETWORK_STATE`; không `SEND_SMS`, không background location (D-020).
 - HTTP không mã hóa chỉ ở bản debug (D-048); release phải dùng https.
 - Mô tả tình huống gửi tới Gemini (bên thứ ba) chỉ sau khi người dùng đồng ý; backend không ghi log nội dung (R-22).
-- Token `X-API-Key` nhúng trong app **không phải bí mật** (R-21, D-040). Chưa có rate limit khi deploy.
+- Token `X-API-Key` nhúng trong app **không phải bí mật** (R-21, D-040). Bản deploy trên Render hiện không bật xác thực (theo người dùng) và chưa có rate limit, nên ai biết URL cũng gọi được và có thể làm cạn quota Gemini (R-21).
+- `GEMINI_API_KEY` chỉ đặt trong biến môi trường của Render (theo người dùng); không có trong app, repo hay workflow.
 
 ### 3.7 Cấu hình build và hệ quả
 `AppConfig` đọc `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `AI_BASE_URL`, `AI_API_KEY`, `AI_TIMEOUT_SECONDS` bằng `String.fromEnvironment` (giá trị cố định lúc compile). Thiếu cấu hình thì AI và Supabase tự tắt, app vẫn chạy offline. Workflow release hiện **không truyền** các giá trị này nên bản v0.1.0 là offline-only (R-33).
@@ -204,7 +205,7 @@ Nguồn: `supabase/migrations/0001_init.sql`; chi tiết ERD và bảng RLS ở 
 
 Ảnh chụp trên emulator, bản debug, 2026-11-10. Log backend chỉ có 1 dòng nên không chứng minh ảnh "bỏng" ứng với đúng dòng log đó (R3 mục 1b).
 
-**Hạn chế.** Phủ 4 chủ đề; chưa deploy; app đã tích hợp và chạy thủ công vài lần trên emulator với backend local thật (E-031), nhưng chưa chạy trên điện thoại thật và chưa với backend đã deploy; danh sách từ khóa 115 tồn tại ở hai nơi (Dart và Python) nên phải sửa đồng thời; kiểm thử với Gemini thật mới ở mẫu nhỏ và bị rate limit (40% ca không có kết quả LLM); chưa thử retry/backoff dài; chưa đo SSE với Gemini thật; từ khóa quy tắc chưa rà soát lâm sàng; nội dung tình huống gửi tới bên thứ ba khi dùng đường LLM.
+**Hạn chế.** Phủ 4 chủ đề; backend đã deploy trên Render gói Free (E-042) nhưng mới gọi thử thủ công một lần, chưa có số đo nào từ bản deploy; app đã tích hợp và chạy thủ công vài lần trên emulator với backend local thật (E-031), nhưng chưa chạy trên điện thoại thật và chưa với backend đã deploy; danh sách từ khóa 115 tồn tại ở hai nơi (Dart và Python) nên phải sửa đồng thời; kiểm thử với Gemini thật mới ở mẫu nhỏ và bị rate limit (40% ca không có kết quả LLM); chưa thử retry/backoff dài; chưa đo SSE với Gemini thật; từ khóa quy tắc chưa rà soát lâm sàng; nội dung tình huống gửi tới bên thứ ba khi dùng đường LLM.
 
 ---
 
@@ -303,7 +304,7 @@ Ba ảnh trên chụp từ APK v0.1.0 cài lên emulator `vku_test_api33` (2026-
 ### 6.2 Hạn chế hiện tại
 - Chưa chạy trên điện thoại Android thật: không có video demo, không có số FPS, chưa kiểm chứng TTS vi-VN, GPS, SMS và Dark Mode trên máy thật (R-04, R-11, R-14, R-16).
 - Nội dung sơ cứu là bản tóm lược của nhóm từ IFRC-2025, **chưa được chuyên gia lâm sàng thẩm định**; nguồn Việt Nam chưa đối chiếu (R-03, R-08, R-10); câu hỏi sàng lọc và từ khóa 115 do nhóm soạn (R-13, R-23).
-- AI: chỉ 4 chủ đề; số đo LLM thật là mẫu rất nhỏ; chưa đo time to first token; backend chưa deploy; chưa thử retry/backoff dài để vượt rate limit (R-26, R-27).
+- AI: chỉ 4 chủ đề; số đo LLM thật là mẫu rất nhỏ; chưa đo time to first token; backend đã deploy (Render, gói Free, E-042) nhưng chưa có số đo nào từ bản deploy, endpoint chưa có xác thực/rate limit (R-21) và lần gọi đầu chậm khi dịch vụ ngủ; chưa thử retry/backoff dài để vượt rate limit (R-27).
 - Bản release v0.1.0 không có AI và Supabase (R-33). Chứng chỉ ký tự ký, chưa có kênh phân phối như Play Store.
 - Log SOS chưa nối UI, chưa có đăng nhập/giao diện đồng ý (R-19). Danh sách từ khóa 115 tồn tại ở hai nơi (Dart và Python) phải sửa đồng thời (R-28).
 - Coverage là coverage dòng; số 87,12% (không tính file sinh tự động) và 58,62% (tính cả) đo ở bản 155 test, chưa đo lại ở bản 159 test.
@@ -319,7 +320,7 @@ Ba ảnh trên chụp từ APK v0.1.0 cài lên emulator `vku_test_api33` (2026-
 
 ### 6.4 Hướng phát triển (Future Work, chưa triển khai, không cam kết)
 - **P2 theo đề xuất:** vision triage (nhận diện từ ảnh), bản đồ điểm hỗ trợ và cộng đồng tình nguyện viên, cảm biến hỗ trợ CPR; bộ đếm nhịp CPR (Should-Have chưa làm).
-- **Hoàn thiện nền tảng:** deploy backend (https, rate limit, retry/backoff dài), build release có cấu hình AI/Supabase từ GitHub Secrets/Variables; đo FPS profile mode và quay video trên điện thoại thật; thử app với Supabase thật, thêm ca `sync_events` vào kịch bản RLS; màn đăng nhập và giao diện đồng ý cho log SOS.
+- **Hoàn thiện nền tảng:** thêm xác thực và rate limit cho backend đã deploy, retry/backoff dài, đo độ trễ (kể cả lần gọi đầu khi dịch vụ ngủ), build release có cấu hình AI/Supabase từ GitHub Secrets/Variables; đo FPS profile mode và quay video trên điện thoại thật; thử app với Supabase thật, thêm ca `sync_events` vào kịch bản RLS; màn đăng nhập và giao diện đồng ý cho log SOS.
 - **Chất lượng nội dung:** nhờ chuyên gia y tế rà soát phác đồ và cây sàng lọc; đối chiếu nguồn Việt Nam; mở rộng ngoài 4 chủ đề; mở rộng bộ ca eval và rà soát nhãn.
 - **Phát hành:** link tải ổn định (GitHub Release/Drive), upload key hoặc Play App Signing nếu lên Play Store; commit Gemfile.lock; test tự động liên dự án cho danh sách từ khóa 115 (R-28).
 

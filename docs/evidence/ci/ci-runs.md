@@ -14,6 +14,19 @@ Người dùng làm theo [release-signing-guide.md](release-signing-guide.md), r
 | Ruby / Fastlane | Không cài (không cần trên Windows) | Ruby 3.3 (`ruby/setup-ruby@v1`), fastlane `~> 2.225` | Chưa có Gemfile.lock; phiên bản fastlane thật in ở bước "Cài Fastlane" |
 | Hệ điều hành | Windows 10 | Ubuntu (ubuntu-latest) | Khác OS. Kiểm tra cục bộ chạy trên Windows; kết quả trên Ubuntu (vd `dart format` với file LF) chỉ biết khi có run thật |
 
+## Thay đổi cấu hình release (2026-11-12, chưa chạy)
+- `release.yml` đọc GitHub **Variable** `AI_BASE_URL` (Settings → Secrets and variables → Actions → Variables), không phải Secret. Bước "Kiểm tra cấu hình AI" chạy ngay sau bước xác định phiên bản: thiếu hoặc không phải `https://` thì dừng; không in giá trị; `::add-mask::` rồi ghi `AI_BASE_URL` và `AI_TIMEOUT_SECONDS=45` vào `$GITHUB_ENV`.
+- Fastfile kiểm tra lại hai biến, ghi file JSON tạm và gọi `flutter build appbundle/apk --release --dart-define-from-file=<file tạm>`, xóa file sau khi build. Dòng lệnh fastlane in ra chỉ có đường dẫn file, không có URL.
+- Không có `GEMINI_API_KEY` trong app hay workflow (chỉ ở backend). Không truyền `AI_API_KEY`, Supabase (bỏ lần này).
+- Kiểm tra cục bộ: cú pháp YAML hợp lệ (`docs/evidence/ci/release-ai-config-yaml-check-20261112-113024.log`). Fastfile chưa chạy được trên máy (không có Ruby).
+- Trạng thái: **CHƯA CHẠY** trên GitHub. Release #1 (v0.1.0) bên dưới vẫn là bản offline-only. Cần thêm Variable `AI_BASE_URL` trước khi push tag mới (ví dụ `v0.2.0`), nếu thiếu workflow sẽ dừng ở bước kiểm tra.
+
+## Backend AI đã deploy (Render, 2026-11-12)
+- URL: https://firstaid-capstone.onrender.com (giá trị dự kiến cho GitHub Variable `AI_BASE_URL`; chưa có run release nào dùng nó).
+- Theo người dùng: Docker, gói Free, vùng Singapore; `GEMINI_API_KEY` chỉ đặt trong biến môi trường của Render; endpoint không bật xác thực.
+- Bằng chứng: `docs/evidence/ai/render-deploy-check-20261112-111702.txt` (healthz ok; một lần gọi route trả `burns_thermal_chemical`) và `docs/evidence/ai/render-service-live-20261112.png` (log Render: service live, `GET /healthz` 200). Một lần gọi thủ công, không phải số đo. E-042.
+- Lưu ý cho release: gói Free ngủ khi không dùng nên lần gọi đầu từ app có thể chậm hơn deadline `AI_TIMEOUT_SECONDS=45` (chưa đo); khi đó app fallback sang sàng lọc offline.
+
 ## Lần chạy
 | Workflow | Run ID / link | Ngày | Commit / tag | Kết quả | Log |
 |---|---|---|---|---|---|
