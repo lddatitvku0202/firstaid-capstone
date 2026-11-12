@@ -1,0 +1,25 @@
+Signer #1:
+
+Certificate #1:
+Owner: CN=FirstAid Team, OU=Khoa Khoa hoc May tinh, O=VKU, L=	Da Nang, ST=	Da Nang, C=VN
+Issuer: CN=FirstAid Team, OU=Khoa Khoa hoc May tinh, O=VKU, L=	Da Nang, ST=	Da Nang, C=VN
+Serial number: 4b717c7baac2ac0a
+Valid from: Thu Nov 12 02:36:03 UTC 2026 until: Mon Mar 30 02:36:03 UTC 2054
+Certificate fingerprints:
+	 SHA1: DB:F6:42:89:C4:FA:6B:95:30:3B:88:2F:6A:71:0C:6C:AB:1A:ED:74
+	 SHA256: 95:8B:38:06:53:A7:0F:42:C5:06:09:AE:1A:84:4A:65:51:09:6E:C1:70:B6:54:BC:1F:F6:6F:0D:98:69:B3:A8
+Signature algorithm name: SHA384withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 3
+
+Extensions: 
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: D3 1A 02 51 78 1E 49 71   D9 62 39 12 15 E1 34 18  ...Qx.Iq.b9...4.
+0010: E2 96 0B 25                                        ...%
+]
+]
+
+

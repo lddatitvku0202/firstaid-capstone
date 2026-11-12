@@ -11,7 +11,7 @@
 * CHAPTER 3: SYSTEM DESIGN & CLEAN ARCHITECTURE — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
 * CHAPTER 4: ADVANCED CAPABILITIES & ARTIFICIAL INTELLIGENCE — bản nháp bên dưới (đang cập nhật; số đo LLM mới có 2 lượt trên mẫu nhỏ, bị rate limit)
 * CHAPTER 5: TESTING, PERFORMANCE PROFILING & EVALUATION — bản nháp bên dưới (FPS: [CHỜ SỐ ĐO THẬT])
-* CI/CD & KÝ SỐ RELEASE (tiêu chuẩn 5): bản nháp bên dưới (workflow GitHub CHƯA CHẠY)
+* CI/CD & KÝ SỐ RELEASE (tiêu chuẩn 5): bản nháp bên dưới (ci và release workflow đã chạy thành công trên GitHub; bản release là offline-only)
 * CHAPTER 6: CONCLUSION, LESSONS LEARNED & FUTURE WORK — [CHƯA CÓ BẰNG CHỨNG: chưa viết]
 
 ---
@@ -88,7 +88,17 @@
 
 **Phiên bản công cụ.** CI cấu hình Flutter 3.47.6 stable và JDK Temurin 21, khớp máy phát triển; Python 3.10. Bản vá JDK, Python và build-tools trên runner có thể khác máy dev; bảng so sánh ở `docs/evidence/ci/ci-runs.md`. Fastlane `~> 2.225` chạy trên Ruby 3.3; chưa có Gemfile.lock.
 
-**Kiểm chứng đến nay (cục bộ, Windows).**
+**Kết quả chạy thật trên GitHub (2026-11-12).**
+- **ci #1** (commit 40f917a): Success, 2m 14s (theo ảnh; ledger E-037).
+- **release #1** (tag v0.1.0, commit c0fcdec): Success, 7m 55s, 1 artifact (ảnh + link run; ledger E-038). Đây là lần đầu **Fastfile chạy thật** (trước đó chưa chạy được vì máy dev không có Ruby). Các giá trị dưới đây lấy từ `docs/evidence/ci/release-run-v0.1.0-20261112/`:
+  - APK: `apksigner` báo v2 scheme verified; AAB: `jarsigner` báo "jar verified.".
+  - Chủ sở hữu chứng chỉ: CN=FirstAid Team, OU=Khoa Khoa hoc May tinh, O=VKU, Da Nang, VN. Chứng chỉ tự ký, hiệu lực đến 2054-03-30; chữ ký không có timestamp; jarsigner cảnh báo chuỗi chứng chỉ không xác minh được qua CA (đúng với chứng chỉ tự ký). File `jarsigner-verify-summary.txt` là bản rút gọn của đầu ra jarsigner.
+  - SHA-256 chứng chỉ: `958b380653a70f42c50609ae1a844a6551096ec170b654bc1ff66f0d9869b3a8` (apksigner và keytool của AAB cho cùng giá trị).
+  - SHA-256 APK `83eed80bb05584a79203eb5c608c943c2170fe5e5ad5719d3d7165b6741c0081`, AAB `fbf54243fe84d4cc9bb4b8354fd0e57898ebce259a3b1338bceb93c71fb6c220`, khớp `SHA256SUMS.txt`.
+- **Cài thử:** APK từ workflow cài lên emulator `vku_test_api33` ngày 2026-11-12 (`adb install` báo Success theo người dùng; `dumpsys`: versionName 0.1.0, versionCode 1, minSdk 24, targetSdk 36) và chạy được Home, Cẩm nang, Mô tả tình huống (ảnh trong `docs/evidence/screenshots/release-v0.1.0-*.png`; E-039).
+- **Bản này là offline-only (R-33):** release.yml không truyền `--dart-define`, nên bản build không có AI và không có Supabase. Màn "Mô tả tình huống" hiện thẻ "Ứng dụng chưa được cấu hình máy chủ AI.", không hỏi đồng ý gửi dữ liệu.
+
+**Kiểm chứng trước đó (cục bộ, Windows).**
 - Đã build AAB và APK release bằng một keystore **thử dùng một lần**, không phải keystore thật (`docs/evidence/ci/local-signing-check-20261111-194317.log`):
   - APK: `apksigner verify` báo "Verified using v2 scheme: true", chứng chỉ `CN=FirstAid Throwaway Test, O=VKU, C=VN`.
   - AAB: `jarsigner -verify` báo "jar verified.", kèm cảnh báo bình thường cho chứng chỉ tự ký và không có timestamp.
@@ -97,9 +107,9 @@
 - Backend pytest cục bộ: 60 passed (`docs/evidence/ci/local-ci-backend-20261111-194606.log`).
 - Hai file workflow parse YAML hợp lệ.
 
-**Chưa kiểm chứng.**
-- Workflow trên GitHub: **CHƯA CHẠY** (cần push và thêm Secrets).
-- Fastfile chưa được chạy lần nào, vì máy dev không có Ruby.
-- Keystore thật chưa tạo.
-- APK/AAB release ký bằng keystore thật: **CHƯA CÓ**.
-- Kết quả sẽ ghi vào `docs/evidence/ci/ci-runs.md`.
+**Chưa kiểm chứng / còn thiếu.**
+- Log từng bước của release workflow chưa tải về (chỉ có ảnh tổng quan, link run và các file kết quả); `jarsigner` chỉ lưu bản rút gọn.
+- Chưa cài và chạy trên điện thoại thật (mới có emulator); chưa đo FPS.
+- Bản release chưa có cấu hình AI/Supabase (R-33); chưa kiểm tra luồng AI hay đồng bộ trong bản release.
+- Chứng chỉ tự ký, chưa có kênh phân phối như Play Store (upload key/App Signing chưa làm).
+- Chi tiết các lần chạy: `docs/evidence/ci/ci-runs.md`.

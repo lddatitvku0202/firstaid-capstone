@@ -1,0 +1,18 @@
+﻿Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v3.2 scheme (APK Signature Scheme v3.2): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+V2 Signer: certificate DN: CN=FirstAid Team, OU=Khoa Khoa hoc May tinh, O=VKU, L=	Da Nang, ST=	Da Nang, C=VN
+V2 Signer: certificate SHA-256 digest: 958b380653a70f42c50609ae1a844a6551096ec170b654bc1ff66f0d9869b3a8
+V2 Signer: certificate SHA-1 digest: dbf64289c4fa6b95303b882f6a710c6cab1aed74
+V2 Signer: certificate MD5 digest: c56a8baffdca0197718af58182b744b7
+V2 Signer: key algorithm: RSA
+V2 Signer: key size (bits): 2048
+V2 Signer: public key SHA-256 digest: cc013c3f382534b862b61a6eb7a6ff8f48c8b5f0dc06fe8f610521df881c41a5
+V2 Signer: public key SHA-1 digest: 9713b0cc361a43d448f6c7e6bb9648a3e511a5b0
+V2 Signer: public key MD5 digest: 753503f4162bd9e4ced9928213dc009d
