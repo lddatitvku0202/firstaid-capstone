@@ -5,6 +5,15 @@ FirstAid - Offline-First Emergency First Aid Assistant &amp; Community Support A
 
 > Nội dung sơ cứu trong app **chưa được chuyên gia lâm sàng thẩm định**. Trường hợp nguy hiểm: gọi 115.
 
+## Kiến trúc
+Clean Architecture 3 lớp (`app/lib/`): **domain** (Dart thuần, không import Flutter/Drift/Supabase), **data** (Drift/SQLite, Supabase, HTTP, service nền tảng), **presentation** (Riverpod, go_router, Material 3 Sáng/Tối). Luồng sơ cứu cốt lõi chạy offline từ SQLite; Supabase và backend AI (FastAPI + Gemini) là lớp tùy chọn, lỗi hoặc không có mạng thì app dùng sàng lọc cục bộ. Chi tiết: [R2](docs/reports/R2_Architecture.md), [R4 chương 3](docs/reports/R4_Final_Report.md).
+
+## Trạng thái (2026-11-12)
+- Đã chạy trên **emulator** Android 13; **chưa** chạy trên điện thoại thật (chưa có video demo, chưa có số FPS).
+- Release `v0.1.0` (ký bằng keystore của nhóm qua GitHub Actions) là bản **offline-only**: chưa có AI/Supabase vì chưa truyền cấu hình lúc build (R-33). Backend AI chưa deploy.
+- Nội dung sơ cứu chưa được chuyên gia lâm sàng thẩm định.
+- Bằng chứng: [docs/evidence-ledger.md](docs/evidence-ledger.md); danh sách việc còn thiếu trước khi nộp: [docs/submission-checklist.md](docs/submission-checklist.md).
+
 ## Cấu trúc
 - `app/`: ứng dụng Flutter (Clean Architecture: domain / data / presentation; Drift offline; Riverpod).
 - `backend/`: dịch vụ FastAPI định tuyến tình huống (RAG-lite + Gemini).

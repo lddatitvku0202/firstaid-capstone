@@ -1,6 +1,6 @@
 # Hướng dẫn ký release: keystore → GitHub Secrets → chạy workflow → xác minh chữ ký (PowerShell)
 
-Trạng thái: **CHƯA CHẠY**. Người dùng tự làm các bước dưới đây. Kết quả ghi vào [ci-runs.md](ci-runs.md).
+Trạng thái: **đã làm và chạy thật** (cập nhật 2026-11-12): keystore đã tạo, Secrets đã thêm, ci #1 và release #1 (tag v0.1.0) chạy thành công trên GitHub, đã xác minh chữ ký. Kết quả và bằng chứng: [ci-runs.md](ci-runs.md) (E-037, E-038). Tài liệu này giữ lại làm hướng dẫn lặp lại (ví dụ phát hành v0.2.0). Nội dung các bước bên dưới được viết trước khi chạy; các lệnh chưa được chạy lại trong lần cập nhật này.
 
 Repo đang **PUBLIC**:
 - Keystore (`*.jks`), mật khẩu, chuỗi base64 và `key.properties` **không bao giờ** được nằm trong repo.
@@ -170,7 +170,7 @@ flutter build appbundle --release
 - Không có `key.properties` thì `flutter build ... --release` vẫn chạy được nhưng ký bằng **khóa debug**. Gradle có ghi cảnh báo, nhưng output mặc định của `flutter build` không hiện cảnh báo này (đã thử, xem `docs/evidence/ci/local-ci-flutter-20261111-195857.log`). Luôn kiểm tra bằng `apksigner verify --print-certs`: nếu thấy `CN=Android Debug` thì đó là bản ký debug.
 - Fastlane lane `release` thì từ chối build khi thiếu `key.properties`, và báo lỗi nếu chứng chỉ ký là `CN=Android Debug`.
 
-## Sau khi chạy thật
+## Sau khi chạy thật (đã làm cho v0.1.0; lặp lại cho bản sau)
 
 - Điền [ci-runs.md](ci-runs.md): run id, link run, ngày, kết quả, đường dẫn log.
 - Thêm dòng vào `docs/evidence-ledger.md`.

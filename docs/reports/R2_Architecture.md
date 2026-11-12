@@ -8,9 +8,9 @@
 ---
 
 ## 1. CLEAN ARCHITECTURE IMPLEMENTATION
-* **Presentation Layer:** `app/lib/presentation/{screens,widgets,providers,theme,router}` — Material 3, go_router, màn Home rỗng với nút SOS (icon + chữ). Riverpod wiring ở `app/lib/core/di/providers.dart`.
-* **Domain Layer:** `app/lib/domain/{entities,repositories,usecases}` — Dart thuần. Entity: FirstAidProtocol, ProtocolStep, TriageNode, EmergencyCase, SosMessage (+ 3 enum trạng thái nguồn). Use case: GetOfflineProtocols, GetProtocolByCode, StartEmergencyFlow, PrepareSosMessage.
-* **Data Layer:** Drift/SQLite local datasource (`app/lib/data/datasources/local/`), seed loader từ asset JSON, parser `data/models/seed_parser.dart`, `DriftProtocolRepository`, `DriftEmergencyRepository`. [CHƯA CÓ BẰNG CHỨNG: Supabase datasource chưa triển khai.]
+* **Presentation Layer:** `app/lib/presentation/{screens,widgets,providers,theme,router}` — Material 3 (sáng/tối), go_router, 7 màn: Home, Sàng lọc, Hướng dẫn từng bước (chi tiết phác đồ), Cẩm nang, Mô tả tình huống, SOS, Cài đặt. Riverpod wiring ở `app/lib/core/di/providers.dart`.
+* **Domain Layer:** `app/lib/domain/{entities,repositories,services,usecases,utils}` — Dart thuần. Entity: FirstAidProtocol, ProtocolStep, TriageNode, EmergencyCase, SosMessage, AiRoute*, SyncJob, AppSettings (+ 3 enum trạng thái nguồn). Use case: GetOfflineProtocols, GetProtocolByCode, SearchProtocols, StartEmergencyFlow, AdvanceTriage, PrepareSosMessage, GetCurrentLocationForSos, RouteSituation, DetectEmergencyKeywords, SyncProtocols, ProcessSyncQueue, EnqueueSosLog, RunSync (danh sách từ `app/lib/domain/usecases/`).
+* **Data Layer:** Drift/SQLite local datasource (`app/lib/data/datasources/local/`), seed loader từ asset JSON, parser `data/models/seed_parser.dart`, `DriftProtocolRepository`, `DriftEmergencyRepository`, `DriftSyncQueueRepository`, `DriftProtocolSyncStore`, `SharedPrefsSettingsRepository`, `HttpAiRouterRepository`, các service nền tảng (`data/services/`), và `SupabaseRemoteSyncSource` (`data/datasources/remote/`; đã có code + test với fake remote, **chưa thử với Supabase thật từ app**).
 
 ### Sơ đồ phụ thuộc
 ```mermaid
@@ -23,21 +23,22 @@ flowchart LR
 ```
 Domain không import Presentation/Data/Flutter/Drift/Supabase/http/Riverpod; được kiểm bằng `app/test/architecture/domain_isolation_test.dart`.
 
-### Cây thư mục (từ lệnh `find lib test -type f`, 2026-11-05)
+### Cây thư mục `app/lib` (từ lệnh `find app/lib -type f -name "*.dart"`, 2026-11-12)
 ```
-lib/core/di/providers.dart
-lib/core/utils/.gitkeep
-lib/data/datasources/{local,remote}/.gitkeep
-lib/data/models/.gitkeep
-lib/data/repositories/in_memory_{emergency,protocol}_repository.dart
-lib/domain/entities/{emergency_case,first_aid_protocol,protocol_step,sos_message,source_status,triage_node}.dart
-lib/domain/repositories/{emergency,protocol}_repository.dart
-lib/domain/usecases/{get_offline_protocols,get_protocol_by_code,prepare_sos_message,start_emergency_flow}.dart
-lib/main.dart
-lib/presentation/{providers/.gitkeep,router/app_router.dart,screens/home_screen.dart,theme/app_theme.dart,widgets/sos_button.dart}
-test/architecture/domain_isolation_test.dart
-test/widget_test.dart
+core/config/app_config.dart
+core/di/providers.dart
+data/datasources/local/{app_database,app_database.g,protocol_local_datasource,seed_loader}.dart
+data/datasources/remote/supabase_remote_sync_source.dart
+data/models/{remote_protocol_mapper,seed_parser}.dart
+data/repositories/{drift_emergency,drift_protocol,drift_protocol_sync_store,drift_sync_queue,http_ai_router,shared_prefs_settings}_repository.dart
+data/services/{connectivity_plus,flutter_tts,geolocator_location,url_launcher_dialer,url_launcher_sms_composer}_service.dart
+domain/entities/   (11 file: ai_route, app_settings, cited_text, emergency_case, first_aid_protocol, protocol_step, sos_message, source_citation, source_status, sync_job, triage_node)
+domain/repositories/ (6 file), domain/services/ (6 file)
+domain/usecases/   (13 file), domain/utils/version_compare.dart
+presentation/{providers,router,screens,theme,widgets}/   (7 màn, 4 widget dùng chung)
+main.dart
 ```
+Số dòng Dart của `app/lib` (không tính `*.g.dart`): 4629 (lệnh `find app/lib -name "*.dart" -not -name "*.g.dart" | xargs cat | wc -l`). Cây trong bản R2 trước (2026-11-05) chỉ là skeleton và đã lỗi thời.
 Log kiểm tra: `docs/evidence/tests/skeleton-checks-20261105-224643.log` (pub get, format, analyze, test đều exit=0; 3 test pass).
 
 ### Dữ liệu phác đồ và lưu trữ cục bộ (Prompt 02)
@@ -57,7 +58,7 @@ Log kiểm tra: `docs/evidence/tests/skeleton-checks-20261105-224643.log` (pub g
 - Domain: `PrepareSosMessage` (tọa độ tùy chọn + ghi chú + thời gian truyền vào; ghi chú cắt ở 160 ký tự), interface `LocationService`, `SmsComposer`, use case `GetCurrentLocationForSos`.
 - Data: `GeolocatorLocationService` (geolocator, giới hạn thời gian 15 giây), `UrlLauncherSmsComposer` (URI `sms:` dùng %20, người nhận để trống). Presentation: `SosScreen` (giải thích → lấy vị trí → xem trước → xác nhận).
 - AndroidManifest: chỉ `ACCESS_FINE_LOCATION` + `ACCESS_COARSE_LOCATION` (không background location, không SEND_SMS); `<queries>` cho `SENDTO sms`.
-- Log kiểm tra: `docs/evidence/tests/sos-checks-20261107-214838.log` (format, analyze "No issues found", 45 test pass; mọi lệnh exit=0); build APK debug thành công: `docs/evidence/tests/build-apk-debug-20261107-215148.log` (chưa chạy trên máy).
+- Log kiểm tra: `docs/evidence/tests/sos-checks-20261107-214838.log` (format, analyze "No issues found", 45 test pass; mọi lệnh exit=0); build APK debug thành công: `docs/evidence/tests/build-apk-debug-20261107-215148.log` (lúc đó chưa chạy trên máy; sau đó app đã chạy trên emulator, xem R4 chương 5).
 
 ### Giới hạn của SOS (cần nêu khi trình bày)
 - Tọa độ GPS lấy được khi không có Internet (cần máy thu nhìn thấy tín hiệu GPS; trong nhà hoặc lần định vị đầu có thể chậm hoặc hết thời gian chờ).
@@ -79,8 +80,8 @@ Log kiểm tra: `docs/evidence/tests/skeleton-checks-20261105-224643.log` (pub g
 - Data: `HttpAiRouterRepository` (package `http`, `POST /v1/route-situation?stream=true`, đọc SSE, validate chặt sự kiện `result` đúng 5 trường); `DisabledAiRouterRepository` khi thiếu `AI_BASE_URL`. Cấu hình `AI_BASE_URL`, `AI_API_KEY` (tùy chọn, không phải bí mật), `AI_TIMEOUT_SECONDS` qua `--dart-define(-from-file)`.
 - Presentation: `DescribeSituationScreen` (`/describe`), công tắc đồng ý trong Cài đặt (`AppSettings.aiPrivacyConsent`, lưu SharedPreferences).
 - Nội dung hiển thị khi có kết quả lấy từ Drift theo `protocol_code`; app không hiển thị `confidence_note` hay bất kỳ văn bản nào do LLM sinh.
-- Bản debug cho phép HTTP không mã hóa (`android:usesCleartextTraffic` chỉ trong `src/debug/AndroidManifest.xml`) để gọi backend chạy trên máy dev; bản release chưa build/kiểm tra.
-- Log: `docs/evidence/tests/ai-integration-checks-20261110-002444.log` (format, analyze "No issues found", 119 test pass), build APK debug `docs/evidence/tests/build-apk-debug-20261110-002726.log` (exit=0). Chưa chạy với backend thật trên điện thoại.
+- Bản debug cho phép HTTP không mã hóa (`android:usesCleartextTraffic` chỉ trong `src/debug/AndroidManifest.xml`) để gọi backend chạy trên máy dev. Bản release (build bởi GitHub Actions, tag v0.1.0, E-038) không bật cleartext và **không nhận cấu hình AI/Supabase** (không truyền `--dart-define`, R-33), nên là bản offline-only: màn "Mô tả tình huống" hiện ngay thẻ "Ứng dụng chưa được cấu hình máy chủ AI", không hỏi đồng ý gửi dữ liệu (D-061).
+- Log: `docs/evidence/tests/ai-integration-checks-20261110-002444.log` (format, analyze "No issues found", 119 test pass), build APK debug `docs/evidence/tests/build-apk-debug-20261110-002726.log` (exit=0). Đã chạy thủ công với backend local trên emulator (E-031); chưa chạy với backend thật trên điện thoại.
 
 ---
 
@@ -147,5 +148,5 @@ Ghi `protocols_remote` chỉ qua dashboard/service role (bỏ qua RLS). Phòng t
 ---
 
 ## 3. CORE FEATURE IMPLEMENTATION PROGRESS
-* **🔗 GitHub Tag / Branch M2:** [CHƯA CÓ BẰNG CHỨNG: chưa có tag/branch]
+* **🔗 GitHub Tag / Branch M2:** [CHƯA CÓ BẰNG CHỨNG: không có tag/branch cột mốc M2. Repo chỉ có tag `v0.1.0` (bản release ký số, 2026-11-12), không phải cột mốc M2.]
 * **🎥 Milestone 2 Video Demo (2–3 minutes):** [CHƯA CÓ BẰNG CHỨNG: chưa có video]

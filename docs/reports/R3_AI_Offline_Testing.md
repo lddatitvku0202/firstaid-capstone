@@ -85,7 +85,9 @@ Màn "Mô tả tình huống" (`app/lib/presentation/screens/describe_situation_
 flowchart TD
   U[Người dùng nhập mô tả] --> K{Từ khóa nguy cấp?<br/>chạy trên máy, không gửi mạng}
   K -- có --> C115[GỌI 115 NGAY<br/>+ mở phác đồ nếu rõ tuổi]
-  K -- không --> N{Có kết nối?}
+  K -- không --> CF{AI đã cấu hình?<br/>AI_BASE_URL lúc build}
+  CF -- chưa --> FB
+  CF -- rồi --> N{Có kết nối?}
   N -- không --> FB[Fallback: sàng lọc Có/Không offline + Gọi 115]
   N -- có --> P{Đã đồng ý gửi?<br/>hỏi ở lần đầu}
   P -- không --> FB
@@ -108,13 +110,14 @@ flowchart TD
 | `uncertain = true`, `protocol_code = null`, `out_of_scope` | Fallback | unit + widget |
 | Mã không có trong allowlist cục bộ (Drift) hoặc chủ đề phác đồ khác `category` | Fallback | unit + widget |
 | Từ khóa nguy cấp (quy tắc cục bộ) hoặc server trả `call_115_now` | Thẻ "GỌI 115 NGAY" + nút Gọi 115; mở phác đồ nếu xác định được tuổi | unit + widget |
-| Chưa cấu hình `AI_BASE_URL` | Fallback | unit + widget |
+| Chưa cấu hình `AI_BASE_URL` (R-33, D-061) | Màn hiện ngay thẻ "Ứng dụng chưa được cấu hình máy chủ AI" + nút sàng lọc offline từ lúc mở màn; không hỏi đồng ý, không kiểm tra mạng, không hiện thông báo gửi dữ liệu; từ khóa 115 vẫn kiểm tra trên máy | unit + widget (có đối chứng) |
 | Người dùng bấm "Bỏ qua AI, sàng lọc ngay" khi đang chờ | Hủy yêu cầu ngay, chuyển sang sàng lọc | widget (xác nhận hủy subscription) |
 
-* **Quyền riêng tư:** màn luôn hiện thông báo văn bản mô tả được gửi tới máy chủ của nhóm và Gemini (bên thứ ba). Trước lần gửi đầu tiên app hỏi đồng ý; từ chối thì không gửi và gợi ý sàng lọc offline. Lựa chọn lưu trong Cài đặt (có công tắc bật/tắt). Hộp thoại chỉ xuất hiện ngay trước khi gửi, sau kiểm tra từ khóa nguy cấp và kết nối, nên ca nguy cấp và ca mất mạng không bị chặn bởi hộp thoại.
+* **Quyền riêng tư:** khi AI đã được cấu hình, màn hiện thông báo văn bản mô tả được gửi tới máy chủ của nhóm và Gemini (bên thứ ba); khi chưa cấu hình (như bản release v0.1.0) không có gì được gửi nên thông báo và hộp thoại đồng ý đều không hiện (D-061). Trước lần gửi đầu tiên app hỏi đồng ý; từ chối thì không gửi và gợi ý sàng lọc offline. Lựa chọn lưu trong Cài đặt (có công tắc bật/tắt). Hộp thoại chỉ xuất hiện ngay trước khi gửi, sau kiểm tra từ khóa nguy cấp và kết nối, nên ca nguy cấp và ca mất mạng không bị chặn bởi hộp thoại.
 * **Quy tắc 115 trên máy:** `detectEmergencyKeywords` là bản port 1-1 của `backend/app/rules.py` (cùng danh sách cụm, chưa rà soát lâm sàng). Kiểm tra chéo một lần trên 35 ca `backend/eval/cases.jsonl`: Dart và Python cho cùng (luật, mã) 35/35 (9 ca kích hoạt ở cả hai). Đây là so sánh hai bản cài đặt, không phải độ chính xác lâm sàng; hai bản phải sửa đồng thời (R-28).
 * **Bằng chứng:** `docs/evidence/tests/ai-integration-checks-20261110-002444.log` (format 0 changed, analyze "No issues found", 119 test pass, kèm kết quả kiểm tra chéo 35/35); build APK debug `docs/evidence/tests/build-apk-debug-20261110-002726.log` (exit=0). Test mới: `app/test/domain/route_situation_test.dart`, `app/test/data/http_ai_router_repository_test.dart`, `app/test/describe_situation_test.dart`.
 * **Chạy thủ công app → backend thật (E-031, 2026-11-10):** app Flutter (debug) trên emulator Android `vku_test_api33` gọi backend FastAPI chạy local trên máy phát triển qua `AI_BASE_URL=http://10.0.2.2:8000` (theo lời người chạy; URL không xuất hiện trong log/ảnh). Log backend `docs/evidence/ai/app-to-backend-run-20261110.txt` có đúng 1 dòng: `route ok ... source=llm code=burns_thermal_chemical uncertain=False text_len=25 ms=2962`, xác nhận một yêu cầu đi qua đường LLM (Gemini). Ảnh `docs/evidence/screenshots/ai-describe-result-burns-emulator.png` cho thấy thẻ "Bỏng nhiệt và bỏng hóa chất" kèm cảnh báo chưa thẩm định lâm sàng và nút Gọi 115; `ai-describe-result-115-emulator.png` cho thấy thẻ "GỌI 115 NGAY" do quy tắc từ khóa chạy trên máy (không gửi đi, theo chữ trong thẻ); `ai-fallback-offline-emulator.png` cho thấy thẻ "Không có mạng..." với nút "Bắt đầu sàng lọc offline" khi thanh trạng thái có biểu tượng máy bay (văn bản nhập 25 ký tự). **Giới hạn:** emulator, không phải điện thoại thật; backend local, chưa deploy; chỉ vài lần thử thủ công, không phải đo độ trễ hay độ chính xác từ phía app (`ms=2962` là thời gian xử lý ghi bởi backend cho một yêu cầu, không phải số đo có ý nghĩa thống kê); chưa kiểm chứng SSE với Gemini thật ở mức time to first token; log chỉ có 1 dòng nên không chứng minh được ảnh "bỏng" tương ứng đúng dòng log đó (giờ log 10:43, giờ trên ảnh 11:07–11:08; mã phác đồ và độ dài 25 ký tự khớp nhưng không đủ để khẳng định); ảnh offline cho thấy kết quả hiển thị nhưng không cho biết nguyên nhân nội bộ (mất kết nối hay lỗi khác).
+* **Bản release v0.1.0 (E-038, E-039)** build bởi GitHub Actions không truyền `--dart-define` nên **không có AI và không có Supabase** (R-33). Ảnh `docs/evidence/screenshots/release-v0.1.0-ai-not-configured-emulator.png` (emulator) cho thấy thẻ "Ứng dụng chưa được cấu hình máy chủ AI." và không thấy hộp thoại đồng ý hay dòng thông báo quyền riêng tư. Muốn bản release dùng AI phải build lại với `AI_BASE_URL` (https) và backend đã deploy: chưa làm.
 * **Video kịch bản online → AI → tắt mạng → fallback:** [CHỜ NGƯỜI DÙNG QUAY VIDEO] (hướng dẫn: `docs/evidence/android-device-run.md`, mục Prompt 07).
 
 | Chưa đo / chưa kiểm chứng (app) | Trạng thái |
@@ -129,7 +132,7 @@ flowchart TD
 ---
 
 ## 2. OFFLINE-FIRST SYNCHRONIZATION ENGINE
-* Local persistence Drift/SQLite đã triển khai, có test tự động trên SQLite in-memory (log `docs/evidence/tests/drift-seed-checks-20261106-010345.log`). [CHƯA CÓ BẰNG CHỨNG: chưa chạy trên thiết bị thật/chế độ máy bay; xem docs/evidence/offline-manual-test.md.]
+* Local persistence Drift/SQLite đã triển khai, có test tự động trên SQLite in-memory (log `docs/evidence/tests/drift-seed-checks-20261106-010345.log`). Luồng khẩn cấp đã chạy ở chế độ máy bay trong integration test trên emulator Android 13 (mục 3.1, E-028). [CHƯA CÓ BẰNG CHỨNG: chưa chạy trên điện thoại thật; ảnh chụp chế độ máy bay: docs/evidence/offline-manual-test.md.]
 
 | Chức năng | Offline? | Ghi chú |
 |---|---|---|
@@ -152,7 +155,7 @@ flowchart TD
 
 ## 3. AUTOMATED TEST SUITE & PERFORMANCE PROFILING
 ### 3.1 Bộ test tự động (Prompt 08)
-* **Kết quả:** 155 test pass (`flutter test --coverage`), `flutter analyze` "No issues found", `dart format` 0 file thay đổi. Log: `docs/evidence/tests/quality-checks-20261110-013916.log`.
+* **Kết quả:** 155 test pass tại thời điểm đo coverage (`flutter test --coverage`), `flutter analyze` "No issues found", `dart format` 0 file thay đổi. Log: `docs/evidence/tests/quality-checks-20261110-013916.log`. Sau bản sửa R-33 (2026-11-11) bộ test là **159 pass**, analyze sạch, format 0 changed (`docs/evidence/tests/r33-hide-privacy-notice-checks-20261111-233445.log`); coverage ở mục 3.2 **chưa đo lại** sau lần sửa đó.
 * **Phân loại:** unit test use case/domain (với fake repository), test Data (Drift SQLite in-memory, `MockClient` cho SSE, SharedPreferences mock, mapper Supabase), widget test từng màn và trạng thái, test kiến trúc (Domain không import framework), test accessibility (mục 3.3).
 * **Integration test (thiết bị):** `app/integration_test/emergency_offline_test.dart`, chạy trên **emulator** Android 13 (`sdk_gphone64_x86_64`, AVD `vku_test_api33`) ở **chế độ máy bay** (`airplane_mode_on=1`, `Active default network: none`). Dùng thật: asset phác đồ/sàng lọc, SQLite, `connectivity_plus`, router. Fake: trình quay số, TTS, vị trí, SMS. Luồng: chip "Không có mạng" → KHẨN CẤP → 3 câu trả lời → CPR bước 1→2 → Gọi 115 → Mô tả tình huống → fallback offline (không hỏi đồng ý, không gửi) → sàng lọc. **Pass** ở lần chạy cuối: `docs/evidence/tests/integration-emergency-offline-20261110-012638.log`. Bốn log trước được giữ lại: lần 1–3 fail do lỗi của chính test (chờ bất đồng bộ chưa đủ, nút ngoài màn hình, thẻ kết quả ngoài vùng nhìn thấy); lần 3 dẫn tới sửa UX ở mục 3.4. Chưa chạy trên điện thoại thật.
 
@@ -178,7 +181,9 @@ Nguồn: `docs/evidence/tests/coverage-20261110-013916.lcov.info`; bảng theo f
 * Cỡ chữ 200% trên 7 màn: không tràn layout và **không có chữ bị cắt** (bộ phát hiện tự viết so chiều cao cần để vẽ chữ với chiều cao được cấp).
 * 2 test **đối chứng** chứng minh các kiểm tra trên thật sự bắt lỗi (nút 20×20 không nhãn + chữ tương phản thấp → trượt; chữ to trong nút cao cố định → bị phát hiện cắt).
 * Theme: `useMaterial3: true`, sáng/tối từ cùng `ColorScheme.fromSeed`; không có màu cứng trong `lib/presentation` ngoài màu seed. Thông tin quan trọng có chữ + icon (không chỉ dựa vào màu).
-* Giới hạn: test dùng font Ahem (mỗi ký tự vuông, rộng hơn font thật) nên kiểm tra cỡ chữ là bảo thủ; contrast chỉ đo trong widget test; **chưa xem Dark Mode trên máy thật** (ảnh: docs/evidence/screenshots/emergency_ui.md [CHỜ NGƯỜI DÙNG CHỤP]).
+* Giới hạn: test dùng font Ahem (mỗi ký tự vuông, rộng hơn font thật) nên kiểm tra cỡ chữ là bảo thủ; contrast chỉ đo trong widget test; **chưa xem Dark Mode trên điện thoại thật** ([CHỜ NGƯỜI DÙNG CHỤP], xem docs/evidence/screenshots/emergency_ui.md). Có một ảnh Dark Mode trên emulator (màn Home, debug, 2026-11-06): `docs/evidence/screenshots/home-dark-emulator-20261106.png`.
+
+![Home Dark Mode (emulator)](../evidence/screenshots/home-dark-emulator-20261106.png)
 
 ### 3.4 Lỗi tìm ra và đã sửa
 | Vấn đề | Cách phát hiện | Sửa |
@@ -199,4 +204,4 @@ Nguồn: `docs/evidence/tests/coverage-20261110-013916.lcov.info`; bảng theo f
 ### 3.6 Frame rate
 * **Frame Rate:** [CHỜ SỐ ĐO THẬT]. Hướng dẫn đo profile mode trên máy thật: `docs/evidence/fps/README.md`; bảng điền số: `docs/evidence/fps/fps-measurements.md`. Perf test lặp lại được: `app/integration_test/perf_test.dart` + `app/test_driver/perf_driver.dart` (`flutter drive --profile --no-dds`, xuất frame build/raster time và số frame vượt 16 ms).
 * Perf test mới được **chạy thử luồng** ở debug trên emulator (`docs/evidence/tests/perf-test-smoke-20261110-013449.log`, 3/3 pass) để xác nhận kịch bản chạy hết; đây **không phải số đo** và không có số nào được ghi.
-* **🔗 Internal Testing APK Link:** [CHƯA CÓ BẰNG CHỨNG: chưa có bản build]
+* **🔗 Internal Testing APK Link:** APK/AAB v0.1.0 ký bằng keystore của nhóm đã được tạo bởi release workflow (run #1, tag v0.1.0, commit c0fcdec; E-038: apksigner v2 verified, jarsigner "jar verified."), là bản offline-only (R-33). [CHƯA CÓ: link tải công khai ổn định. Artifact của GitHub Actions chỉ giữ 30 ngày và cần đăng nhập GitHub để tải; cần đưa lên GitHub Release hoặc Google Drive trước khi nộp.] Link run: https://github.com/lddatitvku0202/firstaid-capstone/actions/runs/43144492260.

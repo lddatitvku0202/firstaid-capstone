@@ -1,0 +1,4 @@
+﻿Backend deploy tren Render, kiem tra ngay 2026-11-12
+URL: https://firstaid-capstone.onrender.com
+healthz: status=ok
+route-situation (input khong dau 'be bi bong nuoc soi o tay'): category=burns, protocol_code=burns_thermal_chemical, sources=IFRC-2025 pages=288-290, uncertain=False
